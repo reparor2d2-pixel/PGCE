@@ -1,0 +1,3624 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PGCE Audit Pro 2026 (v6.0) — Sincronización Cloud Drive, Deduplicación y Fiscalización</title>
+  <style>
+    :root {
+      --bg-app: #f1f5f9;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #64748b;
+      --primary: #1e40af;
+      --primary-hover: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --success: #15803d;
+      --success-soft: #dcfce7;
+      --warning: #b45309;
+      --warning-soft: #fef3c7;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --info: #0369a1;
+      --info-soft: #e0f2fe;
+      --accent: #6d28d9;
+      --accent-soft: #f3e8ff;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.16);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg-app: #0b1120;
+      --bg-surface: #1e293b;
+      --bg-subtle: #0f172a;
+      --border: #334155;
+      --border-strong: #475569;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-light: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #60a5fa;
+      --primary-soft: rgba(59, 130, 246, 0.16);
+      --success: #4ade80;
+      --success-soft: rgba(74, 222, 128, 0.15);
+      --warning: #fbbf24;
+      --warning-soft: rgba(251, 191, 36, 0.15);
+      --danger: #f87171;
+      --danger-soft: rgba(248, 113, 113, 0.15);
+      --info: #38bdf8;
+      --info-soft: rgba(56, 189, 248, 0.15);
+      --accent: #a78bfa;
+      --accent-soft: rgba(167, 139, 250, 0.16);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    /* Header Institucional */
+    header.topbar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-text h1 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge-normativa {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+    }
+
+    .badge-cloud {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border-strong);
+    }
+    .badge-cloud.connected {
+      background: var(--success-soft);
+      color: var(--success);
+      border-color: rgba(21, 128, 61, 0.35);
+    }
+
+    .brand-text p {
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.42rem;
+    }
+
+    /* Botones */
+    button, .btn {
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.45rem 0.72rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.36rem;
+      transition: all 0.15s ease;
+    }
+
+    button:hover { background: var(--bg-subtle); border-color: var(--text-light); }
+    button:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    .btn-accent:hover { opacity: 0.92; }
+
+    .btn-success {
+      background: var(--success);
+      color: #ffffff;
+      border-color: var(--success);
+    }
+    .btn-success:hover { opacity: 0.92; }
+
+    .btn-info {
+      background: var(--info);
+      color: #ffffff;
+      border-color: var(--info);
+    }
+    .btn-info:hover { opacity: 0.92; }
+
+    .btn-warning {
+      background: var(--warning-soft);
+      color: var(--warning);
+      border-color: rgba(180, 83, 9, 0.35);
+    }
+    .btn-warning:hover { background: var(--warning); color: #fff; }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: rgba(185, 28, 28, 0.3);
+    }
+    .btn-danger:hover { background: var(--danger); color: #fff; }
+
+    .btn-sm { padding: 0.3rem 0.58rem; font-size: 0.77rem; }
+
+    /* Contenedor Principal */
+    main.container {
+      max-width: 1480px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem 3rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .print-only-header { display: none; }
+    .print-only-signatures { display: none; }
+
+    /* Alerta de Fiscalización */
+    .audit-banner {
+      background: var(--warning-soft);
+      border: 1px solid rgba(180, 83, 9, 0.35);
+      border-left: 5px solid var(--warning);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .audit-banner.ok {
+      background: var(--success-soft);
+      border-color: rgba(21, 128, 61, 0.35);
+      border-left-color: var(--success);
+    }
+    .audit-banner-content strong { display: block; font-size: 0.9rem; }
+    .audit-banner-content span { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* KPIs Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.15rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .kpi-label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-light);
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-size: 1.7rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 7px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 0.3rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    /* Barra de Navegación de Vistas y Filtros */
+    .toolbar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.35rem;
+      background: var(--bg-subtle);
+      padding: 0.25rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      font-weight: 600;
+    }
+    .tab-btn.active {
+      background: var(--bg-surface);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    input[type="text"], input[type="url"], input[type="date"], input[type="time"], input[type="password"], select, textarea {
+      font-family: inherit;
+      font-size: 0.84rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-main);
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid rgba(37, 99, 235, 0.35);
+      border-color: var(--primary);
+    }
+
+    /* Tabla de Planificación */
+    .table-wrapper {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    thead th {
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 0.75rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tbody tr:hover { background: var(--bg-subtle); }
+
+    .code-tag {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-strong);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .pill-implementada { background: var(--success-soft); color: var(--success); }
+    .pill-ejecucion { background: var(--info-soft); color: var(--info); }
+    .pill-planificada { background: var(--bg-subtle); color: var(--text-muted); border: 1px solid var(--border-strong); }
+    .pill-reprogramada { background: var(--warning-soft); color: var(--warning); }
+    .pill-brecha { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(185, 28, 28, 0.35); }
+
+    .estamento-chip {
+      display: inline-block;
+      font-size: 0.71rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      margin: 0.1rem 0.15rem 0.1rem 0;
+      font-weight: 600;
+    }
+
+    .action-btn-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-width: 122px;
+    }
+
+    /* Carta Gantt */
+    .gantt-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    .gantt-grid {
+      min-width: 960px;
+      display: grid;
+      grid-template-columns: 280px repeat(10, 1fr);
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+    }
+    .gantt-cell {
+      padding: 0.55rem 0.4rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gantt-header {
+      background: var(--bg-subtle);
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .gantt-label {
+      justify-content: flex-start;
+      padding-left: 0.65rem;
+      font-weight: 600;
+    }
+    .gantt-bar {
+      width: 100%;
+      height: 20px;
+      border-radius: 4px;
+      background: var(--primary);
+      opacity: 0.88;
+      cursor: pointer;
+    }
+    .gantt-bar.done { background: var(--success); }
+    .gantt-bar.warn { background: var(--danger); }
+
+    /* Modales <dialog> */
+    dialog {
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      max-width: 920px;
+      width: 95vw;
+      margin: auto;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+    }
+    dialog::backdrop {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(2px);
+    }
+
+    .modal-header {
+      padding: 1rem 1.35rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-subtle);
+    }
+    .modal-header h2 { font-size: 1.05rem; font-weight: 700; }
+
+    .modal-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.35rem;
+      background: var(--bg-subtle);
+      gap: 1rem;
+    }
+    .modal-tab {
+      border: none;
+      background: none;
+      padding: 0.7rem 0.2rem;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .modal-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .modal-body {
+      padding: 1.35rem;
+      max-height: 76vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-footer {
+      padding: 0.9rem 1.35rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      background: var(--bg-subtle);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.9rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-top: 0.2rem;
+    }
+    .checkbox-group label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    /* Zona Drag & Drop Evidencias */
+    .dropzone {
+      border: 2px dashed var(--primary);
+      background: var(--primary-soft);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .dropzone.dragover {
+      background: rgba(37, 99, 235, 0.22);
+    }
+
+    .evidence-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .evidence-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 0.9rem;
+      background: var(--bg-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .hash-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--success);
+      background: var(--success-soft);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      word-break: break-all;
+    }
+
+    /* Vista Previa Boletín Correo e Informe */
+    .newsletter-preview, .report-preview-box {
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      background: #ffffff;
+      color: #0f172a;
+      max-height: 410px;
+      overflow-y: auto;
+    }
+
+    /* Panel Copiloto IA / Normativo */
+    .copilot-box {
+      background: var(--accent-soft);
+      border: 1px solid rgba(109, 40, 217, 0.3);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .copilot-output {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem;
+      font-size: 0.84rem;
+      white-space: pre-wrap;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .generated-card-preview {
+      background: var(--success-soft);
+      border: 1px solid rgba(21, 128, 61, 0.35);
+      border-radius: var(--radius-md);
+      padding: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .export-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.95rem;
+      background: var(--bg-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Toast Notificaciones */
+    .toast-container {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 9999;
+    }
+    .toast {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.83rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      border-left: 4px solid #3b82f6;
+      animation: slideIn 0.2s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .hidden { display: none !important; }
+
+    /* ESTILOS DE IMPRESIÓN OFICIAL / PDF INSTITUCIONAL (A4 HORIZONTAL) */
+    @media print {
+      @page { size: landscape; margin: 12mm; }
+      body { background: #ffffff !important; color: #000000 !important; }
+      header.topbar, .toolbar, .audit-banner, .kpi-grid, .header-actions, button, .no-print {
+        display: none !important;
+      }
+      main.container { padding: 0 !important; max-width: 100% !important; }
+      .print-only-header {
+        display: block !important;
+        border-bottom: 2px solid #1e3a8a;
+        padding-bottom: 8px;
+        margin-bottom: 14px;
+      }
+      .print-only-signatures {
+        display: flex !important;
+        justify-content: space-around;
+        margin-top: 36px;
+        padding-top: 12px;
+      }
+      .sig-box {
+        width: 240px;
+        border-top: 1px solid #000000;
+        text-align: center;
+        padding-top: 4px;
+        font-size: 11px;
+      }
+      .table-wrapper, .gantt-container {
+        border: 1px solid #94a3b8 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+      }
+      table { font-size: 10.5px !important; }
+      th, td { border: 1px solid #cbd5e1 !important; padding: 6px !important; }
+      .gantt-grid { min-width: 100% !important; }
+      .gantt-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">PGCE</div>
+      <div class="brand-text">
+        <h1>
+          PGCE Audit Pro 2026
+          <span class="badge-normativa">v6.0 • Cloud & Audit</span>
+          <span id="cloudStatusBadge" class="badge-cloud" title="Estado de sincronización multi-dispositivo con Google Drive">💾 Local</span>
+        </h1>
+        <p id="schoolSubtitle">Plan de Gestión de la Convivencia Escolar • Trazabilidad y Medios de Verificación</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" id="btnCloudSync" class="btn-primary" title="Sincronizar Plan y Evidencias con Google Drive (Multi-dispositivo)">
+        ☁️ Sincronizar Nube
+      </button>
+      <button type="button" id="btnCopilot" class="btn-accent" title="Generar Plan Anual Automático y Asesoría Normativa">
+        ✨ Asistente
+      </button>
+      <button type="button" id="btnDeduplicate" class="btn-warning" title="Detectar y eliminar planificaciones repetidas priorizando conservar las que tienen evidencia">
+        🧹 Limpiar Repetidas
+      </button>
+      <button type="button" id="btnProgressReport" class="btn-info" title="Generar Informe Mensual, Semestral o Anual de Gestión Realizada">
+        📊 Informe Gestión
+      </button>
+      <button type="button" id="btnExportCenter" title="Exportar Matriz, Gantt o Difundir Calendarización con Horarios">
+        📤 Exportar / Difundir
+      </button>
+      <button type="button" id="btnNewAction">
+        + Nueva Acción
+      </button>
+      <button type="button" id="btnExportZip" class="btn-success" title="Compilar Dossier con evidencias reales y SHA-256">
+        📦 Dossier (.ZIP)
+      </button>
+      <button type="button" id="btnBackupMenu" title="Configurar Google Drive Cloud, Respaldo JSON o Iniciar en Blanco">
+        ⚙️
+      </button>
+      <button type="button" id="btnTheme" title="Cambiar tema Claro / Oscuro">🌓</button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container">
+
+    <!-- ENCABEZADO EXCLUSIVO PARA IMPRESIÓN / PDF OFICIAL -->
+    <div class="print-only-header">
+      <h2 id="printDocTitle" style="font-size: 16px; color: #1e3a8a;">PLAN DE GESTIÓN DE LA CONVIVENCIA ESCOLAR (PGCE) — AÑO 2026</h2>
+      <p id="printDocSubtitle" style="font-size: 12px; color: #334155;">Establecimiento Educacional • Documento Oficial de Planificación y Cronograma</p>
+    </div>
+
+    <!-- BANNER DE ESTADO DE FISCALIZACIÓN -->
+    <section id="auditBanner" class="audit-banner" role="status">
+      <div class="audit-banner-content">
+        <strong id="auditBannerTitle">Analizando cumplimiento normativo...</strong>
+        <span id="auditBannerDesc">Verificando acciones implementadas sin medios de verificación adjuntos.</span>
+      </div>
+      <button type="button" id="btnFilterBrechas" class="btn-sm">Ver Brechas Críticas</button>
+    </section>
+
+    <!-- INDICADORES KPI -->
+    <section class="kpi-grid" aria-label="Indicadores de Cumplimiento">
+      <article class="kpi-card">
+        <span class="kpi-label">Total Acciones PGCE</span>
+        <span class="kpi-value" id="kpiTotal">0</span>
+        <span class="kpi-sub" id="kpiEstamentosSub">Cobertura multiestamental</span>
+      </article>
+
+      <article class="kpi-card">
+        <span class="kpi-label">Ejecución Auditada</span>
+        <span class="kpi-value" id="kpiAuditado">0%</span>
+        <div class="progress-bar"><div class="progress-fill" id="kpiAuditadoBar" style="width: 0%"></div></div>
+        <span class="kpi-sub" id="kpiAuditadoSub">0 implementadas con evidencia</span>
+      </article>
+
+      <article class="kpi-card">
+        <span class="kpi-label">Brechas de Evidencia</span>
+        <span class="kpi-value" id="kpiBrechas" style="color: var(--danger)">0</span>
+        <span class="kpi-sub">Acciones hechas sin respaldo adjunto</span>
+      </article>
+
+      <article class="kpi-card">
+        <span class="kpi-label">Medios de Verificación</span>
+        <span class="kpi-value" id="kpiEvidencias">0</span>
+        <span class="kpi-sub">Archivos validados con firma SHA-256</span>
+      </article>
+    </section>
+
+    <!-- BARRA DE VISTAS Y FILTROS -->
+    <section class="toolbar">
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" data-view="matriz">📋 Matriz Fiscalizable</button>
+        <button type="button" class="tab-btn" data-view="gantt">📊 Carta Gantt Anual</button>
+      </div>
+
+      <div class="filters">
+        <input type="text" id="filterSearch" placeholder="Buscar acción, ley o responsable..." />
+        <select id="filterDimension">
+          <option value="">Todas las Dimensiones</option>
+          <option value="Formación">Formación</option>
+          <option value="Prevención">Prevención</option>
+          <option value="Participación">Participación</option>
+          <option value="Gestión Institucional">Gestión Institucional</option>
+        </select>
+        <select id="filterEstado">
+          <option value="">Todos los Estados</option>
+          <option value="BRECHA">⚠️ Solo Brechas de Evidencia</option>
+          <option value="Planificada">Planificada</option>
+          <option value="En Ejecución">En Ejecución</option>
+          <option value="Implementada">Implementada</option>
+          <option value="Reprogramada">Reprogramada</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- VISTA 1: MATRIZ FISCALIZABLE -->
+    <section id="viewMatriz" class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Código / Dimensión</th>
+            <th>Acción y Marco Normativo</th>
+            <th>Destinatarios / Responsable</th>
+            <th>Fecha y Horario</th>
+            <th>Estado Fiscalizable</th>
+            <th class="no-print">Evidencias</th>
+            <th class="no-print">Gestión</th>
+          </tr>
+        </thead>
+        <tbody id="actionsTableBody"></tbody>
+      </table>
+    </section>
+
+    <!-- VISTA 2: CARTA GANTT ANUAL -->
+    <section id="viewGantt" class="gantt-container hidden">
+      <div style="margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+        <strong>Cronograma Anual de Ejecución (Marzo — Diciembre 2026)</strong>
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <span style="font-size: 0.78rem; color: var(--text-light);">
+            🟩 Implementada &nbsp;|&nbsp; 🟦 Planificada / En curso &nbsp;|&nbsp; 🟥 Brecha
+          </span>
+          <button type="button" id="btnGanttPngQuick" class="btn-sm no-print">🖼️ Descargar Gantt (PNG)</button>
+        </div>
+      </div>
+      <div id="ganttGrid" class="gantt-grid"></div>
+    </section>
+
+    <!-- PIE DE FIRMAS PARA IMPRESIÓN OFICIAL -->
+    <div class="print-only-signatures">
+      <div class="sig-box">Encargado/a de Convivencia Escolar</div>
+      <div class="sig-box">Dirección del Establecimiento</div>
+      <div class="sig-box">Representante Consejo Escolar</div>
+    </div>
+
+  </main>
+
+  <!-- MODAL 1: EXPEDIENTE EDITABLE DE ACCIÓN Y EVIDENCIAS -->
+  <dialog id="actionModal">
+    <div class="modal-header">
+      <h2 id="modalActionTitle">Expediente de Acción PGCE</h2>
+      <button type="button" class="btn-sm" onclick="document.getElementById('actionModal').close()">✕</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button type="button" class="modal-tab active" data-mtab="ficha">1. Ficha Técnica Editable</button>
+      <button type="button" class="modal-tab" data-mtab="evidencias">2. Medios de Verificación (SHA-256)</button>
+      <button type="button" class="modal-tab" data-mtab="reprogramacion">3. Bitácora de Reprogramación</button>
+    </div>
+
+    <div class="modal-body">
+      <form id="formFicha" class="form-grid">
+        <input type="hidden" id="editActionId" />
+
+        <div class="form-group">
+          <label for="fCodigo">Código Identificador *</label>
+          <input type="text" id="fCodigo" required placeholder="Ej: PGCE-2026-05" />
+        </div>
+
+        <div class="form-group">
+          <label for="fDimension">Dimensión Gestión Convivencia *</label>
+          <select id="fDimension" required>
+            <option value="Formación">Formación</option>
+            <option value="Prevención">Prevención</option>
+            <option value="Participación">Participación</option>
+            <option value="Gestión Institucional">Gestión Institucional</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="fEstado">Estado de Implementación *</label>
+          <select id="fEstado" required>
+            <option value="Planificada">Planificada</option>
+            <option value="En Ejecución">En Ejecución</option>
+            <option value="Implementada">Implementada</option>
+            <option value="Reprogramada">Reprogramada</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label for="fNombre">Nombre de la Acción / Actividad *</label>
+          <input type="text" id="fNombre" required placeholder="Ej: Taller de prevención de ciberacoso y ciudadanía digital" />
+        </div>
+
+        <div class="form-group full">
+          <label for="fNormativa">Marco Normativo y Vinculación PME *</label>
+          <input type="text" id="fNormativa" required placeholder="Ej: Ley 20.536 Violencia Escolar / PME Dimensión Convivencia" />
+        </div>
+
+        <div class="form-group full">
+          <label for="fObjetivo">Objetivo Operacional Medible *</label>
+          <textarea id="fObjetivo" rows="2" required placeholder="Describa el propósito concreto y verificable de la acción..."></textarea>
+        </div>
+
+        <div class="form-group full">
+          <label for="fIndicador">Indicador de Logro y Medios Esperados *</label>
+          <input type="text" id="fIndicador" required placeholder="Ej: 85% de cursos participantes + Acta firmada + Registro fotográfico" />
+        </div>
+
+        <div class="form-group">
+          <label for="fInicio">Fecha Inicio *</label>
+          <input type="date" id="fInicio" required />
+        </div>
+
+        <div class="form-group">
+          <label for="fHoraInicio">Hora Inicio *</label>
+          <input type="time" id="fHoraInicio" required value="09:00" />
+        </div>
+
+        <div class="form-group">
+          <label for="fTermino">Fecha Término *</label>
+          <input type="date" id="fTermino" required />
+        </div>
+
+        <div class="form-group">
+          <label for="fHoraTermino">Hora Término *</label>
+          <input type="time" id="fHoraTermino" required value="10:30" />
+        </div>
+
+        <div class="form-group full">
+          <label for="fResponsable">Responsable / Cargo *</label>
+          <input type="text" id="fResponsable" required placeholder="Ej: Encargado Convivencia Escolar" />
+        </div>
+
+        <div class="form-group full">
+          <label>Estamentos Destinatarios *</label>
+          <div class="checkbox-group" id="fEstamentosGroup">
+            <label><input type="checkbox" value="Estudiantes" /> Estudiantes</label>
+            <label><input type="checkbox" value="Apoderados" /> Apoderados</label>
+            <label><input type="checkbox" value="Docentes" /> Docentes</label>
+            <label><input type="checkbox" value="Asistentes de la Educación" /> Asistentes de la Educación</label>
+            <label><input type="checkbox" value="Equipo Directivo" /> Equipo Directivo</label>
+          </div>
+        </div>
+      </form>
+
+      <div id="tabEvidencias" class="hidden" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div id="normativeChecklistHint" style="background: var(--info-soft); border: 1px solid rgba(3, 105, 161, 0.3); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.82rem;"></div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="evTipo">Tipo de Medio de Verificación</label>
+            <select id="evTipo">
+              <option value="Lista de Asistencia Firmada">Lista de Asistencia Firmada (PDF/Img)</option>
+              <option value="Acta de Reunión / Consejo">Acta de Reunión / Consejo Escolar</option>
+              <option value="Registro Fotográfico">Registro Fotográfico Fechado</option>
+              <option value="Planificación / Material Pedagógico">Planificación / Material Pedagógico</option>
+              <option value="Encuesta / Evaluación de Impacto">Encuesta / Evaluación de Impacto</option>
+              <option value="Comunicación / Difusión Oficial">Comunicación / Difusión a Comunidad</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="evDescripcion">Nota de Auditoría (Opcional)</label>
+            <input type="text" id="evDescripcion" placeholder="Ej: Firmada por 28 apoderados de 7° y 8° básico" />
+          </div>
+        </div>
+
+        <div id="dropzone" class="dropzone" tabindex="0">
+          <strong>📎 Arrastra y suelta aquí tus archivos de respaldo o haz clic para seleccionar</strong>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">
+            Se almacenan localmente en IndexedDB, se calcula su huella SHA-256 y se suben a Google Drive si la nube está conectada.
+          </p>
+          <input type="file" id="fileInput" multiple class="hidden" />
+        </div>
+
+        <div>
+          <strong style="font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">Evidencias Adjuntas en este Expediente:</strong>
+          <div id="modalEvidenceList" class="evidence-list"></div>
+        </div>
+      </div>
+
+      <div id="tabReprogramacion" class="hidden" style="display: flex; flex-direction: column; gap: 1rem;">
+        <p style="font-size: 0.83rem; color: var(--text-muted);">
+          Ante una fiscalización, nunca borres una fecha incumplida. Registra aquí la reprogramación con su justificación técnica para demostrar trazabilidad de gestión.
+        </p>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="repNuevaInicio">Nueva Fecha Inicio</label>
+            <input type="date" id="repNuevaInicio" />
+          </div>
+          <div class="form-group">
+            <label for="repNuevaHoraInicio">Nueva Hora Inicio</label>
+            <input type="time" id="repNuevaHoraInicio" value="09:00" />
+          </div>
+          <div class="form-group">
+            <label for="repNuevaTermino">Nueva Fecha Término</label>
+            <input type="date" id="repNuevaTermino" />
+          </div>
+          <div class="form-group">
+            <label for="repNuevaHoraTermino">Nueva Hora Término</label>
+            <input type="time" id="repNuevaHoraTermino" value="10:30" />
+          </div>
+          <div class="form-group full">
+            <label for="repMotivo">Justificación Técnica de la Reprogramación *</label>
+            <input type="text" id="repMotivo" placeholder="Ej: Suspensión de actividades por alerta meteorológica / Ajuste calendario evaluaciones" />
+          </div>
+        </div>
+        <div>
+          <button type="button" id="btnAddReprogramacion" class="btn-primary btn-sm">Registrar Reprogramación en Bitácora</button>
+        </div>
+
+        <div>
+          <strong style="font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">Historial Inmutable de Cambios de Fecha/Hora:</strong>
+          <div id="reprogramacionHistory" class="evidence-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div style="display: flex; gap: 0.5rem;">
+        <button type="button" id="btnDeleteAction" class="btn-danger btn-sm">🗑️ Eliminar Acción</button>
+        <button type="button" id="btnCloneAction" class="btn-sm">📋 Duplicar Acción</button>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <button type="button" onclick="document.getElementById('actionModal').close()">Cancelar</button>
+        <button type="button" id="btnSaveFicha" class="btn-primary">💾 Guardar Cambios</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- MODAL 2: CENTRO UNIFICADO DE EXPORTACIÓN Y DIFUSIÓN -->
+  <dialog id="exportCenterModal">
+    <div class="modal-header">
+      <h2>📤 Centro de Exportación y Difusión Institucional</h2>
+      <button type="button" class="btn-sm" onclick="document.getElementById('exportCenterModal').close()">✕</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button type="button" class="modal-tab active" data-etab="docs">1. Exportar Planificación y Carta Gantt</button>
+      <button type="button" class="modal-tab" data-etab="mail">2. Difundir Calendarización (Días y Horas) por Correo / .ICS</button>
+    </div>
+
+    <div class="modal-body">
+      <div id="exportTabDocs" style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <div class="export-card">
+          <div>
+            <strong>🖨️ Informe Oficial en PDF / Impresión (Matriz de Planificación)</strong>
+            <p style="font-size: 0.79rem; color: var(--text-muted);">Formatea la Matriz PGCE en hoja A4 horizontal con encabezado institucional y firmas.</p>
+          </div>
+          <button type="button" id="btnPrintMatriz" class="btn-primary btn-sm">🖨️ Imprimir / Guardar PDF Matriz</button>
+        </div>
+
+        <div class="export-card">
+          <div>
+            <strong>🖨️ Carta Gantt Anual en PDF / Impresión (Marzo–Diciembre)</strong>
+            <p style="font-size: 0.79rem; color: var(--text-muted);">Imprime o exporta a PDF el cronograma anual visual completo en formato apaisado.</p>
+          </div>
+          <button type="button" id="btnPrintGantt" class="btn-primary btn-sm">🖨️ Imprimir / Guardar PDF Gantt</button>
+        </div>
+
+        <div class="export-card">
+          <div>
+            <strong>🖼️ Carta Gantt como Imagen de Alta Resolución (.PNG)</strong>
+            <p style="font-size: 0.79rem; color: var(--text-muted);">Descarga una imagen nítida del cronograma anual para insertar en presentaciones PPT o informes PME.</p>
+          </div>
+          <button type="button" id="btnDownloadGanttPng" class="btn-accent btn-sm">🖼️ Descargar Gantt (.PNG)</button>
+        </div>
+
+        <div class="export-card">
+          <div>
+            <strong>📊 Planilla de Planificación para Excel / Google Sheets (.CSV)</strong>
+            <p style="font-size: 0.79rem; color: var(--text-muted);">Exporta todas las columnas, fechas, horas, objetivos, indicadores y estado de evidencias.</p>
+          </div>
+          <button type="button" id="btnExportCsv" class="btn-success btn-sm">📊 Descargar Excel (.CSV)</button>
+        </div>
+      </div>
+
+      <div id="exportTabMail" class="hidden" style="display: flex; flex-direction: column; gap: 0.9rem;">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="shareScope">Alcance Temporal</label>
+            <select id="shareScope">
+              <option value="GLOBAL">Calendarización Anual Global (Todo el año)</option>
+              <option value="03">Mensual: Marzo 2026</option>
+              <option value="04">Mensual: Abril 2026</option>
+              <option value="05">Mensual: Mayo 2026</option>
+              <option value="06">Mensual: Junio 2026</option>
+              <option value="07">Mensual: Julio 2026</option>
+              <option value="08">Mensual: Agosto 2026</option>
+              <option value="09">Mensual: Septiembre 2026</option>
+              <option value="10">Mensual: Octubre 2026</option>
+              <option value="11">Mensual: Noviembre 2026</option>
+              <option value="12">Mensual: Diciembre 2026</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="shareEstamento">Filtrar por Estamento Destinatario</label>
+            <select id="shareEstamento">
+              <option value="">Toda la Comunidad Educativa</option>
+              <option value="Apoderados">Apoderados / Familias</option>
+              <option value="Estudiantes">Estudiantes</option>
+              <option value="Docentes">Docentes</option>
+              <option value="Asistentes de la Educación">Asistentes de la Educación</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="shareRecipients">Correos Destinatarios (Opcional, separados por coma)</label>
+            <input type="text" id="shareRecipients" placeholder="Ej: docentes@colegio.cl, centrodepadres@colegio.cl" />
+          </div>
+        </div>
+
+        <div>
+          <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.4rem;">Vista Previa del Boletín Institucional (Incluye día y horario exacto):</strong>
+          <div id="newsletterPreview" class="newsletter-preview"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+          <button type="button" id="btnDownloadICS" class="btn-sm">📅 Descargar Calendario con Horas (.ICS)</button>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" id="btnCopyRichMail" class="btn-primary btn-sm">📋 Copiar Tabla para Gmail</button>
+            <button type="button" id="btnOpenMailto" class="btn-success btn-sm">✉️ Abrir App de Correo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <span style="font-size: 0.76rem; color: var(--text-light);">Todas las exportaciones incluyen día y bloque horario configurado.</span>
+      <button type="button" onclick="document.getElementById('exportCenterModal').close()">Cerrar</button>
+    </div>
+  </dialog>
+
+  <!-- MODAL 3: GENERADOR DE INFORME DE GESTIÓN REALIZADA -->
+  <dialog id="progressReportModal">
+    <div class="modal-header">
+      <h2>📊 Generador de Informe de Gestión Realizada (Mensual / Semestral / Anual)</h2>
+      <button type="button" class="btn-sm" onclick="document.getElementById('progressReportModal').close()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="reportPeriodType">Tipo de Informe</label>
+          <select id="reportPeriodType">
+            <option value="ANUAL">Informe Anual Completo (Marzo — Diciembre 2026)</option>
+            <option value="SEM1">Informe 1° Semestre (Marzo — Julio 2026)</option>
+            <option value="SEM2">Informe 2° Semestre (Agosto — Diciembre 2026)</option>
+            <option value="MENSUAL">Informe Mensual Específico</option>
+          </select>
+        </div>
+
+        <div class="form-group hidden" id="reportMonthGroup">
+          <label for="reportMonthSelect">Selecciona el Mes</label>
+          <select id="reportMonthSelect">
+            <option value="03">Marzo 2026</option>
+            <option value="04">Abril 2026</option>
+            <option value="05">Mayo 2026</option>
+            <option value="06">Junio 2026</option>
+            <option value="07">Julio 2026</option>
+            <option value="08">Agosto 2026</option>
+            <option value="09">Septiembre 2026</option>
+            <option value="10">Octubre 2026</option>
+            <option value="11">Noviembre 2026</option>
+            <option value="12">Diciembre 2026</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.4rem;">Vista Previa del Informe Ejecutivo Auditado:</strong>
+        <div id="progressReportPreview" class="report-preview-box"></div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <span style="font-size: 0.76rem; color: var(--text-light);">Incluye resumen de cumplimiento, evidencias SHA-256 y bloque de firmas.</span>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button type="button" id="btnDownloadReportHtml" class="btn-primary btn-sm">⬇️ Descargar Informe (.HTML)</button>
+        <button type="button" id="btnPrintReportWindow" class="btn-success btn-sm">🖨️ Imprimir / Guardar PDF</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- MODAL 4: ASISTENTE COPILOTO DE CONVIVENCIA ESCOLAR -->
+  <dialog id="copilotModal">
+    <div class="modal-header">
+      <h2>✨ Asistente Normativo y Generador de Plan Anual PGCE (v6.0)</h2>
+      <button type="button" class="btn-sm" onclick="document.getElementById('copilotModal').close()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="copilot-box" style="background: var(--success-soft); border-color: rgba(21, 128, 61, 0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <strong style="color: var(--success);">🪄 1. Generador Automático de Plan Anual Normativo (Marzo — Diciembre)</strong>
+          <span class="badge-normativa" style="background: #fff; color: var(--success);">100% Offline • Marco Legal Vigente</span>
+        </div>
+        <p style="font-size: 0.81rem; color: var(--text-muted);">
+          Crea automáticamente una calendarización anual completa (10 acciones distribuidas de marzo a diciembre con días y bloques horarios sugeridos) cubriendo las 4 dimensiones exigidas por la Política Nacional de Convivencia Educativa, Ley 20.536, Ley 21.809, Ley Aula Segura, Ley TEA y Circulares de la Superintendencia.
+        </p>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="autoLevel">Niveles que atiende el establecimiento</label>
+            <select id="autoLevel">
+              <option value="TODOS">Educación Básica y Enseñanza Media (1° Básico a IV° Medio)</option>
+              <option value="BASICA">Solo Educación Básica (1° a 8° Básico)</option>
+              <option value="MEDIA">Solo Enseñanza Media (I° a IV° Medio)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="autoFocus">Énfasis Estratégico del Año Escolar</label>
+            <select id="autoFocus">
+              <option value="INTEGRAL">Plan Integral Equilibrado (Cumplimiento Normativo Completo)</option>
+              <option value="CIBERACOSO">Énfasis en Prevención de Violencia Escolar y Ciberacoso</option>
+              <option value="INCLUSION">Énfasis en Inclusión, Ley TEA (21.545) y Regulación Emocional</option>
+              <option value="FAMILIA">Énfasis en Participación y Alianza Familia-Escuela</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button type="button" id="btnGenerateAnnualPlan" class="btn-success btn-sm">🪄 Generar Calendarización Anual Normativa</button>
+          <button type="button" id="btnRunOfflineAudit" class="btn-sm">🔍 Auditar Plan Actual</button>
+        </div>
+      </div>
+
+      <div id="generatedPlanBatchBox" class="generated-card-preview hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <strong style="color: var(--success);" id="batchPlanTitle">📋 Propuesta de Plan Anual Lista (10 Acciones Marzo–Diciembre):</strong>
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+            <button type="button" id="btnReplaceWithBatchPlan" class="btn-success btn-sm">✅ Reemplazar Plan Actual por Este</button>
+            <button type="button" id="btnAppendBatchPlan" class="btn-primary btn-sm">➕ Sumar al Plan Existente (Sin Duplicar)</button>
+          </div>
+        </div>
+        <div id="batchPlanList" style="font-size: 0.8rem; color: #0f172a; max-height: 180px; overflow-y: auto; background: rgba(255,255,255,0.75); padding: 0.6rem; border-radius: 6px;"></div>
+      </div>
+
+      <div class="copilot-box" style="background: var(--primary-soft); border-color: rgba(37, 99, 235, 0.3);">
+        <strong>✨ 2. Asistente IA para Acciones Específicas o Simulación de Fiscalización (Opcional)</strong>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="aiProvider">Motor de Inteligencia Artificial</label>
+            <select id="aiProvider">
+              <option value="gemini">Google Gemini API (Nube)</option>
+              <option value="ollama">Ollama Local (http://localhost:11434)</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="geminiKeyGroup">
+            <label for="geminiApiKey">Tu Gemini API Key (se guarda solo en tu navegador)</label>
+            <input type="password" id="geminiApiKey" placeholder="AIzaSy..." />
+          </div>
+
+          <div class="form-group hidden" id="ollamaModelGroup">
+            <label for="ollamaModel">Modelo Local Ollama (ej: llama3.1, qwen2.5)</label>
+            <input type="text" id="ollamaModel" value="llama3.1" placeholder="llama3.1" />
+          </div>
+
+          <div class="form-group">
+            <label for="copilotTask">¿Qué deseas solicitar?</label>
+            <select id="copilotTask">
+              <option value="redactar">Diseñar 1 acción específica e insertarla en el Plan</option>
+              <option value="protocolo">Crear acción de difusión de Protocolos RICE / Ley 21.809</option>
+              <option value="auditar_ia">Simular fiscalización de la Superintendencia al plan actual</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="copilotPrompt">Describe el tema o necesidad específica</label>
+            <input type="text" id="copilotPrompt" placeholder="Ej: Jornada sobre manejo de conflictos en recreos para asistentes de la educación" />
+          </div>
+        </div>
+        <div>
+          <button type="button" id="btnAskAI" class="btn-accent btn-sm">✨ Consultar Asistente IA</button>
+        </div>
+      </div>
+
+      <div id="generatedActionBox" class="generated-card-preview hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <strong style="color: var(--success);">✅ Acción Individual Lista para Incorporar:</strong>
+          <div style="display: flex; gap: 0.4rem;">
+            <button type="button" id="btnApplyDirectToPlan" class="btn-success btn-sm">➕ Agregar Directo a la Matriz</button>
+            <button type="button" id="btnOpenInEditor" class="btn-primary btn-sm">✏️ Revisar en Formulario</button>
+          </div>
+        </div>
+        <div id="generatedActionSummary" style="font-size: 0.82rem; color: #0f172a;"></div>
+      </div>
+
+      <div>
+        <strong style="font-size: 0.83rem; display: block; margin-bottom: 0.35rem;">Fundamentación Normativa / Diagnóstico del Asistente:</strong>
+        <div id="copilotOutput" class="copilot-output">Usa el Generador Automático superior para crear toda la calendarización anual normativa en segundos, o audita tu plan actual.</div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <span style="font-size: 0.76rem; color: var(--text-light);">Alineado con Política Nacional de Convivencia Educativa y Circular Superintendencia.</span>
+      <button type="button" onclick="document.getElementById('copilotModal').close()">Cerrar</button>
+    </div>
+  </dialog>
+
+  <!-- MODAL 5: CONFIGURACIÓN CLOUD GOOGLE DRIVE + RESPALDO JSON + INICIAR EN BLANCO -->
+  <dialog id="settingsModal">
+    <div class="modal-header">
+      <h2>⚙️ Configuración Institucional, Nube Google Drive y Respaldo</h2>
+      <button type="button" class="btn-sm" onclick="document.getElementById('settingsModal').close()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="schoolNameInput">Nombre del Establecimiento Educacional</label>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="schoolNameInput" style="flex: 1;" placeholder="Ej: Colegio Nuestra Señora de las Mercedes" />
+          <button type="button" id="btnSaveSchoolName" class="btn-primary btn-sm">Guardar Nombre</button>
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border);" />
+
+      <!-- CONEXIÓN MULTI-DISPOSITIVO CON GOOGLE DRIVE (ARCHIVO JSON + CARPETAS) -->
+      <div style="background: var(--primary-soft); border: 1px solid rgba(37, 99, 235, 0.3); padding: 1rem; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 0.6rem;">
+        <strong style="color: var(--primary);">☁️ Sincronización Multi-Dispositivo en Google Drive (Carpetas + JSON Maestro)</strong>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          Conecta la URL de implementación de tu Google Apps Script (<code>Code.gs</code>) para guardar el archivo maestro <code>PGCE_2026_Master.json</code> y subir las evidencias a subcarpetas en Google Drive. Así podrás abrir y editar el mismo plan desde tu Mac, iPad o celular.
+        </p>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="gasWebAppUrl">URL del Web App Google Apps Script (/exec)</label>
+            <input type="url" id="gasWebAppUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
+          </div>
+          <div class="form-group">
+            <label for="driveRootFolderId">ID de Carpeta Maestra en Google Drive (Opcional)</label>
+            <input type="text" id="driveRootFolderId" placeholder="Ej: 1UeJfZBcS79JyzrIIBCGb7l_ZJgGmkZ9p" />
+          </div>
+          <div class="form-group">
+            <label for="cloudSyncPin">PIN Institucional de Seguridad</label>
+            <input type="password" id="cloudSyncPin" placeholder="Ej: 2026" />
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button type="button" id="btnSaveCloudConfig" class="btn-primary btn-sm">💾 Guardar Configuración Nube</button>
+          <button type="button" id="btnPullFromCloud" class="btn-sm">⬇️ Descargar desde Drive</button>
+          <button type="button" id="btnPushToCloud" class="btn-success btn-sm">⬆️ Subir Plan a Drive</button>
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border);" />
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <strong>Portabilidad Manual (Archivo .JSON)</strong>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button type="button" id="btnExportJSON" class="btn-sm">⬇️ Exportar Plan (.JSON)</button>
+          <button type="button" id="btnImportJSONTrigger" class="btn-sm">⬆️ Importar Plan (.JSON)</button>
+          <input type="file" id="importJSONInput" accept=".json" class="hidden" />
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border);" />
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <strong style="color: var(--danger);">Zona de Inicio de Año Escolar</strong>
+        <div>
+          <button type="button" id="btnResetBlank" class="btn-danger btn-sm">🧹 Iniciar Plan en Blanco (Borrar Todo)</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" onclick="document.getElementById('settingsModal').close()">Cerrar</button>
+    </div>
+  </dialog>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script type="module">
+    /**
+     * =========================================================================
+     * MÓDULO 1: CAPA DE PERSISTENCIA BINARIA (IndexedDB) + ESTADO REACTIVO
+     * =========================================================================
+     */
+    const DB_NAME = 'PGCE_AuditPro_2026_DB';
+    const DB_VERSION = 1;
+    const STORE_FILES = 'evidencias_binarias';
+    const STORAGE_KEY_PLAN = 'pgce_plan_v6_data';
+    const STORAGE_KEY_SCHOOL = 'pgce_school_name';
+    const STORAGE_KEY_GEMINI = 'pgce_gemini_key';
+    const STORAGE_KEY_CLOUD = 'pgce_cloud_config';
+
+    class FileVaultDB {
+      #db = null;
+
+      async init() {
+        if (this.#db) return this.#db;
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open(DB_NAME, DB_VERSION);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(STORE_FILES)) {
+              db.createObjectStore(STORE_FILES, { keyPath: 'id' });
+            }
+          };
+          req.onsuccess = () => {
+            this.#db = req.result;
+            resolve(this.#db);
+          };
+          req.onerror = () => reject(req.error);
+        });
+      }
+
+      async saveFile(id, fileBlob, metadata) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_FILES, 'readwrite');
+          tx.objectStore(STORE_FILES).put({ id, blob: fileBlob, ...metadata });
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => reject(tx.error);
+        });
+      }
+
+      async getFile(id) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_FILES, 'readonly');
+          const req = tx.objectStore(STORE_FILES).get(id);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => reject(req.error);
+        });
+      }
+
+      async deleteFile(id) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_FILES, 'readwrite');
+          tx.objectStore(STORE_FILES).delete(id);
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => reject(tx.error);
+        });
+      }
+
+      async clearAll() {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_FILES, 'readwrite');
+          tx.objectStore(STORE_FILES).clear();
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => reject(tx.error);
+        });
+      }
+    }
+
+    const vault = new FileVaultDB();
+
+    /**
+     * =========================================================================
+     * MÓDULO 2: DATOS DE DEMOSTRACIÓN
+     * =========================================================================
+     */
+    const DEMO_ACTIONS = [
+      {
+        id: 'act-01',
+        codigo: 'PGCE-2026-01',
+        dimension: 'Gestión Institucional',
+        marcoNormativo: 'Ley 20.536 / Ley 21.809 / Actualización RICE',
+        nombre: 'Constitución del Equipo de Convivencia y Validación del PGCE en Consejo Escolar',
+        objetivo: 'Formalizar el plan anual y actualizar protocolos de actuación frente a vulneraciones y maltrato con participación de todos los estamentos.',
+        indicador: '100% de protocolos actualizados + Acta de sesión ordinaria Consejo Escolar firmada.',
+        destinatarios: ['Equipo Directivo', 'Docentes', 'Apoderados', 'Estudiantes'],
+        responsable: 'Coordinador Convivencia Escolar',
+        fechaInicio: '2026-03-10',
+        horaInicio: '15:30',
+        fechaTermino: '2026-03-27',
+        horaTermino: '17:00',
+        estado: 'Implementada',
+        fechaImplementacionReal: '2026-03-27T17:00:00Z',
+        reprogramaciones: [],
+        evidencias: [
+          {
+            id: 'ev-demo-1',
+            tipo: 'Acta de Reunión / Consejo',
+            nombreArchivo: 'Acta_Consejo_Escolar_Aprobacion_PGCE_2026.pdf',
+            descripcion: 'Acta firmada por representantes de estamentos y Dirección.',
+            fechaCarga: '2026-03-28T11:20:00Z',
+            hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+            isDemoMock: true
+          }
+        ]
+      },
+      {
+        id: 'act-02',
+        codigo: 'PGCE-2026-02',
+        dimension: 'Prevención',
+        marcoNormativo: 'Ley 20.536 / Política Nacional de Convivencia Educativa',
+        nombre: 'Jornadas de Prevención del Ciberacoso y Uso Responsable de Redes Sociales',
+        objetivo: 'Desarrollar habilidades de autocuidado digital y empatía en línea para disminuir conflictos originados en plataformas digitales.',
+        indicador: '90% de estudiantes participantes + Pauta de evaluación aplicada.',
+        destinatarios: ['Estudiantes', 'Docentes'],
+        responsable: 'Dupla Psicosocial y Orientación',
+        fechaInicio: '2026-04-13',
+        horaInicio: '10:00',
+        fechaTermino: '2026-04-30',
+        horaTermino: '11:30',
+        estado: 'Implementada',
+        fechaImplementacionReal: '2026-04-30T11:30:00Z',
+        reprogramaciones: [],
+        evidencias: [
+          {
+            id: 'ev-demo-2',
+            tipo: 'Lista de Asistencia Firmada',
+            nombreArchivo: 'Asistencia_Talleres_Ciberacoso_Abril2026.pdf',
+            descripcion: 'Listas firmadas por profesores jefes.',
+            fechaCarga: '2026-05-02T15:10:00Z',
+            hash: '8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4',
+            isDemoMock: true
+          }
+        ]
+      },
+      {
+        id: 'act-03',
+        codigo: 'PGCE-2026-03',
+        dimension: 'Participación',
+        marcoNormativo: 'PME Dimensión Convivencia / Vinculación Familia-Escuela',
+        nombre: 'Escuela para Padres: Parentalidad Positiva y Normas Formativas en el Hogar',
+        objetivo: 'Fortalecer la corresponsabilidad parental y la alianza familia-escuela mediante talleres prácticos por ciclo.',
+        indicador: 'Al menos 75% de asistencia de apoderados por curso + Encuesta de satisfacción.',
+        destinatarios: ['Apoderados'],
+        responsable: 'Coordinador Convivencia y Trabajador Social',
+        fechaInicio: '2026-05-11',
+        horaInicio: '18:00',
+        fechaTermino: '2026-05-22',
+        horaTermino: '19:30',
+        estado: 'Implementada',
+        fechaImplementacionReal: '2026-05-22T19:30:00Z',
+        reprogramaciones: [],
+        evidencias: []
+      },
+      {
+        id: 'act-04',
+        codigo: 'PGCE-2026-04',
+        dimension: 'Formación',
+        marcoNormativo: 'Ley Aula Segura / Resolución Pacífica de Conflictos',
+        nombre: 'Capacitación Docente en Desescalada Emocional y Mediación Escolar',
+        objetivo: 'Entregar herramientas prácticas a docentes y asistentes de la educación para el manejo formativo de conflictos en el aula.',
+        indicador: '100% del cuerpo docente y asistentes capacitados en consejo técnico.',
+        destinatarios: ['Docentes', 'Asistentes de la Educación'],
+        responsable: 'Psicólogo Convivencia Escolar',
+        fechaInicio: '2026-06-08',
+        horaInicio: '16:00',
+        fechaTermino: '2026-06-19',
+        horaTermino: '17:30',
+        estado: 'En Ejecución',
+        reprogramaciones: [],
+        evidencias: []
+      }
+    ];
+
+    /**
+     * =========================================================================
+     * MÓDULO 3: ESTADO CENTRALIZADO, DEDUPLICACIÓN INTELIGENTE Y CLOUD SYNC
+     * =========================================================================
+     */
+    const state = {
+      actions: [],
+      currentView: 'matriz',
+      activeModalActionId: null,
+      lastGeneratedDraft: null,
+      lastGeneratedBatch: null,
+      schoolName: localStorage.getItem(STORAGE_KEY_SCHOOL) || 'Colegio Nuestra Señora de las Mercedes',
+      cloudConfig: JSON.parse(localStorage.getItem(STORAGE_KEY_CLOUD) || '{"url":"","folderId":"","pin":""}')
+    };
+
+    function escapeHTML(str = '') {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = msg;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4200);
+    }
+
+    async function computeSHA256(fileOrBlob) {
+      const buffer = await fileOrBlob.arrayBuffer();
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function normalizeActionKey(action) {
+      return (action.nombre || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\(copia\)/g, '')
+        .replace(/[^a-z0-9]/g, '')
+        .trim();
+    }
+
+    function scoreActionPriority(action) {
+      let score = 0;
+      const evCount = action.evidencias ? action.evidencias.length : 0;
+      score += evCount * 1000; // Máxima prioridad a las que tienen evidencias adjuntas
+      if (action.estado === 'Implementada') score += 200;
+      if (action.estado === 'En Ejecución') score += 100;
+      if (action.estado === 'Reprogramada') score += 50;
+      if (action.reprogramaciones && action.reprogramaciones.length > 0) score += 30;
+      return score;
+    }
+
+    /**
+     * Elimina planificaciones repetidas conservando siempre la de mayor puntaje
+     * (priorizando las que tienen evidencias adjuntas).
+     */
+    async function deduplicateActions() {
+      if (state.actions.length < 2) {
+        showToast('ℹ️ No hay suficientes acciones para detectar duplicados.');
+        return;
+      }
+
+      const groups = new Map();
+      for (const act of state.actions) {
+        const key = normalizeActionKey(act);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(act);
+      }
+
+      const kept = [];
+      let removedCount = 0;
+
+      for (const [, group] of groups.entries()) {
+        if (group.length === 1) {
+          kept.push(group[0]);
+        } else {
+          // Ordenar de mayor a menor prioridad (evidencias primero)
+          group.sort((a, b) => scoreActionPriority(b) - scoreActionPriority(a));
+          kept.push(group[0]);
+          const discarded = group.slice(1);
+          for (const d of discarded) {
+            removedCount++;
+            if (d.evidencias) {
+              for (const ev of d.evidencias) {
+                if (!ev.isDemoMock) await vault.deleteFile(ev.id);
+              }
+            }
+          }
+        }
+      }
+
+      if (removedCount === 0) {
+        showToast('✅ Tu planificación está limpia: no se encontraron acciones repetidas.');
+      } else {
+        state.actions = kept;
+        persistPlan();
+        showToast(`🧹 Se eliminaron ${removedCount} planificación(es) repetida(s), conservando las respaldadas con evidencia.`);
+      }
+    }
+
+    function formatScheduleDisplay(a) {
+      const hIni = a.horaInicio || '09:00';
+      const hTer = a.horaTermino || '10:30';
+      if (a.fechaInicio === a.fechaTermino) {
+        return `${a.fechaInicio} (${hIni} - ${hTer} hrs)`;
+      }
+      return `${a.fechaInicio} (${hIni}) al ${a.fechaTermino} (${hTer})`;
+    }
+
+    function updateCloudBadge() {
+      const badge = document.getElementById('cloudStatusBadge');
+      if (state.cloudConfig && state.cloudConfig.url) {
+        badge.textContent = '☁️ Drive Conectado';
+        badge.classList.add('connected');
+      } else {
+        badge.textContent = '💾 Solo Local';
+        badge.classList.remove('connected');
+      }
+    }
+
+    function loadInitialData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_PLAN) || localStorage.getItem('pgce_plan_v5_data');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          state.actions = parsed.map(item => ({
+            horaInicio: '09:00',
+            horaTermino: '10:30',
+            ...item
+          }));
+        } else {
+          state.actions = structuredClone(DEMO_ACTIONS);
+          persistPlan();
+        }
+      } catch (err) {
+        state.actions = structuredClone(DEMO_ACTIONS);
+      }
+      updateSchoolHeader();
+      updateCloudBadge();
+    }
+
+    function persistPlan() {
+      try {
+        localStorage.setItem(STORAGE_KEY_PLAN, JSON.stringify(state.actions));
+      } catch (err) {
+        showToast('⚠️ Error guardando metadatos en localStorage.');
+      }
+      renderAll();
+    }
+
+    function updateSchoolHeader() {
+      document.getElementById('schoolSubtitle').textContent =
+        `${state.schoolName} • Plan de Gestión de la Convivencia Escolar 2026`;
+      document.getElementById('schoolNameInput').value = state.schoolName;
+      document.getElementById('printDocSubtitle').textContent =
+        `${state.schoolName} • Documento Oficial de Planificación y Cronograma (Generado: ${new Date().toLocaleDateString('es-CL')})`;
+    }
+
+    function hasBrecha(action) {
+      return action.estado === 'Implementada' && (!action.evidencias || action.evidencias.length === 0);
+    }
+
+    /**
+     * =========================================================================
+     * MÓDULO 4: SINCRONIZACIÓN MULTI-DISPOSITIVO CON GOOGLE DRIVE (JSON + CARPETAS)
+     * =========================================================================
+     */
+    async function syncPushToCloud() {
+      if (!state.cloudConfig.url) {
+        document.getElementById('settingsModal').showModal();
+        showToast('⚙️ Configura primero la URL de Google Apps Script para sincronizar entre equipos.');
+        return;
+      }
+
+      showToast('☁️ Subiendo archivo maestro JSON a Google Drive...');
+      try {
+        const res = await fetch(state.cloudConfig.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'saveMasterPlan',
+            pin: state.cloudConfig.pin,
+            folderId: state.cloudConfig.folderId,
+            schoolName: state.schoolName,
+            plan: state.actions
+          })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'Error en servidor Google Drive');
+        showToast('☁️ Plan sincronizado en Google Drive. Ya puedes abrirlo desde otro computador o tablet.');
+      } catch (err) {
+        showToast(`❌ Error de sincronización Drive: ${err.message}`);
+      }
+    }
+
+    async function syncPullFromCloud() {
+      if (!state.cloudConfig.url) {
+        document.getElementById('settingsModal').showModal();
+        showToast('⚙️ Configura primero la URL de Google Apps Script.');
+        return;
+      }
+
+      showToast('☁️ Descargando última versión desde Google Drive...');
+      try {
+        const res = await fetch(state.cloudConfig.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'loadMasterPlan',
+            pin: state.cloudConfig.pin,
+            folderId: state.cloudConfig.folderId
+          })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'No se encontró archivo maestro en Drive');
+        if (Array.isArray(data.plan)) {
+          state.actions = data.plan;
+          if (data.schoolName) {
+            state.schoolName = data.schoolName;
+            localStorage.setItem(STORAGE_KEY_SCHOOL, data.schoolName);
+            updateSchoolHeader();
+          }
+          persistPlan();
+          showToast(`☁️ Plan actualizado desde Drive (${state.actions.length} acciones).`);
+        }
+      } catch (err) {
+        showToast(`❌ Error al leer desde Drive: ${err.message}`);
+      }
+    }
+
+    async function uploadBinaryFileToDrive(actionCode, file, evMetadata) {
+      if (!state.cloudConfig.url) return null;
+      try {
+        const base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result.split(',')[1]);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+
+        const res = await fetch(state.cloudConfig.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'uploadEvidenceFile',
+            pin: state.cloudConfig.pin,
+            folderId: state.cloudConfig.folderId,
+            actionCode,
+            fileName: file.name,
+            mimeType: file.type || 'application/octet-stream',
+            base64Data: base64,
+            metadata: evMetadata
+          })
+        });
+        const data = await res.json();
+        return data.ok ? data.driveUrl : null;
+      } catch (err) {
+        console.warn('No se pudo subir archivo binario a Drive:', err);
+        return null;
+      }
+    }
+
+    /**
+     * =========================================================================
+     * MÓDULO 5: MOTOR DE RENDERIZADO (KPIs, MATRIZ, GANTT Y AUDITORÍA)
+     * =========================================================================
+     */
+    function getFilteredActions() {
+      const q = document.getElementById('filterSearch').value.trim().toLowerCase();
+      const dim = document.getElementById('filterDimension').value;
+      const est = document.getElementById('filterEstado').value;
+
+      return state.actions.filter(a => {
+        if (dim && a.dimension !== dim) return false;
+        if (est === 'BRECHA' && !hasBrecha(a)) return false;
+        if (est && est !== 'BRECHA' && a.estado !== est) return false;
+        if (q) {
+          const haystack = `${a.codigo} ${a.nombre} ${a.marcoNormativo} ${a.responsable} ${a.objetivo}`.toLowerCase();
+          if (!haystack.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderKPIs() {
+      const total = state.actions.length;
+      const implementadasConEv = state.actions.filter(a => a.estado === 'Implementada' && a.evidencias.length > 0).length;
+      const brechas = state.actions.filter(hasBrecha);
+      const totalEvidencias = state.actions.reduce((acc, a) => acc + (a.evidencias ? a.evidencias.length : 0), 0);
+      const pctAuditado = total > 0 ? Math.round((implementadasConEv / total) * 100) : 0;
+
+      document.getElementById('kpiTotal').textContent = total;
+      document.getElementById('kpiAuditado').textContent = `${pctAuditado}%`;
+      document.getElementById('kpiAuditadoBar').style.width = `${pctAuditado}%`;
+      document.getElementById('kpiAuditadoSub').textContent = `${implementadasConEv} de ${total} acciones con respaldo`;
+      document.getElementById('kpiBrechas').textContent = brechas.length;
+      document.getElementById('kpiEvidencias').textContent = totalEvidencias;
+
+      const banner = document.getElementById('auditBanner');
+      const title = document.getElementById('auditBannerTitle');
+      const desc = document.getElementById('auditBannerDesc');
+      const btnBrechas = document.getElementById('btnFilterBrechas');
+
+      if (brechas.length > 0) {
+        banner.classList.remove('ok');
+        title.textContent = `⚠️ Alerta de Fiscalización: ${brechas.length} acción(es) marcada(s) como "Implementada" sin medios de verificación`;
+        desc.textContent = `Códigos observados: ${brechas.map(b => b.codigo).join(', ')}. Adjunta listas de asistencia, actas o fotografías para blindar el expediente.`;
+        btnBrechas.classList.remove('hidden');
+      } else {
+        banner.classList.add('ok');
+        title.textContent = '✅ Sin brechas documentales críticas detectadas';
+        desc.textContent = 'Todas las acciones declaradas como Implementadas cuentan con al menos un medio de verificación validado.';
+        btnBrechas.classList.add('hidden');
+      }
+    }
+
+    function renderMatriz() {
+      const tbody = document.getElementById('actionsTableBody');
+      const list = getFilteredActions();
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 2rem; color: var(--text-light);">
+          No se encontraron acciones con los filtros actuales. Usa <strong>"✨ Asistente"</strong> para generar todo el plan anual automáticamente o presiona <strong>"+ Nueva Acción"</strong>.
+        </td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(a => {
+        const brecha = hasBrecha(a);
+        const pillClass = brecha
+          ? 'pill-brecha'
+          : a.estado === 'Implementada'
+            ? 'pill-implementada'
+            : a.estado === 'En Ejecución'
+              ? 'pill-ejecucion'
+              : a.estado === 'Reprogramada'
+                ? 'pill-reprogramada'
+                : 'pill-planificada';
+
+        const statusLabel = brecha ? '⚠️ Implementada (Sin Evidencia)' : escapeHTML(a.estado);
+        const estamentosHtml = (a.destinatarios || []).map(d => `<span class="estamento-chip">${escapeHTML(d)}</span>`).join('');
+        const repBadge = a.reprogramaciones && a.reprogramaciones.length > 0
+          ? `<div style="font-size:0.72rem; color:var(--warning); margin-top:0.2rem;">↻ ${a.reprogramaciones.length} reprogramación(es)</div>`
+          : '';
+
+        const hIni = escapeHTML(a.horaInicio || '09:00');
+        const hTer = escapeHTML(a.horaTermino || '10:30');
+
+        const quickDoneBtn = a.estado !== 'Implementada'
+          ? `<button type="button" class="btn-sm btn-success" data-mark-done-id="${escapeHTML(a.id)}" title="Registrar acción como realizada ahora">
+               ✅ Implementada
+             </button>`
+          : '';
+
+        return `
+          <tr>
+            <td>
+              <span class="code-tag">${escapeHTML(a.codigo)}</span>
+              <div style="font-size:0.76rem; color:var(--text-muted); margin-top:0.3rem; font-weight:600;">${escapeHTML(a.dimension)}</div>
+            </td>
+            <td style="max-width: 330px;">
+              <strong style="display:block; margin-bottom:0.2rem;">${escapeHTML(a.nombre)}</strong>
+              <span style="font-size:0.76rem; color:var(--primary); font-weight:600;">⚖️ ${escapeHTML(a.marcoNormativo)}</span>
+            </td>
+            <td>
+              <div>${estamentosHtml}</div>
+              <div style="font-size:0.76rem; color:var(--text-muted); margin-top:0.25rem;">👤 ${escapeHTML(a.responsable)}</div>
+            </td>
+            <td style="white-space: nowrap; font-size: 0.8rem;">
+              <div><strong>Inicio:</strong> ${escapeHTML(a.fechaInicio)} • <span style="color:var(--primary); font-weight:600;">${hIni}</span></div>
+              <div><strong>Término:</strong> ${escapeHTML(a.fechaTermino)} • <span style="color:var(--primary); font-weight:600;">${hTer}</span></div>
+              ${repBadge}
+            </td>
+            <td>
+              <span class="pill ${pillClass}">${statusLabel}</span>
+            </td>
+            <td class="no-print">
+              <button type="button" class="btn-sm" data-open-id="${escapeHTML(a.id)}" data-open-tab="evidencias">
+                📎 ${a.evidencias.length} archivo(s)
+              </button>
+            </td>
+            <td class="no-print">
+              <div class="action-btn-stack">
+                <button type="button" class="btn-sm btn-primary" data-open-id="${escapeHTML(a.id)}" data-open-tab="ficha">
+                  ✏️ Editar
+                </button>
+                ${quickDoneBtn}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderGantt() {
+      const grid = document.getElementById('ganttGrid');
+      const months = ['Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      const list = getFilteredActions();
+
+      let html = `<div class="gantt-cell gantt-header gantt-label">Acción PGCE</div>`;
+      months.forEach(m => {
+        html += `<div class="gantt-cell gantt-header">${m}</div>`;
+      });
+
+      list.forEach(a => {
+        const startMonth = parseInt((a.fechaInicio || '2026-03-01').split('-')[1], 10);
+        const endMonth = parseInt((a.fechaTermino || a.fechaInicio || '2026-03-01').split('-')[1], 10);
+        const brecha = hasBrecha(a);
+        const barClass = brecha ? 'warn' : a.estado === 'Implementada' ? 'done' : '';
+
+        html += `<div class="gantt-cell gantt-label" title="${escapeHTML(a.nombre)}">
+          <span><strong style="font-family:var(--font-mono); font-size:0.72rem;">${escapeHTML(a.codigo)}</strong> ${escapeHTML(a.nombre.slice(0, 34))}${a.nombre.length > 34 ? '…' : ''}</span>
+        </div>`;
+
+        for (let m = 3; m <= 12; m++) {
+          const active = m >= startMonth && m <= endMonth;
+          html += `<div class="gantt-cell">
+            ${active ? `<div class="gantt-bar ${barClass}" data-open-id="${escapeHTML(a.id)}" data-open-tab="ficha" title="${escapeHTML(a.nombre)} (${formatScheduleDisplay(a)})"></div>` : ''}
+          </div>`;
+        }
+      });
+
+      grid.innerHTML = html;
+    }
+
+    function renderAll() {
+      renderKPIs();
+      renderMatriz();
+      renderGantt();
+    }
+
+    function setActiveMainView(view) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.view === view);
+      });
+      document.getElementById('viewMatriz').classList.toggle('hidden', view !== 'matriz');
+      document.getElementById('viewGantt').classList.toggle('hidden', view !== 'gantt');
+    }
+
+    /**
+     * =========================================================================
+     * MÓDULO 6: EXPEDIENTE DE ACCIÓN, EVIDENCIAS Y BITÁCORA
+     * =========================================================================
+     */
+    function switchModalTab(tabName) {
+      document.querySelectorAll('.modal-tab[data-mtab]').forEach(b => {
+        b.classList.toggle('active', b.dataset.mtab === tabName);
+      });
+      document.getElementById('formFicha').classList.toggle('hidden', tabName !== 'ficha');
+      document.getElementById('tabEvidencias').classList.toggle('hidden', tabName !== 'evidencias');
+      document.getElementById('tabReprogramacion').classList.toggle('hidden', tabName !== 'reprogramacion');
+    }
+
+    function openActionModal(actionId = null, initialTab = 'ficha', prefillData = null) {
+      const modal = document.getElementById('actionModal');
+      state.activeModalActionId = actionId;
+
+      if (!actionId) {
+        document.getElementById('modalActionTitle').textContent = prefillData
+          ? 'Revisar Propuesta Generada por Asistente IA'
+          : 'Nueva Acción Planificada PGCE 2026';
+        document.getElementById('editActionId').value = '';
+        document.getElementById('fCodigo').value = `PGCE-2026-${String(state.actions.length + 1).padStart(2, '0')}`;
+        document.getElementById('fDimension').value = prefillData?.dimension || 'Formación';
+        document.getElementById('fEstado').value = 'Planificada';
+        document.getElementById('fNombre').value = prefillData?.nombre || '';
+        document.getElementById('fNormativa').value = prefillData?.marcoNormativo || 'Ley 20.536 / Política Nacional de Convivencia Educativa';
+        document.getElementById('fObjetivo').value = prefillData?.objetivo || '';
+        document.getElementById('fIndicador').value = prefillData?.indicador || '';
+        document.getElementById('fInicio').value = prefillData?.fechaInicio || '2026-05-15';
+        document.getElementById('fHoraInicio').value = prefillData?.horaInicio || '09:00';
+        document.getElementById('fTermino').value = prefillData?.fechaTermino || '2026-05-29';
+        document.getElementById('fHoraTermino').value = prefillData?.horaTermino || '10:30';
+        document.getElementById('fResponsable').value = prefillData?.responsable || 'Coordinador Convivencia Escolar';
+
+        const targetEst = prefillData?.destinatarios || ['Estudiantes'];
+        document.querySelectorAll('#fEstamentosGroup input').forEach(cb => {
+          cb.checked = targetEst.includes(cb.value);
+        });
+
+        document.getElementById('btnDeleteAction').classList.add('hidden');
+        document.getElementById('btnCloneAction').classList.add('hidden');
+        document.getElementById('modalEvidenceList').innerHTML = '<p style="font-size:0.8rem; color:var(--text-light);">Guarda primero la ficha para adjuntar medios de verificación.</p>';
+        document.getElementById('reprogramacionHistory').innerHTML = '';
+        switchModalTab('ficha');
+      } else {
+        const action = state.actions.find(a => a.id === actionId);
+        if (!action) return;
+
+        document.getElementById('modalActionTitle').textContent = `Expediente: ${action.codigo} — ${action.nombre}`;
+        document.getElementById('editActionId').value = action.id;
+        document.getElementById('fCodigo').value = action.codigo;
+        document.getElementById('fDimension').value = action.dimension;
+        document.getElementById('fEstado').value = action.estado;
+        document.getElementById('fNombre').value = action.nombre;
+        document.getElementById('fNormativa').value = action.marcoNormativo;
+        document.getElementById('fObjetivo').value = action.objetivo;
+        document.getElementById('fIndicador').value = action.indicador;
+        document.getElementById('fInicio').value = action.fechaInicio;
+        document.getElementById('fHoraInicio').value = action.horaInicio || '09:00';
+        document.getElementById('fTermino').value = action.fechaTermino;
+        document.getElementById('fHoraTermino').value = action.horaTermino || '10:30';
+        document.getElementById('fResponsable').value = action.responsable;
+
+        document.querySelectorAll('#fEstamentosGroup input').forEach(cb => {
+          cb.checked = (action.destinatarios || []).includes(cb.value);
+        });
+
+        document.getElementById('btnDeleteAction').classList.remove('hidden');
+        document.getElementById('btnCloneAction').classList.remove('hidden');
+
+        document.getElementById('normativeChecklistHint').innerHTML =
+          `<strong>💡 Recomendación de Fiscalización para "${escapeHTML(action.dimension)}":</strong> ` +
+          getRecommendedEvidencesText(action);
+
+        renderModalEvidences(action);
+        renderReprogramacionHistory(action);
+        switchModalTab(initialTab);
+      }
+
+      modal.showModal();
+    }
+
+    function markActionAsImplemented(actionId) {
+      const action = state.actions.find(a => a.id === actionId);
+      if (!action) return;
+      action.estado = 'Implementada';
+      action.fechaImplementacionReal = new Date().toISOString();
+      persistPlan();
+      showToast(`✅ ${action.codigo} marcada como Implementada. Adjunta su evidencia de respaldo.`);
+      openActionModal(actionId, 'evidencias');
+    }
+
+    function getRecommendedEvidencesText(action) {
+      const map = {
+        'Gestión Institucional': 'La Superintendencia suele exigir Acta formal firmada por participantes, convocatoria/citación previa y documento actualizado.',
+        'Prevención': 'Adjunta Lista de Asistencia firmada por curso, presentación o material pedagógico utilizado y registro fotográfico.',
+        'Participación': 'Adjunta Lista de Asistencia de apoderados/estudiantes, pauta de evaluación o encuesta y evidencia de difusión previa.',
+        'Formación': 'Adjunta registro de asistencia de funcionarios/estudiantes, programa de la jornada y síntesis de acuerdos.'
+      };
+      return map[action.dimension] || 'Adjunta lista de asistencia firmada, acta y registro fotográfico fechado.';
+    }
+
+    function renderModalEvidences(action) {
+      const container = document.getElementById('modalEvidenceList');
+      if (!action.evidencias || action.evidencias.length === 0) {
+        container.innerHTML = `<div style="padding:1rem; border:1px dashed var(--danger); border-radius:var(--radius-sm); color:var(--danger); font-size:0.82rem;">
+          ⚠️ Aún no hay medios de verificación cargados para esta acción. Arrastra aquí la lista de asistencia, acta o fotografías.
+        </div>`;
+        return;
+      }
+
+      container.innerHTML = action.evidencias.map(ev => `
+        <div class="evidence-item">
+          <div style="flex:1; min-width: 240px;">
+            <div style="font-size:0.74rem; font-weight:700; color:var(--primary);">${escapeHTML(ev.tipo)}</div>
+            <strong>${escapeHTML(ev.nombreArchivo)}</strong>
+            ${ev.descripcion ? `<div style="font-size:0.78rem; color:var(--text-muted);">${escapeHTML(ev.descripcion)}</div>` : ''}
+            <div style="font-size:0.72rem; color:var(--text-light); margin-top:0.2rem;">
+              Cargado: ${new Date(ev.fechaCarga).toLocaleString('es-CL')} ${ev.isDemoMock ? '(Archivo de ejemplo)' : ''}
+            </div>
+            <div class="hash-badge" style="margin-top:0.25rem;">SHA-256: ${escapeHTML(ev.hash)}</div>
+          </div>
+          <div style="display:flex; gap:0.4rem;">
+            ${ev.driveUrl ? `<a href="${escapeHTML(ev.driveUrl)}" target="_blank" rel="noopener" class="btn btn-sm">☁️ Ver en Drive</a>` : ''}
+            ${!ev.isDemoMock ? `<button type="button" class="btn-sm" data-download-ev="${escapeHTML(ev.id)}">⬇️ Local</button>` : ''}
+            <button type="button" class="btn-danger btn-sm" data-delete-ev="${escapeHTML(ev.id)}">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderReprogramacionHistory(action) {
+      const container = document.getElementById('reprogramacionHistory');
+      if (!action.reprogramaciones || action.reprogramaciones.length === 0) {
+        container.innerHTML = '<p style="font-size:0.8rem; color:var(--text-light);">Esta acción mantiene su cronograma original sin reprogramaciones.</p>';
+        return;
+      }
+
+      container.innerHTML = action.reprogramaciones.map(r => `
+        <div class="evidence-item">
+          <div>
+            <div style="font-size:0.73rem; color:var(--text-light);">Registrado el ${new Date(r.fechaRegistro).toLocaleString('es-CL')}</div>
+            <div style="font-size:0.82rem;"><strong>Cambio:</strong> ${escapeHTML(r.anterior)} ➔ <strong>${escapeHTML(r.nueva)}</strong></div>
+            <div style="font-size:0.82rem; color:var(--text-muted);"><strong>Justificación:</strong> ${escapeHTML(r.motivo)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function handleEvidenceFiles(fileList) {
+      if (!state.activeModalActionId) {
+        showToast('⚠️ Guarda primero la ficha de la acción antes de subir archivos.');
+        return;
+      }
+      const action = state.actions.find(a => a.id === state.activeModalActionId);
+      if (!action) return;
+
+      const tipo = document.getElementById('evTipo').value;
+      const descripcion = document.getElementById('evDescripcion').value.trim();
+
+      for (const file of fileList) {
+        const hash = await computeSHA256(file);
+        const evId = 'ev-' + crypto.randomUUID();
+        await vault.saveFile(evId, file, {
+          name: file.name,
+          type: file.type,
+          size: file.size
+        });
+
+        const evRecord = {
+          id: evId,
+          tipo,
+          nombreArchivo: file.name,
+          descripcion,
+          fechaCarga: new Date().toISOString(),
+          hash,
+          driveUrl: null,
+          isDemoMock: false
+        };
+
+        // Si Google Drive está conectado, subir también a la carpeta institucional
+        if (state.cloudConfig.url) {
+          showToast(`☁️ Subiendo "${file.name}" a Google Drive...`);
+          const url = await uploadBinaryFileToDrive(action.codigo, file, evRecord);
+          if (url) evRecord.driveUrl = url;
+        }
+
+        action.evidencias.push(evRecord);
+      }
+
+      document.getElementById('evDescripcion').value = '';
+      persistPlan();
+      renderModalEvidences(action);
+      showToast(`✅ ${fileList.length} evidencia(s) blindada(s) con SHA-256.`);
+    }
+
+    /**
+     * =========================================================================
+     * MÓDULO 7: EXPORTACIONES, DIFUSIÓN CON HORARIOS E INFORMES DE GESTIÓN
+     * =========================================================================
+     */
+    function exportToExcelCSV() {
+      const list = getFilteredActions();
+      if (list.length === 0) {
+        showToast('⚠️ No hay acciones para exportar.');
+        return;
+      }
+
+      const headers = [
+        'Código', 'Dimensión', 'Nombre de la Acción', 'Marco Normativo',
+        'Objetivo Operacional', 'Indicador y Medios Esperados', 'Destinatarios',
+        'Responsable', 'Fecha Inicio', 'Hora Inicio', 'Fecha Término', 'Hora Término',
+        'Estado', 'Cantidad Evidencias', 'Cumplimiento Fiscalizable'
+      ];
+
+      const escapeCsv = (val) => `"${String(val ?? '').replace(/"/g, '""')}"`;
+
+      const rows = list.map(a => [
+        a.codigo, a.dimension, a.nombre, a.marcoNormativo, a.objetivo, a.indicador,
+        (a.destinatarios || []).join(', '), a.responsable, a.fechaInicio,
+        a.horaInicio || '09:00', a.fechaTermino, a.horaTermino || '10:30',
+        a.estado, a.evidencias.length,
+        hasBrecha(a) ? 'OBSERVADA (Sin evidencia adjunta)' : 'CONFORME'
+      ].map(escapeCsv).join(';'));
+
+      const csvContent = '\uFEFF' + [headers.map(escapeCsv).join(';'), ...rows].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Planificacion_PGCE_2026_${new Date().toISOString().slice(0, 10)}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast('📊 Planilla Excel (.CSV) descargada.');
+    }
+
+    function exportGanttToPNG() {
+      const list = getFilteredActions();
+      if (list.length === 0) return;
+
+      const dpr = 2;
+      const rowH = 38;
+      const headerH = 95;
+      const footerH = 42;
+      const leftColW = 360;
+      const monthW = 74;
+      const months = ['Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      const width = leftColW + months.length * monthW + 40;
+      const height = headerH + (list.length + 1) * rowH + footerH;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = '#1e3a8a';
+      ctx.fillRect(20, 16, width - 40, 56);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 16px system-ui, sans-serif';
+      ctx.fillText(`CARTA GANTT ANUAL — PLAN DE GESTIÓN DE CONVIVENCIA ESCOLAR 2026`, 34, 40);
+      ctx.font = '12px system-ui, sans-serif';
+      ctx.fillText(`${state.schoolName} • Cronograma Marzo a Diciembre 2026`, 34, 60);
+
+      const startY = headerH;
+      ctx.fillStyle = '#f1f5f9';
+      ctx.fillRect(20, startY, width - 40, rowH);
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.strokeRect(20, startY, width - 40, rowH);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = 'bold 12px system-ui, sans-serif';
+      ctx.fillText('CÓDIGO Y ACCIÓN PLANIFICADA', 32, startY + 23);
+
+      months.forEach((m, idx) => {
+        const x = 20 + leftColW + idx * monthW;
+        ctx.strokeRect(x, startY, monthW, rowH);
+        ctx.fillText(m, x + 24, startY + 23);
+      });
+
+      list.forEach((a, rIdx) => {
+        const y = startY + (rIdx + 1) * rowH;
+        ctx.fillStyle = rIdx % 2 === 0 ? '#ffffff' : '#f8fafc';
+        ctx.fillRect(20, y, width - 40, rowH);
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.strokeRect(20, y, leftColW, rowH);
+
+        ctx.fillStyle = '#1e40af';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText(`${a.codigo} (${a.horaInicio || '09:00'}-${a.horaTermino || '10:30'})`, 30, y + 15);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = '11.5px system-ui, sans-serif';
+        const shortName = a.nombre.length > 46 ? a.nombre.slice(0, 45) + '…' : a.nombre;
+        ctx.fillText(shortName, 30, y + 30);
+
+        const sM = parseInt((a.fechaInicio || '2026-03-01').split('-')[1], 10);
+        const eM = parseInt((a.fechaTermino || a.fechaInicio || '2026-03-01').split('-')[1], 10);
+        const brecha = hasBrecha(a);
+
+        for (let m = 3; m <= 12; m++) {
+          const x = 20 + leftColW + (m - 3) * monthW;
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.strokeRect(x, y, monthW, rowH);
+          if (m >= sM && m <= eM) {
+            ctx.fillStyle = brecha ? '#dc2626' : a.estado === 'Implementada' ? '#16a34a' : '#2563eb';
+            ctx.fillRect(x + 6, y + 9, monthW - 12, rowH - 18);
+          }
+        }
+      });
+
+      const ly = height - 16;
+      ctx.font = '11px system-ui, sans-serif';
+      ctx.fillStyle = '#16a34a'; ctx.fillRect(20, ly - 10, 12, 12);
+      ctx.fillStyle = '#334155'; ctx.fillText('Implementada con evidencia', 38, ly);
+
+      ctx.fillStyle = '#2563eb'; ctx.fillRect(210, ly - 10, 12, 12);
+      ctx.fillStyle = '#334155'; ctx.fillText('Planificada / En ejecución', 228, ly);
+
+      ctx.fillStyle = '#dc2626'; ctx.fillRect(390, ly - 10, 12, 12);
+      ctx.fillStyle = '#334155'; ctx.fillText('Brecha de evidencia', 408, ly);
+
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `Carta_Gantt_PGCE_2026_${new Date().toISOString().slice(0, 10)}.png`;
+        link.click();
+        URL.revokeObjectURL(url);
+        showToast('🖼️ Carta Gantt descargada en formato PNG.');
+      });
+    }
+
+    function printOfficialDocument(targetView) {
+      document.getElementById('exportCenterModal').close();
+      setActiveMainView(targetView);
+      document.getElementById('printDocTitle').textContent = targetView === 'gantt'
+        ? 'CARTA GANTT ANUAL — PLAN DE GESTIÓN DE LA CONVIVENCIA ESCOLAR (2026)'
+        : 'MATRIZ OFICIAL DE PLANIFICACIÓN — CONVIVENCIA ESCOLAR (2026)';
+      setTimeout(() => window.print(), 180);
+    }
+
+    function getCalendarFilteredActions() {
+      const scope = document.getElementById('shareScope').value;
+      const est = document.getElementById('shareEstamento').value;
+
+      return state.actions
+        .filter(a => {
+          if (est && !(a.destinatarios || []).includes(est)) return false;
+          if (scope !== 'GLOBAL') {
+            const mStart = (a.fechaInicio || '').split('-')[1];
+            const mEnd = (a.fechaTermino || '').split('-')[1];
+            if (mStart !== scope && mEnd !== scope) return false;
+          }
+          return true;
+        })
+        .sort((a, b) => (a.fechaInicio || '').localeCompare(b.fechaInicio || ''));
+    }
+
+    function renderNewsletterPreview() {
+      const items = getCalendarFilteredActions();
+      const scopeSelect = document.getElementById('shareScope');
+      const scopeLabel = scopeSelect.options[scopeSelect.selectedIndex].text;
+      const estLabel = document.getElementById('shareEstamento').value || 'Toda la Comunidad Educativa';
+      const preview = document.getElementById('newsletterPreview');
+
+      if (items.length === 0) {
+        preview.innerHTML = `<p style="color:#64748b;">No hay actividades planificadas para el filtro seleccionado.</p>`;
+        return;
+      }
+
+      const rows = items.map(a => `
+        <tr>
+          <td style="padding:8px; border:1px solid #cbd5e1; white-space:nowrap; font-size:12.5px;">
+            <strong>${escapeHTML(a.fechaInicio)}</strong> al <strong>${escapeHTML(a.fechaTermino)}</strong><br/>
+            <span style="color:#1e40af; font-weight:700; font-size:12px;">🕒 ${escapeHTML(a.horaInicio || '09:00')} a ${escapeHTML(a.horaTermino || '10:30')} hrs</span>
+          </td>
+          <td style="padding:8px; border:1px solid #cbd5e1; font-size:13px;">
+            <strong style="color:#1e3a8a;">${escapeHTML(a.nombre)}</strong><br/>
+            <span style="color:#475569; font-size:12px;">${escapeHTML(a.objetivo)}</span>
+          </td>
+          <td style="padding:8px; border:1px solid #cbd5e1; font-size:12px;">${escapeHTML((a.destinatarios || []).join(', '))}</td>
+          <td style="padding:8px; border:1px solid #cbd5e1; font-size:12px;">${escapeHTML(a.responsable)}</td>
+        </tr>
+      `).join('');
+
+      preview.innerHTML = `
+        <div style="font-family: Arial, sans-serif; color: #0f172a; max-width: 740px;">
+          <div style="background:#1e3a8a; color:#ffffff; padding:14px 18px; border-radius:6px 6px 0 0;">
+            <h3 style="margin:0; font-size:16px;">📅 ${escapeHTML(state.schoolName)} — Plan de Convivencia Escolar 2026</h3>
+            <p style="margin:4px 0 0; font-size:12px; opacity:0.9;">${escapeHTML(scopeLabel)} • Destinatarios: ${escapeHTML(estLabel)}</p>
+          </div>
+          <div style="padding:14px; border:1px solid #cbd5e1; border-top:none; border-radius:0 0 6px 6px;">
+            <p style="font-size:13px; margin-top:0;">Estimada Comunidad Educativa, compartimos la programación oficial de actividades formativas y preventivas de Convivencia Escolar con sus días y bloques horarios:</p>
+            <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+              <thead>
+                <tr style="background:#f1f5f9;">
+                  <th style="padding:8px; border:1px solid #cbd5e1; text-align:left; font-size:12px;">Día y Horario</th>
+                  <th style="padding:8px; border:1px solid #cbd5e1; text-align:left; font-size:12px;">Actividad y Propósito</th>
+                  <th style="padding:8px; border:1px solid #cbd5e1; text-align:left; font-size:12px;">Estamentos</th>
+                  <th style="padding:8px; border:1px solid #cbd5e1; text-align:left; font-size:12px;">Responsable</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+            <p style="font-size:12px; color:#475569; margin-bottom:0; margin-top:12px;">Atentamente,<br/><strong>Equipo de Convivencia Escolar • ${escapeHTML(state.schoolName)}</strong></p>
+          </div>
+        </div>
+      `;
+    }
+
+    async function copyRichNewsletter() {
+      const preview = document.getElementById('newsletterPreview');
+      try {
+        const htmlBlob = new Blob([preview.innerHTML], { type: 'text/html' });
+        const textBlob = new Blob([preview.innerText], { type: 'text/plain' });
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'text/html': htmlBlob, 'text/plain': textBlob })
+        ]);
+        showToast('📋 Boletín con horarios copiado. Pégalo (Ctrl+V) en Gmail.');
+      } catch (err) {
+        await navigator.clipboard.writeText(preview.innerText);
+        showToast('📋 Texto copiado al portapapeles.');
+      }
+    }
+
+    function openMailtoClient() {
+      const items = getCalendarFilteredActions();
+      const recipients = document.getElementById('shareRecipients').value.trim();
+      const scopeSelect = document.getElementById('shareScope');
+      const scopeLabel = scopeSelect.options[scopeSelect.selectedIndex].text;
+
+      const subject = `Calendarización Convivencia Escolar 2026 - ${scopeLabel} (${state.schoolName})`;
+      const lines = items.map(a =>
+        `• [${a.fechaInicio} al ${a.fechaTermino} | Horario: ${a.horaInicio || '09:00'} a ${a.horaTermino || '10:30'} hrs] ${a.nombre} (Dirigido a: ${a.destinatarios.join(', ')}) - Resp: ${a.responsable}`
+      ).join('\n');
+
+      const body = `Estimada Comunidad Educativa:\n\nCompartimos la programación de actividades del Plan de Gestión de la Convivencia Escolar (${scopeLabel}):\n\n${lines}\n\nAtentamente,\nEquipo de Convivencia Escolar\n${state.schoolName}`;
+
+      window.location.href = `mailto:${encodeURIComponent(recipients)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function downloadICSFile() {
+      const items = getCalendarFilteredActions();
+      if (items.length === 0) return;
+
+      const events = items.map(a => {
+        const dStart = (a.fechaInicio || '2026-03-01').replace(/-/g, '');
+        const dEnd = (a.fechaTermino || a.fechaInicio || '2026-03-01').replace(/-/g, '');
+        const tStart = (a.horaInicio || '09:00').replace(/:/g, '') + '00';
+        const tEnd = (a.horaTermino || '10:30').replace(/:/g, '') + '00';
+        return [
+          'BEGIN:VEVENT',
+          `UID:${a.id}@pgce-audit-pro`,
+          `DTSTAMP:20260301T120000Z`,
+          `DTSTART:${dStart}T${tStart}`,
+          `DTEND:${dEnd}T${tEnd}`,
+          `SUMMARY:[Convivencia Escolar] ${a.nombre}`,
+          `DESCRIPTION:${a.objetivo} | Destinatarios: ${a.destinatarios.join(', ')} | Resp: ${a.responsable}`,
+          'END:VEVENT'
+        ].join('\r\n');
+      }).join('\r\n');
+
+      const ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//PGCE Audit Pro 2026//Convivencia Escolar//ES',
+        events,
+        'END:VCALENDAR'
+      ].join('\r\n');
+
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Calendario_Convivencia_Escolar_2026_Horarios.ics';
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast('📅 Archivo .ICS con fechas y horas exactas descargado.');
+    }
+
+    function getReportFilteredData() {
+      const pType = document.getElementById('reportPeriodType').value;
+      const monthVal = document.getElementById('reportMonthSelect').value;
+
+      let periodTitle = 'Informe Anual de Gestión Realizada — Año Escolar 2026';
+      let filtered = state.actions;
+
+      if (pType === 'SEM1') {
+        periodTitle = 'Informe 1° Semestre de Gestión Realizada (Marzo — Julio 2026)';
+        filtered = state.actions.filter(a => {
+          const m = parseInt((a.fechaInicio || '2026-03-01').split('-')[1], 10);
+          return m >= 3 && m <= 7;
+        });
+      } else if (pType === 'SEM2') {
+        periodTitle = 'Informe 2° Semestre de Gestión Realizada (Agosto — Diciembre 2026)';
+        filtered = state.actions.filter(a => {
+          const m = parseInt((a.fechaInicio || '2026-08-01').split('-')[1], 10);
+          return m >= 8 && m <= 12;
+        });
+      } else if (pType === 'MENSUAL') {
+        const mSelect = document.getElementById('reportMonthSelect');
+        const mLabel = mSelect.options[mSelect.selectedIndex].text;
+        periodTitle = `Informe Mensual de Gestión Realizada — ${mLabel}`;
+        filtered = state.actions.filter(a => {
+          const mStart = (a.fechaInicio || '').split('-')[1];
+          const mEnd = (a.fechaTermino || '').split('-')[1];
+          return mStart === monthVal || mEnd === monthVal;
+        });
+      }
+
+      return { periodTitle, items: filtered };
+    }
+
+    function renderProgressReportPreview() {
+      const { periodTitle, items } = getReportFilteredData();
+      const preview = document.getElementById('progressReportPreview');
+
+      const total = items.length;
+      const realizadas = items.filter(a => a.estado === 'Implementada');
+      const pendientes = items.filter(a => a.estado !== 'Implementada');
+      const conRespaldo = realizadas.filter(a => a.evidencias && a.evidencias.length > 0);
+      const pct = total > 0 ? Math.round((realizadas.length / total) * 100) : 0;
+
+      const realizadasRows = realizadas.length > 0
+        ? realizadas.map(a => `
+          <tr>
+            <td style="padding:7px; border:1px solid #cbd5e1; font-size:12px;"><strong>${escapeHTML(a.codigo)}</strong><br/>${escapeHTML(a.dimension)}</td>
+            <td style="padding:7px; border:1px solid #cbd5e1; font-size:12px;">
+              <strong>${escapeHTML(a.nombre)}</strong><br/>
+              <span style="color:#475569;">${escapeHTML(a.objetivo)}</span>
+            </td>
+            <td style="padding:7px; border:1px solid #cbd5e1; font-size:11.5px; white-space:nowrap;">${escapeHTML(formatScheduleDisplay(a))}</td>
+            <td style="padding:7px; border:1px solid #cbd5e1; font-size:11.5px;">
+              ${a.evidencias.length > 0
+                ? `<span style="color:#15803d; font-weight:700;">✅ ${a.evidencias.length} evidencia(s)</span><br/>` +
+                  a.evidencias.map(e => `• ${escapeHTML(e.tipo)}`).join('<br/>')
+                : `<span style="color:#b91c1c; font-weight:700;">⚠️ Pendiente adjuntar respaldo</span>`}
+            </td>
+          </tr>
+        `).join('')
+        : `<tr><td colspan="4" style="padding:10px; border:1px solid #cbd5e1; text-align:center; color:#64748b; font-size:12px;">No se registran acciones marcadas como Implementadas en este período.</td></tr>`;
+
+      const pendientesRows = pendientes.length > 0
+        ? pendientes.map(a => `
+          <tr>
+            <td style="padding:6px; border:1px solid #cbd5e1; font-size:12px;"><strong>${escapeHTML(a.codigo)}</strong></td>
+            <td style="padding:6px; border:1px solid #cbd5e1; font-size:12px;">${escapeHTML(a.nombre)}</td>
+            <td style="padding:6px; border:1px solid #cbd5e1; font-size:11.5px;">${escapeHTML(formatScheduleDisplay(a))}</td>
+            <td style="padding:6px; border:1px solid #cbd5e1; font-size:11.5px;">${escapeHTML(a.estado)}</td>
+          </tr>
+        `).join('')
+        : `<tr><td colspan="4" style="padding:8px; border:1px solid #cbd5e1; text-align:center; color:#15803d; font-size:12px;">100% de las acciones del período han sido ejecutadas.</td></tr>`;
+
+      preview.innerHTML = `
+        <div style="font-family: Arial, sans-serif; color: #0f172a;">
+          <div style="border-bottom: 3px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 14px;">
+            <h2 style="margin:0; font-size:17px; color:#1e3a8a;">${escapeHTML(periodTitle)}</h2>
+            <p style="margin:4px 0 0; font-size:12px; color:#475569;">
+              <strong>Establecimiento:</strong> ${escapeHTML(state.schoolName)} &nbsp;|&nbsp;
+              <strong>Fecha de Emisión:</strong> ${new Date().toLocaleDateString('es-CL')}
+            </p>
+          </div>
+
+          <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:130px; background:#f1f5f9; padding:10px; border-radius:6px; border:1px solid #cbd5e1;">
+              <div style="font-size:11px; color:#475569; font-weight:700;">ACCIONES DEL PERÍODO</div>
+              <div style="font-size:20px; font-weight:800; color:#0f172a;">${total}</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#dcfce7; padding:10px; border-radius:6px; border:1px solid #86efac;">
+              <div style="font-size:11px; color:#15803d; font-weight:700;">IMPLEMENTADAS</div>
+              <div style="font-size:20px; font-weight:800; color:#15803d;">${realizadas.length} (${pct}%)</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#eff6ff; padding:10px; border-radius:6px; border:1px solid #93c5fd;">
+              <div style="font-size:11px; color:#1e40af; font-weight:700;">CON EVIDENCIA AUDITADA</div>
+              <div style="font-size:20px; font-weight:800; color:#1e40af;">${conRespaldo.length}</div>
+            </div>
+          </div>
+
+          <h3 style="font-size:13.5px; color:#15803d; margin-bottom:6px;">1. Detalle de Actividades Realizadas / Implementadas</h3>
+          <table style="width:100%; border-collapse:collapse; margin-bottom:16px;">
+            <thead>
+              <tr style="background:#f1f5f9;">
+                <th style="padding:7px; border:1px solid #cbd5e1; text-align:left; font-size:11.5px;">Código</th>
+                <th style="padding:7px; border:1px solid #cbd5e1; text-align:left; font-size:11.5px;">Actividad y Objetivo</th>
+                <th style="padding:7px; border:1px solid #cbd5e1; text-align:left; font-size:11.5px;">Fecha y Horario</th>
+                <th style="padding:7px; border:1px solid #cbd5e1; text-align:left; font-size:11.5px;">Medios de Verificación</th>
+              </tr>
+            </thead>
+            <tbody>${realizadasRows}</tbody>
+          </table>
+
+          <h3 style="font-size:13.5px; color:#1e3a8a; margin-bottom:6px;">2. Acciones Programadas o en Curso en el Período</h3>
+          <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
+            <thead>
+              <tr style="background:#f1f5f9;">
+                <th style="padding:6px; border:1px solid #cbd5e1; text-align:left; font-size:11.5px;">Código</th>
+                <th style="padding:6px; border:1px solid #cbd5e1; text-align:left; font-size:11.5px;">Actividad</th>
+                <th style="padding:6px; border:1px solid #cbd5e1; text-align:left; font-size:11.5px;">Fecha y Horario</th>
+                <th style="padding:6px; border:1px solid #cbd5e1; text-align:left; font-size:11.5px;">Estado</th>
+              </tr>
+            </thead>
+            <tbody>${pendientesRows}</tbody>
+          </table>
+
+          <div style="display:flex; justify-content:space-around; margin-top:34px; padding-top:10px;">
+            <div style="width:210px; border-top:1px solid #0f172a; text-align:center; font-size:11px; padding-top:4px;">Encargado/a Convivencia Escolar</div>
+            <div style="width:210px; border-top:1px solid #0f172a; text-align:center; font-size:11px; padding-top:4px;">Dirección Establecimiento</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function downloadProgressReportHTML() {
+      const content = document.getElementById('progressReportPreview').innerHTML;
+      const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Informe Gestión Convivencia Escolar 2026</title></head><body style="padding:24px; max-width:980px; margin:auto;">${content}</body></html>`;
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Informe_Gestion_PGCE_2026_${new Date().toISOString().slice(0, 10)}.html`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('⬇️ Informe descargado en formato HTML.');
+    }
+
+    function printProgressReportWindow() {
+      const content = document.getElementById('progressReportPreview').innerHTML;
+      const win = window.open('', '_blank', 'width=1024,height=768');
+      if (!win) {
+        showToast('⚠️ Permite ventanas emergentes para imprimir el informe.');
+        return;
+      }
+      win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Imprimir Informe PGCE</title>
+        <style>@media print { @page { margin: 14mm; } }</style>
+        </head><body style="padding:20px;">${content}</body></html>`);
+      win.document.close();
+      win.focus();
+      setTimeout(() => win.print(), 250);
+    }
+
+    /**
+     * =========================================================================
+     * MÓDULO 8: ASISTENTE COPILOTO (GENERADOR PLAN ANUAL NORMATIVO + IA)
+     * =========================================================================
+     */
+    function buildAnnualNormativePlan(level, focus) {
+      const levelTag = level === 'BASICA'
+        ? '(1° a 8° Básico)'
+        : level === 'MEDIA'
+          ? '(I° a IV° Medio)'
+          : '(1° Básico a IV° Medio)';
+
+      const focusActionMay = focus === 'CIBERACOSO'
+        ? {
+            dimension: 'Prevención',
+            marcoNormativo: 'Ley 20.536 / Prevención de Violencia Digital y Ciberacoso',
+            nombre: `Campaña y Talleres de Ciudadanía Digital, Huella en Internet y Prevención de Ciberacoso ${levelTag}`,
+            objetivo: 'Prevenir conductas de hostigamiento digital, difusión no consentida de imágenes y conflictos en redes sociales mediante análisis de casos y protocolos.',
+            indicador: '90% de cursos participan + Pauta de evaluación aplicada + Material pedagógico archivado.',
+            destinatarios: ['Estudiantes', 'Docentes'],
+            responsable: 'Dupla Psicosocial y Orientación'
+          }
+        : focus === 'INCLUSION'
+          ? {
+              dimension: 'Prevención',
+              marcoNormativo: 'Ley 21.545 (Ley TEA) / Ley 20.609 / Inclusión Escolar',
+              nombre: `Jornada de Sensibilización en Neurodiversidad, Empatía y Regulación Emocional ${levelTag}`,
+              objetivo: 'Promover entornos educativos accesibles, respetuosos de la neurodiversidad y libres de discriminación arbitraria.',
+              indicador: '85% de cobertura por curso + Guía de apoyos en aula entregada a docentes.',
+              destinatarios: ['Estudiantes', 'Docentes', 'Asistentes de la Educación'],
+              responsable: 'Equipo PIE y Convivencia Escolar'
+            }
+          : focus === 'FAMILIA'
+            ? {
+                dimension: 'Participación',
+                marcoNormativo: 'Política Nacional de Convivencia Educativa / Alianza Familia-Escuela',
+                nombre: `Escuelas para Familias: Parentalidad Positiva, Límites Formativos y Corresponsabilidad ${levelTag}`,
+                objetivo: 'Fortalecer el rol formativo de madres, padres y apoderados en la prevención de conflictos y apoyo socioemocional.',
+                indicador: '75% de asistencia de apoderados por curso + Lista de asistencia firmada + Encuesta.',
+                destinatarios: ['Apoderados'],
+                responsable: 'Trabajador Social y Coordinador Convivencia'
+              }
+            : {
+                dimension: 'Prevención',
+                marcoNormativo: 'Ley 20.536 / Política Nacional de Convivencia Educativa',
+                nombre: `Talleres Preventivos de Buen Trato, Empatía y Uso Responsable de Redes Sociales ${levelTag}`,
+                objetivo: 'Desarrollar factores protectores socioemocionales y prevenir situaciones de maltrato entre pares.',
+                indicador: '90% de cursos ejecutados + Listas de asistencia firmadas + Registro fotográfico.',
+                destinatarios: ['Estudiantes', 'Docentes'],
+                responsable: 'Dupla Psicosocial y Profesores Jefes'
+              };
+
+      return [
+        {
+          dimension: 'Gestión Institucional',
+          marcoNormativo: 'Ley 20.536 / Ley 21.809 / Circular Superintendencia RICE',
+          nombre: 'Constitución del Equipo de Convivencia, Actualización de Protocolos RICE y Validación en Consejo Escolar',
+          objetivo: 'Revisar y actualizar los protocolos de actuación (maltrato, vulneración de derechos, desregulación emocional) y aprobar formalmente el PGCE 2026.',
+          indicador: '100% de protocolos actualizados + Acta de sesión ordinaria del Consejo Escolar firmada.',
+          destinatarios: ['Equipo Directivo', 'Docentes', 'Apoderados', 'Estudiantes'],
+          responsable: 'Encargado de Convivencia Escolar',
+          fechaInicio: '2026-03-09',
+          horaInicio: '15:30',
+          fechaTermino: '2026-03-27',
+          horaTermino: '17:00'
+        },
+        {
+          dimension: 'Gestión Institucional',
+          marcoNormativo: 'Circular Superintendencia / Obligación de Difusión RICE',
+          nombre: `Jornada de Difusión y Socialización de Protocolos de Convivencia y Conductos Regulares ${levelTag}`,
+          objetivo: 'Asegurar que todos los estamentos conozcan las rutas de denuncia, medidas formativas y debido proceso establecidos en el Reglamento Interno.',
+          indicador: '100% de cursos y funcionarios informados + Registro firmado de recepción de información.',
+          destinatarios: ['Estudiantes', 'Apoderados', 'Docentes', 'Asistentes de la Educación'],
+          responsable: 'Encargado de Convivencia Escolar',
+          fechaInicio: '2026-04-06',
+          horaInicio: '09:00',
+          fechaTermino: '2026-04-24',
+          horaTermino: '10:30'
+        },
+        {
+          dimension: 'Formación',
+          marcoNormativo: 'Ley Aula Segura / Resolución Pacífica de Conflictos',
+          nombre: 'Capacitación a Docentes y Asistentes en Contención Emocional, Mediación y Manejo Formativo de Aula',
+          objetivo: 'Entregar estrategias prácticas de desescalada de conflictos y abordaje formativo de faltas disciplinarias a todo el personal.',
+          indicador: '95% de asistencia de docentes y asistentes + Lista de asistencia firmada + Material de taller.',
+          destinatarios: ['Docentes', 'Asistentes de la Educación'],
+          responsable: 'Psicólogo Convivencia Escolar',
+          fechaInicio: '2026-04-20',
+          horaInicio: '16:00',
+          fechaTermino: '2026-05-08',
+          horaTermino: '17:30'
+        },
+        {
+          ...focusActionMay,
+          fechaInicio: '2026-05-11',
+          horaInicio: '10:00',
+          fechaTermino: '2026-05-29',
+          horaTermino: '11:30'
+        },
+        {
+          dimension: 'Participación',
+          marcoNormativo: 'PME Dimensión Convivencia / Vinculación Familia-Escuela',
+          nombre: `Encuentro Formativo con Apoderados: Prevención de Riesgos y Crianza Respetuosa ${levelTag}`,
+          objetivo: 'Promover estrategias conjuntas entre familia y colegio para el acompañamiento socioemocional y prevención del ausentismo.',
+          indicador: '70% de participación de familias + Listas de asistencia por curso + Encuesta de evaluación.',
+          destinatarios: ['Apoderados'],
+          responsable: 'Coordinador Convivencia y Trabajador Social',
+          fechaInicio: '2026-06-08',
+          horaInicio: '18:00',
+          fechaTermino: '2026-06-19',
+          horaTermino: '19:30'
+        },
+        {
+          dimension: 'Participación',
+          marcoNormativo: 'Ley 20.536 / Diagnóstico Participativo de Clima Escolar',
+          nombre: `Aplicación y Análisis Participativo de Encuesta de Clima y Seguridad Escolar (1° Semestre) ${levelTag}`,
+          objetivo: 'Evaluar la percepción de convivencia, seguridad y sentido de pertenencia para retroalimentar el plan del segundo semestre.',
+          indicador: '80% de tasa de respuesta estudiantil + Informe de resultados presentado a Consejo Escolar.',
+          destinatarios: ['Estudiantes', 'Docentes', 'Apoderados'],
+          responsable: 'Equipo de Convivencia Escolar',
+          fechaInicio: '2026-07-20',
+          horaInicio: '09:30',
+          fechaTermino: '2026-08-07',
+          horaTermino: '11:30'
+        },
+        {
+          dimension: 'Formación',
+          marcoNormativo: 'Política Nacional de Convivencia Educativa / Formación Ciudadana',
+          nombre: `Semana de la Sana Convivencia y Formación de Mediadores Escolares Pares ${levelTag}`,
+          objetivo: 'Fomentar el liderazgo estudiantil positivo y la resolución dialogada de conflictos mediante actividades comunitarias y acreditación de mediadores.',
+          indicador: '2 mediadores acreditados por curso + Registro fotográfico + Bitácora de actividades.',
+          destinatarios: ['Estudiantes', 'Docentes', 'Asistentes de la Educación'],
+          responsable: 'Equipo de Convivencia y Centro de Estudiantes',
+          fechaInicio: '2026-08-17',
+          horaInicio: '08:30',
+          fechaTermino: '2026-08-28',
+          horaTermino: '13:00'
+        },
+        {
+          dimension: 'Prevención',
+          marcoNormativo: 'Ley 21.545 (Ley TEA) / Autocuidado y Salud Mental Escolar',
+          nombre: `Talleres de Educación Socioemocional, Autocuidado y Prevención de Conductas de Riesgo ${levelTag}`,
+          objetivo: 'Fortalecer la autoestima, gestión emocional y redes de apoyo en estudiantes durante el segundo semestre.',
+          indicador: '90% de cursos participantes + Planificaciones de orientación + Listas de asistencia.',
+          destinatarios: ['Estudiantes'],
+          responsable: 'Dupla Psicosocial y Orientación',
+          fechaInicio: '2026-09-21',
+          horaInicio: '10:00',
+          fechaTermino: '2026-10-09',
+          horaTermino: '11:30'
+        },
+        {
+          dimension: 'Participación',
+          marcoNormativo: 'Política Nacional de Convivencia Educativa / Reconocimiento Positivo',
+          nombre: `Jornada de Reconocimiento al Buen Trato y Participación Estudiantil ${levelTag}`,
+          objetivo: 'Destacar prácticas ejemplificadoras de solidaridad, respeto e inclusión entre estudiantes, funcionarios y apoderados.',
+          indicador: 'Ceremonia realizada + Nómina de reconocidos + Registro fotográfico y difusión a la comunidad.',
+          destinatarios: ['Estudiantes', 'Apoderados', 'Docentes', 'Asistentes de la Educación'],
+          responsable: 'Equipo de Convivencia y Dirección',
+          fechaInicio: '2026-10-19',
+          horaInicio: '11:00',
+          fechaTermino: '2026-10-30',
+          horaTermino: '12:30'
+        },
+        {
+          dimension: 'Gestión Institucional',
+          marcoNormativo: 'Superintendencia de Educación / Evaluación y Cuenta Pública PGCE',
+          nombre: 'Evaluación Anual del PGCE, Cierre de Dossier de Evidencias y Proyección 2027 en Consejo Escolar',
+          objetivo: 'Sistematizar indicadores de logro, verificar 100% de medios de verificación y aprobar propuestas de mejora para el siguiente año escolar.',
+          indicador: 'Informe Final de Evaluación PGCE + Acta de Consejo Escolar firmada + Dossier ZIP cerrado.',
+          destinatarios: ['Equipo Directivo', 'Docentes', 'Apoderados', 'Estudiantes'],
+          responsable: 'Encargado de Convivencia Escolar',
+          fechaInicio: '2026-11-16',
+          horaInicio: '15:30',
+          fechaTermino: '2026-12-04',
+          horaTermino: '17:00'
+        }
+      ];
+    }
+
+    function generateBatchPlanUI() {
+      const level = document.getElementById('autoLevel').value;
+      const focus = document.getElementById('autoFocus').value;
+      const plan = buildAnnualNormativePlan(level, focus);
+      state.lastGeneratedBatch = plan;
+
+      document.getElementById('generatedActionBox').classList.add('hidden');
+      const batchBox = document.getElementById('generatedPlanBatchBox');
+      const batchList = document.getElementById('batchPlanList');
+
+      batchList.innerHTML = plan.map((item, idx) => `
+        <div style="padding: 0.45rem 0; border-bottom: 1px solid #cbd5e1;">
+          <strong>${idx + 1}. [${escapeHTML(item.fechaInicio)} ${escapeHTML(item.horaInicio)} al ${escapeHTML(item.fechaTermino)} ${escapeHTML(item.horaTermino)}] ${escapeHTML(item.nombre)}</strong><br/>
+          <span style="color:#1e40af; font-weight:600;">Dimensión: ${escapeHTML(item.dimension)}</span> •
+          <span style="color:#475569;">⚖️ ${escapeHTML(item.marcoNormativo)}</span><br/>
+          <span style="color:#15803d;">📎 Evidencia esperada: ${escapeHTML(item.indicador)}</span>
+        </div>
+      `).join('');
+
+      batchBox.classList.remove('hidden');
+
+      document.getElementById('copilotOutput').textContent =
+        `=== FUNDAMENTACIÓN NORMATIVA DEL PLAN GENERADO ===\n\n` +
+        `• Estructura Temporal: 10 acciones distribuidas equilibradamente entre Marzo y Diciembre 2026 con bloques horarios sugeridos.\n` +
+        `• Cumplimiento Legal: Incorpora constitución del equipo, validación en Consejo Escolar, difusión obligatoria del RICE (Circular Superintendencia), capacitación docente (Ley Aula Segura), prevención de violencia/ciberacoso (Ley 20.536), inclusión (Ley 21.545 TEA) y cuenta pública anual.\n` +
+        `• Nota: Si usas "➕ Sumar al Plan Existente", el sistema omitirá automáticamente las acciones que ya existan para evitar repeticiones.`;
+    }
+
+    function runOfflineAudit() {
+      document.getElementById('generatedActionBox').classList.add('hidden');
+      document.getElementById('generatedPlanBatchBox').classList.add('hidden');
+      const output = document.getElementById('copilotOutput');
+      const total = state.actions.length;
+      if (total === 0) {
+        output.textContent = '⚠️ El plan está vacío. Usa el botón "🪄 Generar Calendarización Anual Normativa" arriba para crear todo tu plan 2026 en segundos.';
+        return;
+      }
+
+      const brechas = state.actions.filter(hasBrecha);
+      const dims = ['Formación', 'Prevención', 'Participación', 'Gestión Institucional'];
+      const missingDims = dims.filter(d => !state.actions.some(a => a.dimension === d));
+      const allEstamentos = new Set(state.actions.flatMap(a => a.destinatarios || []));
+      const requiredEst = ['Estudiantes', 'Apoderados', 'Docentes', 'Asistentes de la Educación'];
+      const missingEst = requiredEst.filter(e => !allEstamentos.has(e));
+
+      let report = `=== DIAGNÓSTICO PREVENTIVO DE FISCALIZACIÓN (${new Date().toLocaleDateString('es-CL')}) ===\n\n`;
+      report += `1. CUMPLIMIENTO DOCUMENTAL:\n`;
+      report += brechas.length === 0
+        ? `   ✅ Excelente: Ninguna acción implementada presenta ausencia de medios de verificación.\n\n`
+        : `   ❌ RIESGO ALTO: ${brechas.length} acción(es) marcada(s) como Implementada sin archivos adjuntos (${brechas.map(b => b.codigo).join(', ')}).\n\n`;
+
+      report += `2. COBERTURA DE DIMENSIONES (Política Nacional de Convivencia Educativa):\n`;
+      report += missingDims.length === 0
+        ? `   ✅ Las 4 dimensiones estratégicas están cubiertas.\n\n`
+        : `   ⚠️ Faltan acciones en: ${missingDims.join(', ')}.\n\n`;
+
+      report += `3. PARTICIPACIÓN MULTIESTAMENTAL:\n`;
+      report += missingEst.length === 0
+        ? `   ✅ Todos los estamentos clave (Estudiantes, Apoderados, Docentes y Asistentes) tienen acciones asignadas.\n\n`
+        : `   ⚠️ Considera incluir acciones dirigidas a: ${missingEst.join(', ')}.\n\n`;
+
+      report += `4. RECOMENDACIÓN DE AUDITORÍA:\n`;
+      report += `   • Asegúrate de que cada lista de asistencia tenga fecha, nombre de la actividad y firma de los asistentes.\n`;
+      report += `   • Exporta mensualmente el Dossier .ZIP como respaldo institucional.`;
+
+      output.textContent = report;
+    }
+
+    function extractJSONBlock(rawText) {
+      const jsonMatch = rawText.match(/```json\s*([\s\S]*?)```/i) || rawText.match(/(\{[\s\S]*\})/);
+      if (!jsonMatch) return null;
+      try {
+        const parsed = JSON.parse(jsonMatch[1]);
+        if (parsed && parsed.nombre && parsed.objetivo) {
+          return {
+            dimension: ['Formación', 'Prevención', 'Participación', 'Gestión Institucional'].includes(parsed.dimension)
+              ? parsed.dimension
+              : 'Formación',
+            nombre: String(parsed.nombre),
+            marcoNormativo: String(parsed.marcoNormativo || 'Ley 20.536 / Política Nacional de Convivencia Educativa'),
+            objetivo: String(parsed.objetivo),
+            indicador: String(parsed.indicador || 'Lista de asistencia firmada + Acta de ejecución'),
+            destinatarios: Array.isArray(parsed.destinatarios) && parsed.destinatarios.length > 0
+              ? parsed.destinatarios
+              : ['Estudiantes'],
+            responsable: String(parsed.responsable || 'Coordinador Convivencia Escolar'),
+            fechaInicio: parsed.fechaInicio || '2026-06-01',
+            horaInicio: parsed.horaInicio || '09:00',
+            fechaTermino: parsed.fechaTermino || '2026-06-15',
+            horaTermino: parsed.horaTermino || '10:30'
+          };
+        }
+      } catch (e) {
+        return null;
+      }
+      return null;
+    }
+
+    async function askAICopilot() {
+      const provider = document.getElementById('aiProvider').value;
+      const apiKey = document.getElementById('geminiApiKey').value.trim();
+      const ollamaModel = document.getElementById('ollamaModel').value.trim() || 'llama3.1';
+      const task = document.getElementById('copilotTask').value;
+      const userPrompt = document.getElementById('copilotPrompt').value.trim();
+      const output = document.getElementById('copilotOutput');
+      const cardBox = document.getElementById('generatedActionBox');
+
+      document.getElementById('generatedPlanBatchBox').classList.add('hidden');
+      cardBox.classList.add('hidden');
+      state.lastGeneratedDraft = null;
+
+      if (provider === 'gemini' && !apiKey) {
+        showToast('⚠️ Ingresa tu Gemini API Key, selecciona Ollama Local o usa el Generador Automático Offline.');
+        return;
+      }
+      if (apiKey) localStorage.setItem(STORAGE_KEY_GEMINI, apiKey);
+
+      output.textContent = provider === 'gemini'
+        ? '⏳ Consultando asesor experto en Gemini...'
+        : `⏳ Consultando modelo local Ollama (${ollamaModel}) en localhost:11434...`;
+
+      const planSummary = state.actions.map(a =>
+        `- ${a.codigo} [${a.dimension}] ${a.nombre} | Normativa: ${a.marcoNormativo} | Estado: ${a.estado} | Evidencias: ${a.evidencias.length}`
+      ).join('\n');
+
+      let promptText = '';
+      if (task === 'auditar_ia') {
+        promptText = `Actúa como un fiscalizador senior de la Superintendencia de Educación de Chile. Revisa este Plan de Gestión de la Convivencia Escolar (PGCE) y señala fortalezas, brechas normativas (Ley 20.536, Ley 21.809, Aula Segura) y qué medios de verificación exactos exigirías en una visita:\n\n${planSummary}`;
+      } else {
+        const focus = task === 'protocolo'
+          ? `Difusión y socialización obligatoria de Protocolos RICE / Ley 21.809: ${userPrompt}`
+          : (userPrompt || 'Jornada preventiva sobre buen trato y resolución pacífica de conflictos');
+
+        promptText = `Actúa como asesor experto en Convivencia Escolar en Chile. Diseña una acción fiscalizable para el PGCE 2026 basada en: "${focus}".
+Primero entrega una breve explicación pedagógica y normativa (máximo 8 líneas), y al final incluye OBLIGATORIAMENTE un bloque \`\`\`json con esta estructura exacta para importarla al sistema:
+{
+  "dimension": "Formación" | "Prevención" | "Participación" | "Gestión Institucional",
+  "nombre": "Título claro de la acción",
+  "marcoNormativo": "Leyes y normativa chilena aplicable",
+  "objetivo": "Objetivo operacional medible",
+  "indicador": "Indicador cuantitativo + medios de verificación exactos exigidos por Superintendencia",
+  "destinatarios": ["Estudiantes", "Apoderados", "Docentes", "Asistentes de la Educación"],
+  "responsable": "Cargo responsable",
+  "fechaInicio": "2026-06-08",
+  "horaInicio": "10:00",
+  "fechaTermino": "2026-06-19",
+  "horaTermino": "11:30"
+}`;
+      }
+
+      try {
+        let reply = '';
+        if (provider === 'gemini') {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: promptText }] }]
+            })
+          });
+          const data = await res.json();
+          if (data.error) throw new Error(data.error.message);
+          reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sin respuesta generada.';
+        } else {
+          const res = await fetch('http://localhost:11434/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: ollamaModel,
+              prompt: promptText,
+              stream: false
+            })
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status} — Verifica que Ollama esté corriendo con OLLAMA_ORIGINS="*"`);
+          const data = await res.json();
+          reply = data.response || 'Sin respuesta de Ollama.';
+        }
+
+        const draft = extractJSONBlock(reply);
+        const cleanText = reply.replace(/```json[\s\S]*?```/gi, '').trim();
+        output.textContent = cleanText || reply;
+
+        if (draft) {
+          state.lastGeneratedDraft = draft;
+          document.getElementById('generatedActionSummary').innerHTML = `
+            <strong>${escapeHTML(draft.nombre)}</strong> (${escapeHTML(draft.dimension)})<br/>
+            <span><strong>Horario:</strong> ${escapeHTML(draft.fechaInicio)} (${escapeHTML(draft.horaInicio)}) al ${escapeHTML(draft.fechaTermino)} (${escapeHTML(draft.horaTermino)})</span><br/>
+            <span><strong>Objetivo:</strong> ${escapeHTML(draft.objetivo)}</span><br/>
+            <span><strong>Indicador/Evidencias:</strong> ${escapeHTML(draft.indicador)}</span>
+          `;
+          cardBox.classList.remove('hidden');
+        }
+      } catch (err) {
+        output.textContent = `❌ Error al conectar con el asistente IA: ${err.message}`;
+      }
+    }
+
+    /**
+     * =========================================================================
+     * MÓDULO 9: GENERADOR DE DOSSIER DE FISCALIZACIÓN (.ZIP SIN DEPENDENCIAS)
+     * =========================================================================
+     */
+    function makeCRC32Table() {
+      const table = new Uint32Array(256);
+      for (let i = 0; i < 256; i++) {
+        let c = i;
+        for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+        table[i] = c;
+      }
+      return table;
+    }
+    const CRC_TABLE = makeCRC32Table();
+    function crc32(uint8) {
+      let crc = 0xFFFFFFFF;
+      for (let i = 0; i < uint8.length; i++) crc = CRC_TABLE[(crc ^ uint8[i]) & 0xFF] ^ (crc >>> 8);
+      return (crc ^ 0xFFFFFFFF) >>> 0;
+    }
+
+    function buildZipBlob(filesArray) {
+      const encoder = new TextEncoder();
+      const localChunks = [];
+      const centralChunks = [];
+      let offset = 0;
+
+      for (const f of filesArray) {
+        const nameBytes = encoder.encode(f.path);
+        const data = f.data;
+        const crc = crc32(data);
+        const size = data.length;
+
+        const localHeader = new Uint8Array(30 + nameBytes.length);
+        const lv = new DataView(localHeader.buffer);
+        lv.setUint32(0, 0x04034b50, true);
+        lv.setUint16(4, 20, true);
+        lv.setUint16(6, 0x0800, true);
+        lv.setUint16(8, 0, true);
+        lv.setUint32(14, crc, true);
+        lv.setUint32(18, size, true);
+        lv.setUint32(22, size, true);
+        lv.setUint16(26, nameBytes.length, true);
+        localHeader.set(nameBytes, 30);
+
+        const centralHeader = new Uint8Array(46 + nameBytes.length);
+        const cv = new DataView(centralHeader.buffer);
+        cv.setUint32(0, 0x02014b50, true);
+        cv.setUint16(4, 20, true);
+        cv.setUint16(6, 20, true);
+        cv.setUint16(8, 0x0800, true);
+        cv.setUint16(10, 0, true);
+        cv.setUint32(16, crc, true);
+        cv.setUint32(20, size, true);
+        cv.setUint32(24, size, true);
+        cv.setUint16(28, nameBytes.length, true);
+        cv.setUint32(42, offset, true);
+        centralHeader.set(nameBytes, 46);
+
+        localChunks.push(localHeader, data);
+        centralChunks.push(centralHeader);
+        offset += localHeader.length + size;
+      }
+
+      const centralSize = centralChunks.reduce((acc, c) => acc + c.length, 0);
+      const eocd = new Uint8Array(22);
+      const ev = new DataView(eocd.buffer);
+      ev.setUint32(0, 0x06054b50, true);
+      ev.setUint16(8, filesArray.length, true);
+      ev.setUint16(10, filesArray.length, true);
+      ev.setUint32(12, centralSize, true);
+      ev.setUint32(16, offset, true);
+
+      return new Blob([...localChunks, ...centralChunks, eocd], { type: 'application/zip' });
+    }
+
+    async function exportFiscalizacionZip() {
+      showToast('📦 Compilando Dossier Auditado y extrayendo evidencias...');
+      const encoder = new TextEncoder();
+      const zipFiles = [];
+
+      const rowsHtml = state.actions.map(a => {
+        const evList = a.evidencias.length > 0
+          ? a.evidencias.map(e => `<li><strong>[${escapeHTML(e.tipo)}]</strong> ${escapeHTML(e.nombreArchivo)}<br/><small style="font-family:monospace;color:#15803d;">SHA-256: ${e.hash}</small></li>`).join('')
+          : '<li style="color:#b91c1c;">Sin medios de verificación adjuntos</li>';
+
+        return `
+          <tr>
+            <td><strong>${escapeHTML(a.codigo)}</strong><br/>${escapeHTML(a.dimension)}</td>
+            <td><strong>${escapeHTML(a.nombre)}</strong><br/><small>${escapeHTML(a.marcoNormativo)}</small><p>${escapeHTML(a.objetivo)}</p></td>
+            <td>${escapeHTML(formatScheduleDisplay(a))}</td>
+            <td><strong>${escapeHTML(a.estado)}</strong></td>
+            <td><ul>${evList}</ul></td>
+          </tr>
+        `;
+      }).join('');
+
+      const reportHtml = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Dossier Fiscalización PGCE 2026</title>
+      <style>body{font-family:Arial,sans-serif;padding:24px;color:#0f172a}table{width:100%;border-collapse:collapse;margin-top:16px}th,td{border:1px solid #cbd5e1;padding:10px;vertical-align:top;font-size:13px}th{background:#f1f5f9}</style>
+      </head><body>
+      <h1>Dossier de Fiscalización — Plan de Gestión de la Convivencia Escolar 2026</h1>
+      <p><strong>Establecimiento:</strong> ${escapeHTML(state.schoolName)} | <strong>Fecha Emisión:</strong> ${new Date().toLocaleString('es-CL')}</p>
+      <table><thead><tr><th>Código</th><th>Acción y Normativa</th><th>Fecha y Horario</th><th>Estado</th><th>Medios de Verificación (SHA-256)</th></tr></thead>
+      <tbody>${rowsHtml}</tbody></table></body></html>`;
+
+      zipFiles.push({
+        path: '00_Informe_Ejecutivo_Fiscalizacion_PGCE_2026.html',
+        data: encoder.encode(reportHtml)
+      });
+
+      zipFiles.push({
+        path: '00_Respaldo_Datos_PGCE_2026.json',
+        data: encoder.encode(JSON.stringify(state.actions, null, 2))
+      });
+
+      for (const a of state.actions) {
+        for (const ev of a.evidencias) {
+          if (!ev.isDemoMock) {
+            const record = await vault.getFile(ev.id);
+            if (record && record.blob) {
+              const ab = await record.blob.arrayBuffer();
+              zipFiles.push({
+                path: `Evidencias_${a.codigo}/${ev.nombreArchivo}`,
+                data: new Uint8Array(ab)
+              });
+            }
+          }
+        }
+      }
+
+      const zipBlob = buildZipBlob(zipFiles);
+      const url = URL.createObjectURL(zipBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Dossier_Fiscalizacion_PGCE_2026_${new Date().toISOString().slice(0, 10)}.zip`;
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast('✅ Dossier .ZIP descargado con informe y evidencias reales.');
+    }
+
+    /**
+     * =========================================================================
+     * MÓDULO 10: EVENT LISTENERS E INICIALIZACIÓN
+     * =========================================================================
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      loadInitialData();
+
+      document.getElementById('btnTheme').addEventListener('click', () => {
+        const html = document.documentElement;
+        html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+      });
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => setActiveMainView(btn.dataset.view));
+      });
+
+      ['filterSearch', 'filterDimension', 'filterEstado'].forEach(id => {
+        document.getElementById(id).addEventListener('input', renderAll);
+        document.getElementById(id).addEventListener('change', renderAll);
+      });
+
+      document.getElementById('btnFilterBrechas').addEventListener('click', () => {
+        document.getElementById('filterEstado').value = 'BRECHA';
+        renderAll();
+      });
+
+      document.getElementById('btnDeduplicate').addEventListener('click', deduplicateActions);
+      document.getElementById('btnCloudSync').addEventListener('click', syncPushToCloud);
+
+      document.body.addEventListener('click', (e) => {
+        const openTrigger = e.target.closest('[data-open-id]');
+        if (openTrigger) {
+          openActionModal(openTrigger.dataset.openId, openTrigger.dataset.openTab || 'ficha');
+          return;
+        }
+        const doneTrigger = e.target.closest('[data-mark-done-id]');
+        if (doneTrigger) {
+          markActionAsImplemented(doneTrigger.dataset.markDoneId);
+        }
+      });
+
+      document.querySelectorAll('.modal-tab[data-mtab]').forEach(btn => {
+        btn.addEventListener('click', () => switchModalTab(btn.dataset.mtab));
+      });
+
+      document.getElementById('btnNewAction').addEventListener('click', () => openActionModal(null, 'ficha'));
+
+      document.getElementById('btnSaveFicha').addEventListener('click', () => {
+        const form = document.getElementById('formFicha');
+        if (!form.reportValidity()) return;
+
+        const destinatarios = Array.from(document.querySelectorAll('#fEstamentosGroup input:checked')).map(cb => cb.value);
+        if (destinatarios.length === 0) {
+          showToast('⚠️ Selecciona al menos un estamento destinatario.');
+          return;
+        }
+
+        const editId = document.getElementById('editActionId').value;
+        const nombreVal = document.getElementById('fNombre').value.trim();
+
+        // Alerta preventiva de duplicado al guardar
+        const normKey = normalizeActionKey({ nombre: nombreVal });
+        const duplicateExists = state.actions.some(a => a.id !== editId && normalizeActionKey(a) === normKey);
+        if (duplicateExists) {
+          showToast('⚠️ Aviso: Ya existe una acción con ese mismo nombre en la planificación.');
+        }
+
+        const payload = {
+          codigo: document.getElementById('fCodigo').value.trim(),
+          dimension: document.getElementById('fDimension').value,
+          estado: document.getElementById('fEstado').value,
+          nombre: nombreVal,
+          marcoNormativo: document.getElementById('fNormativa').value.trim(),
+          objetivo: document.getElementById('fObjetivo').value.trim(),
+          indicador: document.getElementById('fIndicador').value.trim(),
+          fechaInicio: document.getElementById('fInicio').value,
+          horaInicio: document.getElementById('fHoraInicio').value || '09:00',
+          fechaTermino: document.getElementById('fTermino').value,
+          horaTermino: document.getElementById('fHoraTermino').value || '10:30',
+          responsable: document.getElementById('fResponsable').value.trim(),
+          destinatarios
+        };
+
+        if (editId) {
+          const idx = state.actions.findIndex(a => a.id === editId);
+          if (idx !== -1) {
+            state.actions[idx] = { ...state.actions[idx], ...payload };
+          }
+          showToast('✅ Ficha actualizada correctamente.');
+        } else {
+          state.actions.push({
+            id: 'act-' + crypto.randomUUID(),
+            ...payload,
+            reprogramaciones: [],
+            evidencias: []
+          });
+          showToast('✅ Nueva acción agregada al PGCE.');
+        }
+
+        persistPlan();
+        document.getElementById('actionModal').close();
+      });
+
+      document.getElementById('btnDeleteAction').addEventListener('click', () => {
+        if (!state.activeModalActionId) return;
+        state.actions = state.actions.filter(a => a.id !== state.activeModalActionId);
+        persistPlan();
+        document.getElementById('actionModal').close();
+        showToast('🗑️ Acción eliminada del plan.');
+      });
+
+      document.getElementById('btnCloneAction').addEventListener('click', () => {
+        const orig = state.actions.find(a => a.id === state.activeModalActionId);
+        if (!orig) return;
+        const copy = structuredClone(orig);
+        copy.id = 'act-' + crypto.randomUUID();
+        copy.codigo = `${orig.codigo}-COPIA`;
+        copy.nombre = `${orig.nombre} (Copia)`;
+        copy.estado = 'Planificada';
+        copy.evidencias = [];
+        copy.reprogramaciones = [];
+        state.actions.push(copy);
+        persistPlan();
+        document.getElementById('actionModal').close();
+        showToast('📋 Acción duplicada lista para editar.');
+      });
+
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('fileInput');
+      dropzone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) handleEvidenceFiles(e.target.files);
+        e.target.value = '';
+      });
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) handleEvidenceFiles(e.dataTransfer.files);
+      });
+
+      document.getElementById('modalEvidenceList').addEventListener('click', async (e) => {
+        const delBtn = e.target.closest('[data-delete-ev]');
+        const dlBtn = e.target.closest('[data-download-ev]');
+        const action = state.actions.find(a => a.id === state.activeModalActionId);
+        if (!action) return;
+
+        if (delBtn) {
+          const evId = delBtn.dataset.deleteEv;
+          await vault.deleteFile(evId);
+          action.evidencias = action.evidencias.filter(ev => ev.id !== evId);
+          persistPlan();
+          renderModalEvidences(action);
+          showToast('🗑️ Evidencia eliminada.');
+        }
+
+        if (dlBtn) {
+          const evId = dlBtn.dataset.downloadEv;
+          const record = await vault.getFile(evId);
+          if (record && record.blob) {
+            const url = URL.createObjectURL(record.blob);
+            window.open(url, '_blank');
+          }
+        }
+      });
+
+      document.getElementById('btnAddReprogramacion').addEventListener('click', () => {
+        const action = state.actions.find(a => a.id === state.activeModalActionId);
+        if (!action) return;
+        const nIni = document.getElementById('repNuevaInicio').value;
+        const nHIni = document.getElementById('repNuevaHoraInicio').value || '09:00';
+        const nTer = document.getElementById('repNuevaTermino').value;
+        const nHTer = document.getElementById('repNuevaHoraTermino').value || '10:30';
+        const motivo = document.getElementById('repMotivo').value.trim();
+
+        if (!nIni || !nTer || !motivo) {
+          showToast('⚠️ Completa nuevas fechas y justificación técnica.');
+          return;
+        }
+
+        action.reprogramaciones.push({
+          fechaRegistro: new Date().toISOString(),
+          anterior: `${action.fechaInicio} (${action.horaInicio || '09:00'}) al ${action.fechaTermino} (${action.horaTermino || '10:30'})`,
+          nueva: `${nIni} (${nHIni}) al ${nTer} (${nHTer})`,
+          motivo
+        });
+        action.fechaInicio = nIni;
+        action.horaInicio = nHIni;
+        action.fechaTermino = nTer;
+        action.horaTermino = nHTer;
+        action.estado = 'Reprogramada';
+
+        document.getElementById('repMotivo').value = '';
+        persistPlan();
+        renderReprogramacionHistory(action);
+        showToast('↻ Reprogramación registrada en bitácora auditada.');
+      });
+
+      document.getElementById('btnProgressReport').addEventListener('click', () => {
+        renderProgressReportPreview();
+        document.getElementById('progressReportModal').showModal();
+      });
+
+      document.getElementById('reportPeriodType').addEventListener('change', (e) => {
+        document.getElementById('reportMonthGroup').classList.toggle('hidden', e.target.value !== 'MENSUAL');
+        renderProgressReportPreview();
+      });
+      document.getElementById('reportMonthSelect').addEventListener('change', renderProgressReportPreview);
+      document.getElementById('btnDownloadReportHtml').addEventListener('click', downloadProgressReportHTML);
+      document.getElementById('btnPrintReportWindow').addEventListener('click', printProgressReportWindow);
+
+      document.getElementById('btnExportCenter').addEventListener('click', () => {
+        renderNewsletterPreview();
+        document.getElementById('exportCenterModal').showModal();
+      });
+
+      document.querySelectorAll('.modal-tab[data-etab]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.modal-tab[data-etab]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const t = btn.dataset.etab;
+          document.getElementById('exportTabDocs').classList.toggle('hidden', t !== 'docs');
+          document.getElementById('exportTabMail').classList.toggle('hidden', t !== 'mail');
+        });
+      });
+
+      document.getElementById('btnPrintMatriz').addEventListener('click', () => printOfficialDocument('matriz'));
+      document.getElementById('btnPrintGantt').addEventListener('click', () => printOfficialDocument('gantt'));
+      document.getElementById('btnDownloadGanttPng').addEventListener('click', exportGanttToPNG);
+      document.getElementById('btnGanttPngQuick').addEventListener('click', exportGanttToPNG);
+      document.getElementById('btnExportCsv').addEventListener('click', exportToExcelCSV);
+
+      document.getElementById('shareScope').addEventListener('change', renderNewsletterPreview);
+      document.getElementById('shareEstamento').addEventListener('change', renderNewsletterPreview);
+      document.getElementById('btnCopyRichMail').addEventListener('click', copyRichNewsletter);
+      document.getElementById('btnOpenMailto').addEventListener('click', openMailtoClient);
+      document.getElementById('btnDownloadICS').addEventListener('click', downloadICSFile);
+
+      document.getElementById('btnCopilot').addEventListener('click', () => {
+        document.getElementById('geminiApiKey').value = localStorage.getItem(STORAGE_KEY_GEMINI) || '';
+        document.getElementById('copilotModal').showModal();
+      });
+
+      document.getElementById('btnGenerateAnnualPlan').addEventListener('click', generateBatchPlanUI);
+
+      document.getElementById('btnReplaceWithBatchPlan').addEventListener('click', async () => {
+        if (!state.lastGeneratedBatch) return;
+        await vault.clearAll();
+        state.actions = state.lastGeneratedBatch.map((item, i) => ({
+          id: 'act-' + crypto.randomUUID(),
+          codigo: `PGCE-2026-${String(i + 1).padStart(2, '0')}`,
+          ...item,
+          estado: 'Planificada',
+          reprogramaciones: [],
+          evidencias: []
+        }));
+        persistPlan();
+        document.getElementById('copilotModal').close();
+        showToast('✅ Plan Anual Normativo (10 acciones con horarios) cargado.');
+      });
+
+      document.getElementById('btnAppendBatchPlan').addEventListener('click', () => {
+        if (!state.lastGeneratedBatch) return;
+        const existingKeys = new Set(state.actions.map(normalizeActionKey));
+        const nonDuplicates = state.lastGeneratedBatch.filter(item => !existingKeys.has(normalizeActionKey(item)));
+
+        const startIdx = state.actions.length;
+        const added = nonDuplicates.map((item, i) => ({
+          id: 'act-' + crypto.randomUUID(),
+          codigo: `PGCE-2026-${String(startIdx + i + 1).padStart(2, '0')}`,
+          ...item,
+          estado: 'Planificada',
+          reprogramaciones: [],
+          evidencias: []
+        }));
+        state.actions.push(...added);
+        persistPlan();
+        document.getElementById('copilotModal').close();
+        showToast(`✅ Se sumaron ${added.length} acciones nuevas (omitidas las repetidas).`);
+      });
+
+      document.getElementById('aiProvider').addEventListener('change', (e) => {
+        const isOllama = e.target.value === 'ollama';
+        document.getElementById('geminiKeyGroup').classList.toggle('hidden', isOllama);
+        document.getElementById('ollamaModelGroup').classList.toggle('hidden', !isOllama);
+      });
+
+      document.getElementById('btnRunOfflineAudit').addEventListener('click', runOfflineAudit);
+      document.getElementById('btnAskAI').addEventListener('click', askAICopilot);
+
+      document.getElementById('btnApplyDirectToPlan').addEventListener('click', () => {
+        if (!state.lastGeneratedDraft) return;
+        state.actions.push({
+          id: 'act-' + crypto.randomUUID(),
+          codigo: `PGCE-2026-${String(state.actions.length + 1).padStart(2, '0')}`,
+          ...state.lastGeneratedDraft,
+          estado: 'Planificada',
+          reprogramaciones: [],
+          evidencias: []
+        });
+        persistPlan();
+        document.getElementById('copilotModal').close();
+        showToast('✅ Acción incorporada directamente a la matriz PGCE.');
+      });
+
+      document.getElementById('btnOpenInEditor').addEventListener('click', () => {
+        if (!state.lastGeneratedDraft) return;
+        const draft = structuredClone(state.lastGeneratedDraft);
+        document.getElementById('copilotModal').close();
+        openActionModal(null, 'ficha', draft);
+      });
+
+      // Modal Configuración y Nube Google Drive
+      document.getElementById('btnBackupMenu').addEventListener('click', () => {
+        document.getElementById('gasWebAppUrl').value = state.cloudConfig.url || '';
+        document.getElementById('driveRootFolderId').value = state.cloudConfig.folderId || '';
+        document.getElementById('cloudSyncPin').value = state.cloudConfig.pin || '';
+        document.getElementById('settingsModal').showModal();
+      });
+
+      document.getElementById('btnSaveCloudConfig').addEventListener('click', () => {
+        state.cloudConfig = {
+          url: document.getElementById('gasWebAppUrl').value.trim(),
+          folderId: document.getElementById('driveRootFolderId').value.trim(),
+          pin: document.getElementById('cloudSyncPin').value.trim()
+        };
+        localStorage.setItem(STORAGE_KEY_CLOUD, JSON.stringify(state.cloudConfig));
+        updateCloudBadge();
+        showToast('☁️ Configuración de Google Drive guardada.');
+      });
+
+      document.getElementById('btnPullFromCloud').addEventListener('click', syncPullFromCloud);
+      document.getElementById('btnPushToCloud').addEventListener('click', syncPushToCloud);
+
+      document.getElementById('btnSaveSchoolName').addEventListener('click', () => {
+        const val = document.getElementById('schoolNameInput').value.trim();
+        if (!val) return;
+        state.schoolName = val;
+        localStorage.setItem(STORAGE_KEY_SCHOOL, val);
+        updateSchoolHeader();
+        showToast('✅ Nombre del establecimiento actualizado.');
+      });
+
+      document.getElementById('btnExportJSON').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(state.actions, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Respaldo_PGCE_2026_${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('⬇️ Respaldo JSON descargado.');
+      });
+
+      document.getElementById('btnImportJSONTrigger').addEventListener('click', () => {
+        document.getElementById('importJSONInput').click();
+      });
+
+      document.getElementById('importJSONInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        try {
+          const text = await file.text();
+          const imported = JSON.parse(text);
+          if (!Array.isArray(imported)) throw new Error('Formato inválido');
+          state.actions = imported;
+          persistPlan();
+          document.getElementById('settingsModal').close();
+          showToast('⬆️ Plan importado correctamente.');
+        } catch (err) {
+          showToast('❌ Archivo JSON inválido.');
+        }
+        e.target.value = '';
+      });
+
+      document.getElementById('btnResetBlank').addEventListener('click', async () => {
+        state.actions = [];
+        await vault.clearAll();
+        persistPlan();
+        document.getElementById('settingsModal').close();
+        showToast('🧹 Plan iniciado en blanco. Listo para tu planificación oficial.');
+      });
+
+      document.getElementById('btnExportZip').addEventListener('click', exportFiscalizacionZip);
+    });
+  </script>
+</body>
+</html>
