@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PGCE Audit Pro 2026 (v6.0) — Sincronización Cloud Drive, Deduplicación y Fiscalización</title>
+  <title>PGCE Audit Pro 2027 (v10.0) — Reglas Institucionales, Reajuste Automático Alfred & Helena</title>
   <style>
     :root {
       --bg-app: #f1f5f9;
@@ -759,20 +759,29 @@
       <div class="brand-icon">PGCE</div>
       <div class="brand-text">
         <h1>
-          PGCE Audit Pro 2026
-          <span class="badge-normativa">v6.0 • Cloud & Audit</span>
+          PGCE Audit Pro 2027
+          <span class="badge-normativa">v10.0 • Reglas & Auto-Reajuste</span>
           <span id="cloudStatusBadge" class="badge-cloud" title="Estado de sincronización multi-dispositivo con Google Drive">💾 Local</span>
         </h1>
-        <p id="schoolSubtitle">Plan de Gestión de la Convivencia Escolar • Trazabilidad y Medios de Verificación</p>
+        <p id="schoolSubtitle">Colegio Nuestra Señora de las Mercedes • Plan de Gestión Convivencia Educativa 2027 (Ley 21.809)</p>
       </div>
     </div>
 
     <div class="header-actions">
       <button type="button" id="btnCloudSync" class="btn-primary" title="Sincronizar Plan y Evidencias con Google Drive (Multi-dispositivo)">
-        ☁️ Sincronizar Nube
+        ☁️ Guardar Drive
       </button>
-      <button type="button" id="btnCopilot" class="btn-accent" title="Generar Plan Anual Automático y Asesoría Normativa">
-        ✨ Asistente
+      <button type="button" id="btnCalendarSync" class="btn-success" title="Crear y actualizar todas las actividades en Google Calendar con recordatorios">
+        📅 Agendar Calendar
+      </button>
+      <button type="button" id="btnRulesCenter" class="btn-primary" style="background:#0f766e; border-color:#0f766e;" title="Definir reglas operativas del colegio (días, horarios, lugares) para Alfred y Helena">
+        📜 Reglas Agentes
+      </button>
+      <button type="button" id="btnCopilot" class="btn-accent" title="Alfred: Agente Creador y Planificador PGCE 2027 (Ley 21.809)">
+        🎩 Alfred (Creador)
+      </button>
+      <button type="button" id="btnSecretaria" class="btn-warning" title="Helena: Secretaria Virtual y Agente Fiscalizadora 24/7">
+        🕵️‍♀️ Helena (Fiscalizadora)
       </button>
       <button type="button" id="btnDeduplicate" class="btn-warning" title="Detectar y eliminar planificaciones repetidas priorizando conservar las que tienen evidencia">
         🧹 Limpiar Repetidas
@@ -801,7 +810,7 @@
 
     <!-- ENCABEZADO EXCLUSIVO PARA IMPRESIÓN / PDF OFICIAL -->
     <div class="print-only-header">
-      <h2 id="printDocTitle" style="font-size: 16px; color: #1e3a8a;">PLAN DE GESTIÓN DE LA CONVIVENCIA ESCOLAR (PGCE) — AÑO 2026</h2>
+      <h2 id="printDocTitle" style="font-size: 16px; color: #1e3a8a;">PLAN DE GESTIÓN DE LA CONVIVENCIA EDUCATIVA (PGCE) — AÑO 2027 (LEY N° 21.809)</h2>
       <p id="printDocSubtitle" style="font-size: 12px; color: #334155;">Establecimiento Educacional • Documento Oficial de Planificación y Cronograma</p>
     </div>
 
@@ -874,9 +883,9 @@
       <table>
         <thead>
           <tr>
-            <th>Código / Dimensión</th>
-            <th>Acción y Marco Normativo</th>
-            <th>Destinatarios / Responsable</th>
+            <th>Código / Art. 16 D</th>
+            <th>Acción y Objetivo Formativo</th>
+            <th>Lugar / Responsable</th>
             <th>Fecha y Horario</th>
             <th>Estado Fiscalizable</th>
             <th class="no-print">Evidencias</th>
@@ -890,7 +899,7 @@
     <!-- VISTA 2: CARTA GANTT ANUAL -->
     <section id="viewGantt" class="gantt-container hidden">
       <div style="margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-        <strong>Cronograma Anual de Ejecución (Marzo — Diciembre 2026)</strong>
+        <strong>Cronograma Anual de Ejecución (Marzo — Diciembre 2027 • Ley 21.809)</strong>
         <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
           <span style="font-size: 0.78rem; color: var(--text-light);">
             🟩 Implementada &nbsp;|&nbsp; 🟦 Planificada / En curso &nbsp;|&nbsp; 🟥 Brecha
@@ -929,7 +938,7 @@
 
         <div class="form-group">
           <label for="fCodigo">Código Identificador *</label>
-          <input type="text" id="fCodigo" required placeholder="Ej: PGCE-2026-05" />
+          <input type="text" id="fCodigo" required placeholder="Ej: PGCE-2027-05" />
         </div>
 
         <div class="form-group">
@@ -949,6 +958,19 @@
             <option value="En Ejecución">En Ejecución</option>
             <option value="Implementada">Implementada</option>
             <option value="Reprogramada">Reprogramada</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label for="fLetra16D">Contenido Mínimo Obligatorio Ley N° 21.809 (Art. 16 D) *</label>
+          <select id="fLetra16D" required>
+            <option value="a) Coordinación técnico-pedagógica y administrativa">a) Coordinación técnico-pedagógica y administrativa (UTP / PME)</option>
+            <option value="b) Información, difusión y formación">b) Información, difusión y formación (Buen trato, no discriminación, prevención acoso/ciberacoso)</option>
+            <option value="c) Bienestar, aprendizaje socioemocional y salud mental">c) Bienestar, aprendizaje socioemocional y salud mental</option>
+            <option value="d) Gestión colaborativa de conflictos y prevención de riesgos">d) Gestión colaborativa de conflictos y prevención de riesgos</option>
+            <option value="e) Calendarización anual verificable">e) Calendarización anual verificable</option>
+            <option value="f) Participación protagónica de estudiantes">f) Participación protagónica de estudiantes</option>
+            <option value="g) Formación para madres, padres y apoderados">g) Formación para madres, padres y apoderados</option>
           </select>
         </div>
 
@@ -992,9 +1014,19 @@
           <input type="time" id="fHoraTermino" required value="10:30" />
         </div>
 
-        <div class="form-group full">
+        <div class="form-group">
+          <label for="fLugar">Lugar de Ejecución (Exigido Art. 16 D) *</label>
+          <input type="text" id="fLugar" required placeholder="Ej: Salas de clase / Gimnasio / Biblioteca" />
+        </div>
+
+        <div class="form-group">
           <label for="fResponsable">Responsable / Cargo *</label>
-          <input type="text" id="fResponsable" required placeholder="Ej: Encargado Convivencia Escolar" />
+          <input type="text" id="fResponsable" required placeholder="Ej: Coordinador Convivencia / Psicóloga" />
+        </div>
+
+        <div class="form-group full">
+          <label for="fResponsableEmail">Correo Institucional del Responsable (Para invitación Google Calendar)</label>
+          <input type="text" id="fResponsableEmail" placeholder="Ej: convivencia@colegio.cl, psicologia@colegio.cl" />
         </div>
 
         <div class="form-group full">
@@ -1147,16 +1179,16 @@
             <label for="shareScope">Alcance Temporal</label>
             <select id="shareScope">
               <option value="GLOBAL">Calendarización Anual Global (Todo el año)</option>
-              <option value="03">Mensual: Marzo 2026</option>
-              <option value="04">Mensual: Abril 2026</option>
-              <option value="05">Mensual: Mayo 2026</option>
-              <option value="06">Mensual: Junio 2026</option>
-              <option value="07">Mensual: Julio 2026</option>
-              <option value="08">Mensual: Agosto 2026</option>
-              <option value="09">Mensual: Septiembre 2026</option>
-              <option value="10">Mensual: Octubre 2026</option>
-              <option value="11">Mensual: Noviembre 2026</option>
-              <option value="12">Mensual: Diciembre 2026</option>
+              <option value="03">Mensual: Marzo 2027</option>
+              <option value="04">Mensual: Abril 2027</option>
+              <option value="05">Mensual: Mayo 2027</option>
+              <option value="06">Mensual: Junio 2027</option>
+              <option value="07">Mensual: Julio 2027</option>
+              <option value="08">Mensual: Agosto 2027</option>
+              <option value="09">Mensual: Septiembre 2027</option>
+              <option value="10">Mensual: Octubre 2027</option>
+              <option value="11">Mensual: Noviembre 2027</option>
+              <option value="12">Mensual: Diciembre 2027</option>
             </select>
           </div>
 
@@ -1210,9 +1242,9 @@
         <div class="form-group">
           <label for="reportPeriodType">Tipo de Informe</label>
           <select id="reportPeriodType">
-            <option value="ANUAL">Informe Anual Completo (Marzo — Diciembre 2026)</option>
-            <option value="SEM1">Informe 1° Semestre (Marzo — Julio 2026)</option>
-            <option value="SEM2">Informe 2° Semestre (Agosto — Diciembre 2026)</option>
+            <option value="ANUAL">Informe Anual Completo (Marzo — Diciembre 2027)</option>
+            <option value="SEM1">Informe 1° Semestre (Marzo — Julio 2027)</option>
+            <option value="SEM2">Informe 2° Semestre (Agosto — Diciembre 2027)</option>
             <option value="MENSUAL">Informe Mensual Específico</option>
           </select>
         </div>
@@ -1220,16 +1252,16 @@
         <div class="form-group hidden" id="reportMonthGroup">
           <label for="reportMonthSelect">Selecciona el Mes</label>
           <select id="reportMonthSelect">
-            <option value="03">Marzo 2026</option>
-            <option value="04">Abril 2026</option>
-            <option value="05">Mayo 2026</option>
-            <option value="06">Junio 2026</option>
-            <option value="07">Julio 2026</option>
-            <option value="08">Agosto 2026</option>
-            <option value="09">Septiembre 2026</option>
-            <option value="10">Octubre 2026</option>
-            <option value="11">Noviembre 2026</option>
-            <option value="12">Diciembre 2026</option>
+            <option value="03">Marzo 2027</option>
+            <option value="04">Abril 2027</option>
+            <option value="05">Mayo 2027</option>
+            <option value="06">Junio 2027</option>
+            <option value="07">Julio 2027</option>
+            <option value="08">Agosto 2027</option>
+            <option value="09">Septiembre 2027</option>
+            <option value="10">Octubre 2027</option>
+            <option value="11">Noviembre 2027</option>
+            <option value="12">Diciembre 2027</option>
           </select>
         </div>
       </div>
@@ -1252,11 +1284,26 @@
   <!-- MODAL 4: ASISTENTE COPILOTO DE CONVIVENCIA ESCOLAR -->
   <dialog id="copilotModal">
     <div class="modal-header">
-      <h2>✨ Asistente Normativo y Generador de Plan Anual PGCE (v6.0)</h2>
+      <h2>🎩 Alfred — Agente Creador y Planificador PGCE 2027 (Ley N° 21.809)</h2>
       <button type="button" class="btn-sm" onclick="document.getElementById('copilotModal').close()">✕</button>
     </div>
 
     <div class="modal-body">
+
+      <div class="copilot-box" style="background: var(--warning-soft); border-color: rgba(180, 83, 9, 0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <strong style="color: var(--warning);">📆 Preparación Anticipada para Revisión (1ª Semana de Diciembre)</strong>
+          <span class="badge-normativa" style="background: #fff; color: var(--warning);">Trabajo Autónomo de Alfred</span>
+        </div>
+        <p style="font-size: 0.81rem; color: var(--text-muted);">
+          Alfred puede comenzar <strong>ahora mismo</strong> a estructurar el borrador maestro 2027 completo (cubriendo las 7 letras obligatorias del Art. 16 D de la Ley N° 21.809, lugares, horarios y evidencias), guardarlo en tu Google Drive como <code>PGCE_2027_Borrador_Alfred.json</code> y enviarte un aviso a tu correo para que lo revises y apruebes en la <strong>primera semana de diciembre</strong>.
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button type="button" id="btnAlfredPrepareDecember" class="btn-primary btn-sm">🎩 Ordenar a Alfred Preparar Borrador 2027 Ahora</button>
+          <button type="button" id="btnAlfredLoadDraft" class="btn-success btn-sm">📥 Cargar Borrador de Alfred desde Drive</button>
+        </div>
+      </div>
+
       <div class="copilot-box" style="background: var(--success-soft); border-color: rgba(21, 128, 61, 0.35);">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
           <strong style="color: var(--success);">🪄 1. Generador Automático de Plan Anual Normativo (Marzo — Diciembre)</strong>
@@ -1296,8 +1343,9 @@
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
           <strong style="color: var(--success);" id="batchPlanTitle">📋 Propuesta de Plan Anual Lista (10 Acciones Marzo–Diciembre):</strong>
           <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
-            <button type="button" id="btnReplaceWithBatchPlan" class="btn-success btn-sm">✅ Reemplazar Plan Actual por Este</button>
-            <button type="button" id="btnAppendBatchPlan" class="btn-primary btn-sm">➕ Sumar al Plan Existente (Sin Duplicar)</button>
+            <button type="button" id="btnReplaceWithBatchPlan" class="btn-success btn-sm">✅ Aplicar Cambios / Reemplazar Plan</button>
+            <button type="button" id="btnApplyAndSyncCalendar" class="btn-primary btn-sm">📅 Aplicar y Actualizar Google Calendar</button>
+            <button type="button" id="btnAppendBatchPlan" class="btn-sm">➕ Sumar sin Duplicar</button>
           </div>
         </div>
         <div id="batchPlanList" style="font-size: 0.8rem; color: #0f172a; max-height: 180px; overflow-y: auto; background: rgba(255,255,255,0.75); padding: 0.6rem; border-radius: 6px;"></div>
@@ -1325,17 +1373,19 @@
           </div>
 
           <div class="form-group">
-            <label for="copilotTask">¿Qué deseas solicitar?</label>
+            <label for="copilotTask">¿Qué deseas que haga el Agente?</label>
             <select id="copilotTask">
+              <option value="reajustar_plan">🔄 Readecuar Plan Actual según Instrucción y Reglas (Fechas/Lugares/Horarios)</option>
+              <option value="ingestar_mineduc">📅 Adaptar Circular / Efemérides Mineduc 2027 al Plan (Lote)</option>
               <option value="redactar">Diseñar 1 acción específica e insertarla en el Plan</option>
-              <option value="protocolo">Crear acción de difusión de Protocolos RICE / Ley 21.809</option>
-              <option value="auditar_ia">Simular fiscalización de la Superintendencia al plan actual</option>
+              <option value="protocolo">Crear acción de difusión obligatoria Art. 16 G (RICE / PGCE)</option>
+              <option value="auditar_ia">Simular fiscalización Superintendencia (Art. 16 D, 16 G, 16 H)</option>
             </select>
           </div>
 
           <div class="form-group full">
-            <label for="copilotPrompt">Describe el tema o necesidad específica</label>
-            <input type="text" id="copilotPrompt" placeholder="Ej: Jornada sobre manejo de conflictos en recreos para asistentes de la educación" />
+            <label for="copilotPrompt">Pega aquí las efemérides/fechas del Mineduc 2027 o describe la necesidad</label>
+            <textarea id="copilotPrompt" rows="4" placeholder="Ej. para Readecuar: 'Mueve todas las capacitaciones docentes a los viernes de 14:30 a 16:30 en la Biblioteca, corre las actividades de mayo una semana por aniversario del colegio y aplica todas mis reglas guardadas'. O pega aquí las efemérides del Mineduc 2027..."></textarea>
           </div>
         </div>
         <div>
@@ -1387,7 +1437,7 @@
       <div style="background: var(--primary-soft); border: 1px solid rgba(37, 99, 235, 0.3); padding: 1rem; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 0.6rem;">
         <strong style="color: var(--primary);">☁️ Sincronización Multi-Dispositivo en Google Drive (Carpetas + JSON Maestro)</strong>
         <p style="font-size: 0.8rem; color: var(--text-muted);">
-          Conecta la URL de implementación de tu Google Apps Script (<code>Code.gs</code>) para guardar el archivo maestro <code>PGCE_2026_Master.json</code> y subir las evidencias a subcarpetas en Google Drive. Así podrás abrir y editar el mismo plan desde tu Mac, iPad o celular.
+          Conecta la URL de implementación de tu Google Apps Script (<code>Code.gs</code>) para guardar el archivo maestro <code>PGCE_2027_Master.json</code>, crear subcarpetas de evidencias en Drive y sincronizar automáticamente todas las actividades con recordatorios en <strong>Google Calendar</strong>.
         </p>
         <div class="form-grid">
           <div class="form-group full">
@@ -1435,6 +1485,112 @@
     </div>
   </dialog>
 
+
+  <!-- MODAL 6: SECRETARIA VIRTUAL Y AGENTE FISCALIZADOR AUTÓNOMO 24/7 -->
+  <dialog id="secretariaModal">
+    <div class="modal-header">
+      <h2>🕵️‍♀️ Helena — Secretaria Virtual & Agente Fiscalizadora (Ley N° 21.809)</h2>
+      <button type="button" class="btn-sm" onclick="document.getElementById('secretariaModal').close()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div style="background: var(--primary-soft); border: 1px solid rgba(37, 99, 235, 0.3); padding: 1rem; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 0.65rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <strong style="color: var(--primary);">🕵️‍♀️ Vigilancia Autónoma de Helena en la Nube (Funciona incluso con tu PC apagado)</strong>
+          <span id="secretariaTriggerBadge" class="badge-normativa">Vigilancia Diaria 08:00 AM</span>
+        </div>
+        <p style="font-size: 0.81rem; color: var(--text-muted);">
+          <strong>Helena</strong> revisa tu plan todos los días a las <strong>08:00 AM</strong> desde Google Apps Script:
+          <strong>1)</strong> Avisa por correo a los responsables 7 días y 2 días antes detallando fecha, hora, lugar, participantes, objetivo y evidencias que deben recolectar.
+          <strong>2)</strong> Fiscaliza 48 horas después de cada actividad si fue cerrada y si subieron sus respaldos (actas, asistencia, fotos), enviándote un reporte consolidado.
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button type="button" id="btnInstallDailyTrigger" class="btn-primary btn-sm">⏰ Activar Vigilancia Automática (08:00 AM)</button>
+          <button type="button" id="btnRunSecretariaNow" class="btn-success btn-sm">📨 Ejecutar Revisión y Notificar Ahora</button>
+        </div>
+      </div>
+
+      <!-- RADAR EN VIVO DE FISCALIZACIÓN -->
+      <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+        <div class="kpi-card" style="padding: 0.75rem;">
+          <span class="kpi-label">Próximas (≤ 7 días)</span>
+          <span class="kpi-value" id="secUpcomingCount" style="font-size: 1.4rem; color: var(--primary);">0</span>
+          <span class="kpi-sub">Por notificar / preparar</span>
+        </div>
+        <div class="kpi-card" style="padding: 0.75rem;">
+          <span class="kpi-label">Sin Correo Asignado</span>
+          <span class="kpi-value" id="secNoEmailCount" style="font-size: 1.4rem; color: var(--warning);">0</span>
+          <span class="kpi-sub">Responsables sin email</span>
+        </div>
+        <div class="kpi-card" style="padding: 0.75rem;">
+          <span class="kpi-label">Atrasadas / Sin Evidencia</span>
+          <span class="kpi-value" id="secOverdueCount" style="font-size: 1.4rem; color: var(--danger);">0</span>
+          <span class="kpi-sub">Requieren fiscalización</span>
+        </div>
+      </div>
+
+      <div>
+        <strong style="font-size: 0.85rem; display: block; margin-bottom: 0.45rem;">📋 Bandeja de Seguimiento de Helena (Acciones que requieren atención o aviso):</strong>
+        <div id="secretariaFeedList" class="evidence-list" style="max-height: 260px; overflow-y: auto;"></div>
+      </div>
+
+      <div>
+        <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.35rem;">📜 Bitácora de Ejecución de Helena:</strong>
+        <div id="secretariaLogOutput" class="copilot-output" style="max-height: 140px;">Presiona "Activar Vigilancia Automática" para instalar el reloj diario en Google, o "Ejecutar Revisión y Notificar Ahora" para enviar los avisos pendientes de inmediato.</div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <span style="font-size: 0.76rem; color: var(--text-light);">Asegúrate de completar el campo "Correo Institucional del Responsable" en cada actividad.</span>
+      <button type="button" onclick="document.getElementById('secretariaModal').close()">Cerrar</button>
+    </div>
+  </dialog>
+
+
+  <!-- MODAL 7: REGLAS OPERATIVAS DEL COLEGIO PARA ALFRED Y HELENA -->
+  <dialog id="rulesModal">
+    <div class="modal-header">
+      <h2>📜 Reglas Operativas del Colegio (Memoria Permanente para Alfred & Helena)</h2>
+      <button type="button" class="btn-sm" onclick="document.getElementById('rulesModal').close()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div style="background: var(--info-soft); border: 1px solid rgba(3, 105, 161, 0.3); padding: 0.95rem; border-radius: var(--radius-md);">
+        <strong style="color: var(--info);">🧠 ¿Para qué sirve este espacio?</strong>
+        <p style="font-size: 0.81rem; color: var(--text-muted); margin-top: 0.25rem;">
+          Escribe en lenguaje natural las condiciones reales de funcionamiento de tu colegio. <strong>Alfred</strong> respetará estas reglas automáticamente cada vez que cree o readecúe tu planificación 2027 (incluso sin IA externa para las reglas de horarios y días), y <strong>Helena</strong> las verificará antes de enviar avisos.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="agentRulesTextarea">Reglas Institucionales (Una por línea, en español claro)</label>
+        <textarea id="agentRulesTextarea" rows="7" placeholder="Ejemplo:
+- Las capacitaciones o talleres para docentes y asistentes solo pueden realizarse los viernes de 14:30 a 16:30 hrs.
+- Las reuniones o talleres para apoderados deben programarse de lunes a jueves a las 18:00 hrs en el Salón Multiuso.
+- Las actividades masivas con estudiantes se realizan en el Patio Central o Gimnasio entre 09:30 y 11:30 hrs.
+- No programar actividades la semana del 12 al 23 de julio (Vacaciones de Invierno) ni en semana de cierre de semestre (primera semana de diciembre).
+- En actividades de apoyo psicosocial, asignar como responsables a las psicólogas Valentina Vidal Cruz o Josefina Sarzosa."></textarea>
+      </div>
+
+      <div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
+        <span style="font-size: 0.76rem; color: var(--text-light); align-self: center;">Atajos rápidos:</span>
+        <button type="button" class="btn-sm" data-add-rule="Las capacitaciones a docentes y asistentes solo pueden ser los viernes de 14:30 a 16:30 hrs.">+ Regla Docentes Viernes 14:30</button>
+        <button type="button" class="btn-sm" data-add-rule="Los talleres para apoderados se realizan a las 18:00 hrs en el Salón Multiuso.">+ Regla Apoderados 18:00</button>
+        <button type="button" class="btn-sm" data-add-rule="No programar actividades durante vacaciones de invierno (12 al 23 de julio de 2027).">+ Bloquear Vacaciones Invierno</button>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" id="btnApplyRulesOfflineNow" class="btn-warning btn-sm" title="Aplica ahora mismo las reglas de días/horarios/lugares sobre el plan actual sin gastar tokens">
+        ⚡ Reajustar Plan Actual con estas Reglas Ahora
+      </button>
+      <div style="display: flex; gap: 0.5rem;">
+        <button type="button" onclick="document.getElementById('rulesModal').close()">Cerrar</button>
+        <button type="button" id="btnSaveAgentRules" class="btn-primary">💾 Guardar Reglas</button>
+      </div>
+    </div>
+  </dialog>
+
   <div id="toastContainer" class="toast-container"></div>
 
   <script type="module">
@@ -1443,10 +1599,10 @@
      * MÓDULO 1: CAPA DE PERSISTENCIA BINARIA (IndexedDB) + ESTADO REACTIVO
      * =========================================================================
      */
-    const DB_NAME = 'PGCE_AuditPro_2026_DB';
+    const DB_NAME = 'PGCE_AuditPro_2027_DB';
     const DB_VERSION = 1;
     const STORE_FILES = 'evidencias_binarias';
-    const STORAGE_KEY_PLAN = 'pgce_plan_v6_data';
+    const STORAGE_KEY_PLAN = 'pgce_plan_v7_2027_data';
     const STORAGE_KEY_SCHOOL = 'pgce_school_name';
     const STORAGE_KEY_GEMINI = 'pgce_gemini_key';
     const STORAGE_KEY_CLOUD = 'pgce_cloud_config';
@@ -1523,96 +1679,89 @@
     const DEMO_ACTIONS = [
       {
         id: 'act-01',
-        codigo: 'PGCE-2026-01',
+        codigo: 'PGCE-2027-01',
         dimension: 'Gestión Institucional',
-        marcoNormativo: 'Ley 20.536 / Ley 21.809 / Actualización RICE',
-        nombre: 'Constitución del Equipo de Convivencia y Validación del PGCE en Consejo Escolar',
-        objetivo: 'Formalizar el plan anual y actualizar protocolos de actuación frente a vulneraciones y maltrato con participación de todos los estamentos.',
-        indicador: '100% de protocolos actualizados + Acta de sesión ordinaria Consejo Escolar firmada.',
+        letra16D: 'a) Coordinación técnico-pedagógica y administrativa',
+        marcoNormativo: 'Ley N° 21.809 Art. 16 D, 16 G y 16 H / Actualización Participativa RICE-PGCE',
+        nombre: 'Actualización Participativa del PGCE 2027, Difusión Obligatoria y Validación en Consejo Escolar',
+        objetivo: 'Actualizar participativamente el Plan de Gestión 2027, difundirlo a todos los estamentos (Art. 16 G) y formalizar su aprobación en Consejo Escolar.',
+        indicador: 'Acta de sesión ordinaria Consejo Escolar firmada + Constancia de difusión web/matrícula.',
+        lugar: 'Sala de Reuniones Dirección / Consejo Escolar',
         destinatarios: ['Equipo Directivo', 'Docentes', 'Apoderados', 'Estudiantes'],
-        responsable: 'Coordinador Convivencia Escolar',
-        fechaInicio: '2026-03-10',
+        responsable: 'Coordinador de Convivencia Escolar',
+        responsableEmail: '',
+        fechaInicio: '2027-03-10',
         horaInicio: '15:30',
-        fechaTermino: '2026-03-27',
+        fechaTermino: '2027-03-26',
         horaTermino: '17:00',
-        estado: 'Implementada',
-        fechaImplementacionReal: '2026-03-27T17:00:00Z',
+        estado: 'Planificada',
+        calendarEventId: '',
         reprogramaciones: [],
-        evidencias: [
-          {
-            id: 'ev-demo-1',
-            tipo: 'Acta de Reunión / Consejo',
-            nombreArchivo: 'Acta_Consejo_Escolar_Aprobacion_PGCE_2026.pdf',
-            descripcion: 'Acta firmada por representantes de estamentos y Dirección.',
-            fechaCarga: '2026-03-28T11:20:00Z',
-            hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-            isDemoMock: true
-          }
-        ]
+        evidencias: []
       },
       {
         id: 'act-02',
-        codigo: 'PGCE-2026-02',
+        codigo: 'PGCE-2027-02',
         dimension: 'Prevención',
-        marcoNormativo: 'Ley 20.536 / Política Nacional de Convivencia Educativa',
-        nombre: 'Jornadas de Prevención del Ciberacoso y Uso Responsable de Redes Sociales',
-        objetivo: 'Desarrollar habilidades de autocuidado digital y empatía en línea para disminuir conflictos originados en plataformas digitales.',
-        indicador: '90% de estudiantes participantes + Pauta de evaluación aplicada.',
+        letra16D: 'b) Información, difusión y formación',
+        marcoNormativo: 'Ley N° 21.809 Art. 16 D letra b) / Prevención de Violencia Digital y Ciberacoso',
+        nombre: 'Jornada Día contra el Ciberacoso y Ciudadanía Digital Responsable',
+        objetivo: 'Prevenir situaciones de acoso y violencia en entornos digitales mediante talleres formativos y acuerdos de buen trato digital.',
+        indicador: '90% de cursos participantes + Listas de asistencia firmadas + Registro fotográfico.',
+        lugar: 'Salas de Clases (7° Básico a IV° Medio)',
         destinatarios: ['Estudiantes', 'Docentes'],
-        responsable: 'Dupla Psicosocial y Orientación',
-        fechaInicio: '2026-04-13',
+        responsable: 'Coordinador Convivencia y Dupla Psicosocial',
+        responsableEmail: '',
+        fechaInicio: '2027-03-15',
         horaInicio: '10:00',
-        fechaTermino: '2026-04-30',
+        fechaTermino: '2027-03-19',
         horaTermino: '11:30',
-        estado: 'Implementada',
-        fechaImplementacionReal: '2026-04-30T11:30:00Z',
+        estado: 'Planificada',
+        calendarEventId: '',
         reprogramaciones: [],
-        evidencias: [
-          {
-            id: 'ev-demo-2',
-            tipo: 'Lista de Asistencia Firmada',
-            nombreArchivo: 'Asistencia_Talleres_Ciberacoso_Abril2026.pdf',
-            descripcion: 'Listas firmadas por profesores jefes.',
-            fechaCarga: '2026-05-02T15:10:00Z',
-            hash: '8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4',
-            isDemoMock: true
-          }
-        ]
+        evidencias: []
       },
       {
         id: 'act-03',
-        codigo: 'PGCE-2026-03',
+        codigo: 'PGCE-2027-03',
         dimension: 'Participación',
-        marcoNormativo: 'PME Dimensión Convivencia / Vinculación Familia-Escuela',
-        nombre: 'Escuela para Padres: Parentalidad Positiva y Normas Formativas en el Hogar',
-        objetivo: 'Fortalecer la corresponsabilidad parental y la alianza familia-escuela mediante talleres prácticos por ciclo.',
-        indicador: 'Al menos 75% de asistencia de apoderados por curso + Encuesta de satisfacción.',
-        destinatarios: ['Apoderados'],
-        responsable: 'Coordinador Convivencia y Trabajador Social',
-        fechaInicio: '2026-05-11',
-        horaInicio: '18:00',
-        fechaTermino: '2026-05-22',
-        horaTermino: '19:30',
-        estado: 'Implementada',
-        fechaImplementacionReal: '2026-05-22T19:30:00Z',
+        letra16D: 'f) Participación protagónica de estudiantes',
+        marcoNormativo: 'Ley N° 21.809 Art. 16 D letras e) y f) / Día de la Convivencia Educativa',
+        nombre: 'Jornada Conmemorativa Día de la Convivencia Educativa y Acuerdos de Curso',
+        objetivo: 'Promover el protagonismo estudiantil en la construcción de acuerdos de convivencia y resolución dialogada de conflictos.',
+        indicador: '100% de cursos con acuerdos de convivencia firmados + Registro fotográfico.',
+        lugar: 'Patio Central y Salas de Clases',
+        destinatarios: ['Estudiantes', 'Docentes', 'Asistentes de la Educación'],
+        responsable: 'Equipo de Convivencia Escolar y Profesores Jefes',
+        responsableEmail: '',
+        fechaInicio: '2027-04-28',
+        horaInicio: '09:00',
+        fechaTermino: '2027-04-28',
+        horaTermino: '12:30',
+        estado: 'Planificada',
+        calendarEventId: '',
         reprogramaciones: [],
         evidencias: []
       },
       {
         id: 'act-04',
-        codigo: 'PGCE-2026-04',
-        dimension: 'Formación',
-        marcoNormativo: 'Ley Aula Segura / Resolución Pacífica de Conflictos',
-        nombre: 'Capacitación Docente en Desescalada Emocional y Mediación Escolar',
-        objetivo: 'Entregar herramientas prácticas a docentes y asistentes de la educación para el manejo formativo de conflictos en el aula.',
-        indicador: '100% del cuerpo docente y asistentes capacitados en consejo técnico.',
-        destinatarios: ['Docentes', 'Asistentes de la Educación'],
-        responsable: 'Psicólogo Convivencia Escolar',
-        fechaInicio: '2026-06-08',
-        horaInicio: '16:00',
-        fechaTermino: '2026-06-19',
-        horaTermino: '17:30',
-        estado: 'En Ejecución',
+        codigo: 'PGCE-2027-04',
+        dimension: 'Participación',
+        letra16D: 'g) Formación para madres, padres y apoderados',
+        marcoNormativo: 'Ley N° 21.809 Art. 16 D letra g) / Corresponsabilidad Familiar',
+        nombre: 'Taller Formativo para Apoderados: Buen Trato, Salud Mental y Prevención de Violencia Digital',
+        objetivo: 'Fortalecer las competencias parentales y la alianza familia-escuela para la prevención de conductas de riesgo.',
+        indicador: 'Listas de asistencia firmadas por apoderados + Presentación utilizada + Encuesta.',
+        lugar: 'Salón Multiuso / Gimnasio Establecimiento',
+        destinatarios: ['Apoderados'],
+        responsable: 'Coordinador Convivencia y Psicólogas',
+        responsableEmail: '',
+        fechaInicio: '2027-05-19',
+        horaInicio: '18:00',
+        fechaTermino: '2027-05-19',
+        horaTermino: '19:30',
+        estado: 'Planificada',
+        calendarEventId: '',
         reprogramaciones: [],
         evidencias: []
       }
@@ -1749,12 +1898,16 @@
 
     function loadInitialData() {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY_PLAN) || localStorage.getItem('pgce_plan_v5_data');
+        const saved = localStorage.getItem(STORAGE_KEY_PLAN) || localStorage.getItem('pgce_plan_v6_data') || localStorage.getItem('pgce_plan_v5_data');
         if (saved) {
           const parsed = JSON.parse(saved);
           state.actions = parsed.map(item => ({
             horaInicio: '09:00',
             horaTermino: '10:30',
+            lugar: 'Establecimiento Educacional',
+            letra16D: 'b) Información, difusión y formación',
+            responsableEmail: '',
+            calendarEventId: '',
             ...item
           }));
         } else {
@@ -1779,7 +1932,7 @@
 
     function updateSchoolHeader() {
       document.getElementById('schoolSubtitle').textContent =
-        `${state.schoolName} • Plan de Gestión de la Convivencia Escolar 2026`;
+        `${state.schoolName} • Plan de Gestión de la Convivencia Educativa 2027`;
       document.getElementById('schoolNameInput').value = state.schoolName;
       document.getElementById('printDocSubtitle').textContent =
         `${state.schoolName} • Documento Oficial de Planificación y Cronograma (Generado: ${new Date().toLocaleDateString('es-CL')})`;
@@ -1857,6 +2010,43 @@
       }
     }
 
+
+    async function syncToGoogleCalendar() {
+      if (!state.cloudConfig.url) {
+        document.getElementById('settingsModal').showModal();
+        showToast('⚙️ Configura primero la URL de Google Apps Script (Code.gs) para conectar Calendar y Drive.');
+        return;
+      }
+      if (state.actions.length === 0) {
+        showToast('⚠️ No hay actividades en el plan para agendar en Google Calendar.');
+        return;
+      }
+
+      showToast('📅 Agendando y sincronizando actividades 2027 en Google Calendar...');
+      try {
+        const res = await fetch(state.cloudConfig.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'syncToGoogleCalendar',
+            pin: state.cloudConfig.pin,
+            folderId: state.cloudConfig.folderId,
+            schoolName: state.schoolName,
+            plan: state.actions
+          })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'Error al sincronizar con Google Calendar');
+        if (Array.isArray(data.plan)) {
+          state.actions = data.plan;
+          persistPlan();
+        }
+        showToast(`✅ Calendar listo: ${data.created || 0} creadas, ${data.updated || 0} actualizadas en "${data.calendarName || 'PGCE 2027'}".`);
+      } catch (err) {
+        showToast(`❌ Error Google Calendar: ${err.message}`);
+      }
+    }
+
     async function uploadBinaryFileToDrive(actionCode, file, evMetadata) {
       if (!state.cloudConfig.url) return null;
       try {
@@ -1930,15 +2120,23 @@
       const desc = document.getElementById('auditBannerDesc');
       const btnBrechas = document.getElementById('btnFilterBrechas');
 
+      const todayISO = new Date().toISOString().slice(0, 10);
+      const vencidasSinCerrar = state.actions.filter(a => a.estado !== 'Implementada' && a.fechaTermino && a.fechaTermino < todayISO);
+
       if (brechas.length > 0) {
         banner.classList.remove('ok');
-        title.textContent = `⚠️ Alerta de Fiscalización: ${brechas.length} acción(es) marcada(s) como "Implementada" sin medios de verificación`;
-        desc.textContent = `Códigos observados: ${brechas.map(b => b.codigo).join(', ')}. Adjunta listas de asistencia, actas o fotografías para blindar el expediente.`;
+        title.textContent = `⚠️ Alerta de Fiscalización (Art. 16 D): ${brechas.length} acción(es) marcada(s) como "Implementada" sin medios de verificación`;
+        desc.textContent = `Códigos observados: ${brechas.map(b => b.codigo).join(', ')}. Para la Superintendencia, acción sin respaldo se considera no realizada.`;
         btnBrechas.classList.remove('hidden');
+      } else if (vencidasSinCerrar.length > 0) {
+        banner.classList.remove('ok');
+        title.textContent = `⏰ Recordatorio de Gestión: ${vencidasSinCerrar.length} actividad(es) ya cumplieron su fecha y siguen pendientes de cierre`;
+        desc.textContent = `Revisa: ${vencidasSinCerrar.map(v => `${v.codigo} (${v.fechaTermino})`).join(', ')}. Márcalas como Implementadas con su evidencia o regístralas en Reprogramación.`;
+        btnBrechas.classList.add('hidden');
       } else {
         banner.classList.add('ok');
-        title.textContent = '✅ Sin brechas documentales críticas detectadas';
-        desc.textContent = 'Todas las acciones declaradas como Implementadas cuentan con al menos un medio de verificación validado.';
+        title.textContent = '✅ Planificación Ley N° 21.809 al día y sin brechas documentales';
+        desc.textContent = 'Todas las acciones ejecutadas cuentan con medios de verificación validados y cronograma vigente.';
         btnBrechas.classList.add('hidden');
       }
     }
@@ -1981,24 +2179,31 @@
              </button>`
           : '';
 
+        const calBadge = a.calendarEventId
+          ? `<div style="font-size:0.71rem; color:var(--success); margin-top:0.25rem; font-weight:600;">📅 Agendado en Calendar</div>`
+          : `<div style="font-size:0.71rem; color:var(--text-light); margin-top:0.25rem;">⏳ Sin agendar en Calendar</div>`;
+
         return `
           <tr>
             <td>
               <span class="code-tag">${escapeHTML(a.codigo)}</span>
-              <div style="font-size:0.76rem; color:var(--text-muted); margin-top:0.3rem; font-weight:600;">${escapeHTML(a.dimension)}</div>
+              <div style="font-size:0.74rem; color:var(--primary); margin-top:0.3rem; font-weight:700;">${escapeHTML(a.letra16D || a.dimension)}</div>
+              <div style="font-size:0.72rem; color:var(--text-light);">${escapeHTML(a.dimension)}</div>
             </td>
             <td style="max-width: 330px;">
               <strong style="display:block; margin-bottom:0.2rem;">${escapeHTML(a.nombre)}</strong>
-              <span style="font-size:0.76rem; color:var(--primary); font-weight:600;">⚖️ ${escapeHTML(a.marcoNormativo)}</span>
+              <span style="font-size:0.75rem; color:var(--text-muted); display:block;">${escapeHTML(a.objetivo)}</span>
             </td>
             <td>
+              <div style="font-size:0.77rem; font-weight:700; color:var(--text-main); margin-bottom:0.2rem;">📍 ${escapeHTML(a.lugar || 'Establecimiento')}</div>
+              <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:0.25rem;">👤 ${escapeHTML(a.responsable)}</div>
               <div>${estamentosHtml}</div>
-              <div style="font-size:0.76rem; color:var(--text-muted); margin-top:0.25rem;">👤 ${escapeHTML(a.responsable)}</div>
             </td>
             <td style="white-space: nowrap; font-size: 0.8rem;">
               <div><strong>Inicio:</strong> ${escapeHTML(a.fechaInicio)} • <span style="color:var(--primary); font-weight:600;">${hIni}</span></div>
               <div><strong>Término:</strong> ${escapeHTML(a.fechaTermino)} • <span style="color:var(--primary); font-weight:600;">${hTer}</span></div>
               ${repBadge}
+              ${calBadge}
             </td>
             <td>
               <span class="pill ${pillClass}">${statusLabel}</span>
@@ -2032,8 +2237,8 @@
       });
 
       list.forEach(a => {
-        const startMonth = parseInt((a.fechaInicio || '2026-03-01').split('-')[1], 10);
-        const endMonth = parseInt((a.fechaTermino || a.fechaInicio || '2026-03-01').split('-')[1], 10);
+        const startMonth = parseInt((a.fechaInicio || '2027-03-01').split('-')[1], 10);
+        const endMonth = parseInt((a.fechaTermino || a.fechaInicio || '2027-03-01').split('-')[1], 10);
         const brecha = hasBrecha(a);
         const barClass = brecha ? 'warn' : a.estado === 'Implementada' ? 'done' : '';
 
@@ -2089,18 +2294,21 @@
           ? 'Revisar Propuesta Generada por Asistente IA'
           : 'Nueva Acción Planificada PGCE 2026';
         document.getElementById('editActionId').value = '';
-        document.getElementById('fCodigo').value = `PGCE-2026-${String(state.actions.length + 1).padStart(2, '0')}`;
+        document.getElementById('fCodigo').value = `PGCE-2027-${String(state.actions.length + 1).padStart(2, '0')}`;
         document.getElementById('fDimension').value = prefillData?.dimension || 'Formación';
+        document.getElementById('fLetra16D').value = prefillData?.letra16D || 'b) Información, difusión y formación';
         document.getElementById('fEstado').value = 'Planificada';
         document.getElementById('fNombre').value = prefillData?.nombre || '';
-        document.getElementById('fNormativa').value = prefillData?.marcoNormativo || 'Ley 20.536 / Política Nacional de Convivencia Educativa';
+        document.getElementById('fNormativa').value = prefillData?.marcoNormativo || 'Ley N° 21.809 Art. 16 D / Política Nacional de Convivencia Educativa';
         document.getElementById('fObjetivo').value = prefillData?.objetivo || '';
         document.getElementById('fIndicador').value = prefillData?.indicador || '';
-        document.getElementById('fInicio').value = prefillData?.fechaInicio || '2026-05-15';
+        document.getElementById('fInicio').value = prefillData?.fechaInicio || '2027-04-15';
         document.getElementById('fHoraInicio').value = prefillData?.horaInicio || '09:00';
-        document.getElementById('fTermino').value = prefillData?.fechaTermino || '2026-05-29';
+        document.getElementById('fTermino').value = prefillData?.fechaTermino || '2027-04-15';
         document.getElementById('fHoraTermino').value = prefillData?.horaTermino || '10:30';
-        document.getElementById('fResponsable').value = prefillData?.responsable || 'Coordinador Convivencia Escolar';
+        document.getElementById('fLugar').value = prefillData?.lugar || 'Salas de Clases / Salón Multiuso';
+        document.getElementById('fResponsable').value = prefillData?.responsable || 'Coordinador de Convivencia Escolar';
+        document.getElementById('fResponsableEmail').value = prefillData?.responsableEmail || '';
 
         const targetEst = prefillData?.destinatarios || ['Estudiantes'];
         document.querySelectorAll('#fEstamentosGroup input').forEach(cb => {
@@ -2120,6 +2328,7 @@
         document.getElementById('editActionId').value = action.id;
         document.getElementById('fCodigo').value = action.codigo;
         document.getElementById('fDimension').value = action.dimension;
+        document.getElementById('fLetra16D').value = action.letra16D || 'b) Información, difusión y formación';
         document.getElementById('fEstado').value = action.estado;
         document.getElementById('fNombre').value = action.nombre;
         document.getElementById('fNormativa').value = action.marcoNormativo;
@@ -2129,7 +2338,9 @@
         document.getElementById('fHoraInicio').value = action.horaInicio || '09:00';
         document.getElementById('fTermino').value = action.fechaTermino;
         document.getElementById('fHoraTermino').value = action.horaTermino || '10:30';
+        document.getElementById('fLugar').value = action.lugar || 'Establecimiento Educacional';
         document.getElementById('fResponsable').value = action.responsable;
+        document.getElementById('fResponsableEmail').value = action.responsableEmail || '';
 
         document.querySelectorAll('#fEstamentosGroup input').forEach(cb => {
           cb.checked = (action.destinatarios || []).includes(cb.value);
@@ -2298,7 +2509,7 @@
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `Planificacion_PGCE_2026_${new Date().toISOString().slice(0, 10)}.csv`;
+      link.download = `Planificacion_PGCE_2027_${new Date().toISOString().slice(0, 10)}.csv`;
       link.click();
       URL.revokeObjectURL(url);
       showToast('📊 Planilla Excel (.CSV) descargada.');
@@ -2367,8 +2578,8 @@
         const shortName = a.nombre.length > 46 ? a.nombre.slice(0, 45) + '…' : a.nombre;
         ctx.fillText(shortName, 30, y + 30);
 
-        const sM = parseInt((a.fechaInicio || '2026-03-01').split('-')[1], 10);
-        const eM = parseInt((a.fechaTermino || a.fechaInicio || '2026-03-01').split('-')[1], 10);
+        const sM = parseInt((a.fechaInicio || '2027-03-01').split('-')[1], 10);
+        const eM = parseInt((a.fechaTermino || a.fechaInicio || '2027-03-01').split('-')[1], 10);
         const brecha = hasBrecha(a);
 
         for (let m = 3; m <= 12; m++) {
@@ -2397,7 +2608,7 @@
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `Carta_Gantt_PGCE_2026_${new Date().toISOString().slice(0, 10)}.png`;
+        link.download = `Carta_Gantt_PGCE_2027_${new Date().toISOString().slice(0, 10)}.png`;
         link.click();
         URL.revokeObjectURL(url);
         showToast('🖼️ Carta Gantt descargada en formato PNG.');
@@ -2460,7 +2671,7 @@
       preview.innerHTML = `
         <div style="font-family: Arial, sans-serif; color: #0f172a; max-width: 740px;">
           <div style="background:#1e3a8a; color:#ffffff; padding:14px 18px; border-radius:6px 6px 0 0;">
-            <h3 style="margin:0; font-size:16px;">📅 ${escapeHTML(state.schoolName)} — Plan de Convivencia Escolar 2026</h3>
+            <h3 style="margin:0; font-size:16px;">📅 ${escapeHTML(state.schoolName)} — Plan de Convivencia Educativa 2027</h3>
             <p style="margin:4px 0 0; font-size:12px; opacity:0.9;">${escapeHTML(scopeLabel)} • Destinatarios: ${escapeHTML(estLabel)}</p>
           </div>
           <div style="padding:14px; border:1px solid #cbd5e1; border-top:none; border-radius:0 0 6px 6px;">
@@ -2503,7 +2714,7 @@
       const scopeSelect = document.getElementById('shareScope');
       const scopeLabel = scopeSelect.options[scopeSelect.selectedIndex].text;
 
-      const subject = `Calendarización Convivencia Escolar 2026 - ${scopeLabel} (${state.schoolName})`;
+      const subject = `Calendarización Convivencia Educativa 2027 - ${scopeLabel} (${state.schoolName})`;
       const lines = items.map(a =>
         `• [${a.fechaInicio} al ${a.fechaTermino} | Horario: ${a.horaInicio || '09:00'} a ${a.horaTermino || '10:30'} hrs] ${a.nombre} (Dirigido a: ${a.destinatarios.join(', ')}) - Resp: ${a.responsable}`
       ).join('\n');
@@ -2518,8 +2729,8 @@
       if (items.length === 0) return;
 
       const events = items.map(a => {
-        const dStart = (a.fechaInicio || '2026-03-01').replace(/-/g, '');
-        const dEnd = (a.fechaTermino || a.fechaInicio || '2026-03-01').replace(/-/g, '');
+        const dStart = (a.fechaInicio || '2027-03-01').replace(/-/g, '');
+        const dEnd = (a.fechaTermino || a.fechaInicio || '2027-03-01').replace(/-/g, '');
         const tStart = (a.horaInicio || '09:00').replace(/:/g, '') + '00';
         const tEnd = (a.horaTermino || '10:30').replace(/:/g, '') + '00';
         return [
@@ -2528,8 +2739,9 @@
           `DTSTAMP:20260301T120000Z`,
           `DTSTART:${dStart}T${tStart}`,
           `DTEND:${dEnd}T${tEnd}`,
-          `SUMMARY:[Convivencia Escolar] ${a.nombre}`,
-          `DESCRIPTION:${a.objetivo} | Destinatarios: ${a.destinatarios.join(', ')} | Resp: ${a.responsable}`,
+          `SUMMARY:[PGCE 2027] ${a.nombre}`,
+          `LOCATION:${a.lugar || 'Establecimiento Educacional'}`,
+          `DESCRIPTION:${a.letra16D || ''} | Objetivo: ${a.objetivo} | Evidencia: ${a.indicador} | Resp: ${a.responsable}`,
           'END:VEVENT'
         ].join('\r\n');
       }).join('\r\n');
@@ -2546,7 +2758,7 @@
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'Calendario_Convivencia_Escolar_2026_Horarios.ics';
+      link.download = 'Calendario_Convivencia_Escolar_2027_Horarios.ics';
       link.click();
       URL.revokeObjectURL(url);
       showToast('📅 Archivo .ICS con fechas y horas exactas descargado.');
@@ -2556,19 +2768,19 @@
       const pType = document.getElementById('reportPeriodType').value;
       const monthVal = document.getElementById('reportMonthSelect').value;
 
-      let periodTitle = 'Informe Anual de Gestión Realizada — Año Escolar 2026';
+      let periodTitle = 'Informe Anual de Gestión Realizada — Año Escolar 2027 (Ley N° 21.809)';
       let filtered = state.actions;
 
       if (pType === 'SEM1') {
         periodTitle = 'Informe 1° Semestre de Gestión Realizada (Marzo — Julio 2026)';
         filtered = state.actions.filter(a => {
-          const m = parseInt((a.fechaInicio || '2026-03-01').split('-')[1], 10);
+          const m = parseInt((a.fechaInicio || '2027-03-01').split('-')[1], 10);
           return m >= 3 && m <= 7;
         });
       } else if (pType === 'SEM2') {
         periodTitle = 'Informe 2° Semestre de Gestión Realizada (Agosto — Diciembre 2026)';
         filtered = state.actions.filter(a => {
-          const m = parseInt((a.fechaInicio || '2026-08-01').split('-')[1], 10);
+          const m = parseInt((a.fechaInicio || '2027-08-01').split('-')[1], 10);
           return m >= 8 && m <= 12;
         });
       } else if (pType === 'MENSUAL') {
@@ -2686,12 +2898,12 @@
 
     function downloadProgressReportHTML() {
       const content = document.getElementById('progressReportPreview').innerHTML;
-      const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Informe Gestión Convivencia Escolar 2026</title></head><body style="padding:24px; max-width:980px; margin:auto;">${content}</body></html>`;
+      const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Informe Gestión Convivencia Educativa 2027</title></head><body style="padding:24px; max-width:980px; margin:auto;">${content}</body></html>`;
       const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Informe_Gestion_PGCE_2026_${new Date().toISOString().slice(0, 10)}.html`;
+      a.download = `Informe_Gestion_PGCE_2027_${new Date().toISOString().slice(0, 10)}.html`;
       a.click();
       URL.revokeObjectURL(url);
       showToast('⬇️ Informe descargado en formato HTML.');
@@ -2773,9 +2985,9 @@
           indicador: '100% de protocolos actualizados + Acta de sesión ordinaria del Consejo Escolar firmada.',
           destinatarios: ['Equipo Directivo', 'Docentes', 'Apoderados', 'Estudiantes'],
           responsable: 'Encargado de Convivencia Escolar',
-          fechaInicio: '2026-03-09',
+          fechaInicio: '2027-03-09',
           horaInicio: '15:30',
-          fechaTermino: '2026-03-27',
+          fechaTermino: '2027-03-27',
           horaTermino: '17:00'
         },
         {
@@ -2786,9 +2998,9 @@
           indicador: '100% de cursos y funcionarios informados + Registro firmado de recepción de información.',
           destinatarios: ['Estudiantes', 'Apoderados', 'Docentes', 'Asistentes de la Educación'],
           responsable: 'Encargado de Convivencia Escolar',
-          fechaInicio: '2026-04-06',
+          fechaInicio: '2027-04-06',
           horaInicio: '09:00',
-          fechaTermino: '2026-04-24',
+          fechaTermino: '2027-04-24',
           horaTermino: '10:30'
         },
         {
@@ -2799,16 +3011,16 @@
           indicador: '95% de asistencia de docentes y asistentes + Lista de asistencia firmada + Material de taller.',
           destinatarios: ['Docentes', 'Asistentes de la Educación'],
           responsable: 'Psicólogo Convivencia Escolar',
-          fechaInicio: '2026-04-20',
+          fechaInicio: '2027-04-20',
           horaInicio: '16:00',
-          fechaTermino: '2026-05-08',
+          fechaTermino: '2027-05-08',
           horaTermino: '17:30'
         },
         {
           ...focusActionMay,
-          fechaInicio: '2026-05-11',
+          fechaInicio: '2027-05-11',
           horaInicio: '10:00',
-          fechaTermino: '2026-05-29',
+          fechaTermino: '2027-05-29',
           horaTermino: '11:30'
         },
         {
@@ -2819,9 +3031,9 @@
           indicador: '70% de participación de familias + Listas de asistencia por curso + Encuesta de evaluación.',
           destinatarios: ['Apoderados'],
           responsable: 'Coordinador Convivencia y Trabajador Social',
-          fechaInicio: '2026-06-08',
+          fechaInicio: '2027-06-08',
           horaInicio: '18:00',
-          fechaTermino: '2026-06-19',
+          fechaTermino: '2027-06-19',
           horaTermino: '19:30'
         },
         {
@@ -2832,9 +3044,9 @@
           indicador: '80% de tasa de respuesta estudiantil + Informe de resultados presentado a Consejo Escolar.',
           destinatarios: ['Estudiantes', 'Docentes', 'Apoderados'],
           responsable: 'Equipo de Convivencia Escolar',
-          fechaInicio: '2026-07-20',
+          fechaInicio: '2027-07-20',
           horaInicio: '09:30',
-          fechaTermino: '2026-08-07',
+          fechaTermino: '2027-08-07',
           horaTermino: '11:30'
         },
         {
@@ -2845,9 +3057,9 @@
           indicador: '2 mediadores acreditados por curso + Registro fotográfico + Bitácora de actividades.',
           destinatarios: ['Estudiantes', 'Docentes', 'Asistentes de la Educación'],
           responsable: 'Equipo de Convivencia y Centro de Estudiantes',
-          fechaInicio: '2026-08-17',
+          fechaInicio: '2027-08-17',
           horaInicio: '08:30',
-          fechaTermino: '2026-08-28',
+          fechaTermino: '2027-08-28',
           horaTermino: '13:00'
         },
         {
@@ -2858,9 +3070,9 @@
           indicador: '90% de cursos participantes + Planificaciones de orientación + Listas de asistencia.',
           destinatarios: ['Estudiantes'],
           responsable: 'Dupla Psicosocial y Orientación',
-          fechaInicio: '2026-09-21',
+          fechaInicio: '2027-09-21',
           horaInicio: '10:00',
-          fechaTermino: '2026-10-09',
+          fechaTermino: '2027-10-09',
           horaTermino: '11:30'
         },
         {
@@ -2871,9 +3083,9 @@
           indicador: 'Ceremonia realizada + Nómina de reconocidos + Registro fotográfico y difusión a la comunidad.',
           destinatarios: ['Estudiantes', 'Apoderados', 'Docentes', 'Asistentes de la Educación'],
           responsable: 'Equipo de Convivencia y Dirección',
-          fechaInicio: '2026-10-19',
+          fechaInicio: '2027-10-19',
           horaInicio: '11:00',
-          fechaTermino: '2026-10-30',
+          fechaTermino: '2027-10-30',
           horaTermino: '12:30'
         },
         {
@@ -2884,9 +3096,9 @@
           indicador: 'Informe Final de Evaluación PGCE + Acta de Consejo Escolar firmada + Dossier ZIP cerrado.',
           destinatarios: ['Equipo Directivo', 'Docentes', 'Apoderados', 'Estudiantes'],
           responsable: 'Encargado de Convivencia Escolar',
-          fechaInicio: '2026-11-16',
+          fechaInicio: '2027-11-16',
           horaInicio: '15:30',
-          fechaTermino: '2026-12-04',
+          fechaTermino: '2027-12-04',
           horaTermino: '17:00'
         }
       ];
@@ -2895,7 +3107,7 @@
     function generateBatchPlanUI() {
       const level = document.getElementById('autoLevel').value;
       const focus = document.getElementById('autoFocus').value;
-      const plan = buildAnnualNormativePlan(level, focus);
+      const plan = applyInstitutionalRulesToActions(buildAnnualNormativePlan(level, focus));
       state.lastGeneratedBatch = plan;
 
       document.getElementById('generatedActionBox').classList.add('hidden');
@@ -2978,9 +3190,9 @@
               ? parsed.destinatarios
               : ['Estudiantes'],
             responsable: String(parsed.responsable || 'Coordinador Convivencia Escolar'),
-            fechaInicio: parsed.fechaInicio || '2026-06-01',
+            fechaInicio: parsed.fechaInicio || '2027-06-01',
             horaInicio: parsed.horaInicio || '09:00',
-            fechaTermino: parsed.fechaTermino || '2026-06-15',
+            fechaTermino: parsed.fechaTermino || '2027-06-15',
             horaTermino: parsed.horaTermino || '10:30'
           };
         }
@@ -3017,27 +3229,107 @@
         `- ${a.codigo} [${a.dimension}] ${a.nombre} | Normativa: ${a.marcoNormativo} | Estado: ${a.estado} | Evidencias: ${a.evidencias.length}`
       ).join('\n');
 
+      const institutionalRules = getSavedAgentRules();
+      const rulesContextBlock = `\nREGLAS OPERATIVAS OBLIGATORIAS DEL COLEGIO (DEBES RESPETARLAS ESTRICTAMENTE):\n${institutionalRules}\n`;
+
       let promptText = '';
-      if (task === 'auditar_ia') {
-        promptText = `Actúa como un fiscalizador senior de la Superintendencia de Educación de Chile. Revisa este Plan de Gestión de la Convivencia Escolar (PGCE) y señala fortalezas, brechas normativas (Ley 20.536, Ley 21.809, Aula Segura) y qué medios de verificación exactos exigirías en una visita:\n\n${planSummary}`;
+      if (task === 'reajustar_plan') {
+        if (state.actions.length === 0) {
+          showToast('⚠️ No hay acciones cargadas en el plan actual para readecuar.');
+          return;
+        }
+        const currentJson = JSON.stringify(state.actions.map(a => ({
+          id: a.id,
+          codigo: a.codigo,
+          dimension: a.dimension,
+          letra16D: a.letra16D,
+          nombre: a.nombre,
+          marcoNormativo: a.marcoNormativo,
+          objetivo: a.objetivo,
+          indicador: a.indicador,
+          lugar: a.lugar,
+          destinatarios: a.destinatarios,
+          responsable: a.responsable,
+          responsableEmail: a.responsableEmail,
+          fechaInicio: a.fechaInicio,
+          horaInicio: a.horaInicio,
+          fechaTermino: a.fechaTermino,
+          horaTermino: a.horaTermino,
+          estado: a.estado,
+          calendarEventId: a.calendarEventId
+        })), null, 2);
+
+        promptText = `Eres Alfred, Agente Planificador de Convivencia Educativa (Ley N° 21.809).
+Tu tarea es READECUAR Y ACTUALIZAR el plan de gestión existente según las reglas del colegio y la nueva instrucción del coordinador.
+${rulesContextBlock}
+INSTRUCCIÓN ESPECÍFICA DEL COORDINADOR:
+"${userPrompt || 'Aplica todas las reglas operativas institucionales (días, horarios, lugares y bloqueos de fechas) sobre el plan actual.'}"
+
+PLAN ACTUAL EN JSON:
+${currentJson}
+
+REGLAS DE SALIDA:
+1. Conserva los campos "id", "codigo", "estado" y "calendarEventId" de cada actividad para que al guardar se actualicen los mismos eventos en Google Calendar sin duplicarlos.
+2. Modifica fechas, horarios, lugares, responsables o nombres solo donde corresponda según las reglas e instrucción del coordinador. Asegúrate de que ninguna fecha caiga sábado o domingo.
+3. Entrega primero un resumen breve de los cambios aplicados (máximo 6 líneas) y luego OBLIGATORIAMENTE el bloque \`\`\`json con el arreglo completo actualizado.`;
+      } else if (task === 'ingestar_mineduc') {
+        if (!userPrompt) {
+          showToast('⚠️ Pega primero el listado de efemérides o calendario del Mineduc 2027 en el cuadro de texto.');
+          return;
+        }
+        promptText = `Actúa como Agente Planificador de Convivencia Educativa en Chile experto en Ley N° 21.809 (Art. 16 D, 16 G y 16 H).
+Analiza estas efemérides/indicaciones del Mineduc 2027 entregadas por el coordinador:
+"""
+${userPrompt}
+"""
+
+${rulesContextBlock}
+REGLAS ESTRICTAS:
+1. Respeta todas las reglas operativas del colegio indicadas arriba (días específicos para docentes/apoderados, horarios y lugares).
+2. Filtra solo actividades vinculadas a convivencia, buen trato, ciudadanía digital, salud mental, inclusión, derechos y seguridad escolar.
+2. Verifica cada fecha en el calendario real de 2027: si una fecha cae sábado o domingo, muévela al día hábil escolar más cercano (lunes a viernes). Evita vacaciones de invierno (julio).
+3. Vincula cada actividad a una de las 7 letras obligatorias del Art. 16 D de la Ley 21.809 ("a) Coordinación técnico-pedagógica y administrativa", "b) Información, difusión y formación", "c) Bienestar, aprendizaje socioemocional y salud mental", "d) Gestión colaborativa de conflictos y prevención de riesgos", "e) Calendarización anual verificable", "f) Participación protagónica de estudiantes", "g) Formación para madres, padres y apoderados").
+4. Entrega una breve síntesis (máximo 6 líneas) y luego OBLIGATORIAMENTE un bloque \`\`\`json con un ARREGLO (array) de objetos listo para importar en lote:
+[
+  {
+    "dimension": "Formación" | "Prevención" | "Participación" | "Gestión Institucional",
+    "letra16D": "b) Información, difusión y formación",
+    "nombre": "Nombre claro de la actividad 2027",
+    "marcoNormativo": "Ley N° 21.809 Art. 16 D / Efeméride Mineduc 2027",
+    "objetivo": "Objetivo formativo verificable",
+    "indicador": "Medios de verificación concretos (acta, lista de asistencia firmada, registro fotográfico)",
+    "lugar": "Espacio físico específico del colegio",
+    "destinatarios": ["Estudiantes", "Docentes"],
+    "responsable": "Coordinador de Convivencia Escolar",
+    "fechaInicio": "2027-04-28",
+    "horaInicio": "09:30",
+    "fechaTermino": "2027-04-28",
+    "horaTermino": "11:00"
+  }
+]`;
+      } else if (task === 'auditar_ia') {
+        promptText = `Actúa como fiscalizador senior de la Superintendencia de Educación de Chile bajo la nueva Ley N° 21.809 (Art. 16 D, 16 G y 16 H). Revisa este Plan de Gestión de la Convivencia Educativa 2027 y señala qué letras del Art. 16 D faltan por cubrir, brechas de evidencia o de lugar, y recomendaciones concretas:\n\n${planSummary}`;
       } else {
         const focus = task === 'protocolo'
-          ? `Difusión y socialización obligatoria de Protocolos RICE / Ley 21.809: ${userPrompt}`
-          : (userPrompt || 'Jornada preventiva sobre buen trato y resolución pacífica de conflictos');
+          ? `Difusión y socialización obligatoria Art. 16 G Ley 21.809 (RICE / PGCE): ${userPrompt}`
+          : (userPrompt || 'Jornada preventiva sobre buen trato, salud mental y convivencia digital');
 
-        promptText = `Actúa como asesor experto en Convivencia Escolar en Chile. Diseña una acción fiscalizable para el PGCE 2026 basada en: "${focus}".
-Primero entrega una breve explicación pedagógica y normativa (máximo 8 líneas), y al final incluye OBLIGATORIAMENTE un bloque \`\`\`json con esta estructura exacta para importarla al sistema:
+        promptText = `Actúa como asesor experto en Convivencia Educativa en Chile (Ley N° 21.809). Diseña una acción fiscalizable para el PGCE 2027 basada en: "${focus}".
+${rulesContextBlock}
+Primero entrega una breve explicación normativa (máximo 6 líneas) respetando las reglas del colegio, y al final incluye OBLIGATORIAMENTE un bloque \`\`\`json con esta estructura exacta:
 {
   "dimension": "Formación" | "Prevención" | "Participación" | "Gestión Institucional",
+  "letra16D": "b) Información, difusión y formación",
   "nombre": "Título claro de la acción",
-  "marcoNormativo": "Leyes y normativa chilena aplicable",
+  "marcoNormativo": "Ley N° 21.809 Art. 16 D",
   "objetivo": "Objetivo operacional medible",
-  "indicador": "Indicador cuantitativo + medios de verificación exactos exigidos por Superintendencia",
-  "destinatarios": ["Estudiantes", "Apoderados", "Docentes", "Asistentes de la Educación"],
-  "responsable": "Cargo responsable",
-  "fechaInicio": "2026-06-08",
+  "indicador": "Medios de verificación exactos (lista asistencia firmada, acta, registro fotográfico)",
+  "lugar": "Espacio físico del colegio",
+  "destinatarios": ["Estudiantes", "Docentes"],
+  "responsable": "Coordinador de Convivencia Escolar",
+  "fechaInicio": "2027-05-12",
   "horaInicio": "10:00",
-  "fechaTermino": "2026-06-19",
+  "fechaTermino": "2027-05-12",
   "horaTermino": "11:30"
 }`;
       }
@@ -3070,19 +3362,69 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
           reply = data.response || 'Sin respuesta de Ollama.';
         }
 
-        const draft = extractJSONBlock(reply);
+        const jsonMatch = reply.match(/```json\s*([\s\S]*?)```/i) || reply.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
+        let parsedJson = null;
+        if (jsonMatch) {
+          try { parsedJson = JSON.parse(jsonMatch[1]); } catch (e) { parsedJson = null; }
+        }
+
         const cleanText = reply.replace(/```json[\s\S]*?```/gi, '').trim();
         output.textContent = cleanText || reply;
 
-        if (draft) {
-          state.lastGeneratedDraft = draft;
-          document.getElementById('generatedActionSummary').innerHTML = `
-            <strong>${escapeHTML(draft.nombre)}</strong> (${escapeHTML(draft.dimension)})<br/>
-            <span><strong>Horario:</strong> ${escapeHTML(draft.fechaInicio)} (${escapeHTML(draft.horaInicio)}) al ${escapeHTML(draft.fechaTermino)} (${escapeHTML(draft.horaTermino)})</span><br/>
-            <span><strong>Objetivo:</strong> ${escapeHTML(draft.objetivo)}</span><br/>
-            <span><strong>Indicador/Evidencias:</strong> ${escapeHTML(draft.indicador)}</span>
-          `;
-          cardBox.classList.remove('hidden');
+        if (Array.isArray(parsedJson) && parsedJson.length > 0) {
+          const mappedRaw = parsedJson.map(item => {
+            const existing = item.id ? state.actions.find(a => a.id === item.id) : null;
+            return {
+              id: existing ? existing.id : ('act-' + crypto.randomUUID()),
+              codigo: item.codigo || (existing ? existing.codigo : ''),
+              dimension: item.dimension || 'Prevención',
+              letra16D: item.letra16D || 'b) Información, difusión y formación',
+              nombre: String(item.nombre || 'Actividad Mineduc 2027'),
+              marcoNormativo: String(item.marcoNormativo || 'Ley N° 21.809 Art. 16 D / Mineduc 2027'),
+              objetivo: String(item.objetivo || ''),
+              indicador: String(item.indicador || 'Acta + Lista de asistencia firmada + Registro fotográfico'),
+              lugar: String(item.lugar || 'Salas de Clases / Salón Multiuso'),
+              destinatarios: Array.isArray(item.destinatarios) && item.destinatarios.length ? item.destinatarios : ['Estudiantes'],
+              responsable: String(item.responsable || 'Coordinador de Convivencia Escolar'),
+              responsableEmail: String(item.responsableEmail || (existing ? existing.responsableEmail : '')),
+              fechaInicio: item.fechaInicio || '2027-04-28',
+              horaInicio: item.horaInicio || '09:30',
+              fechaTermino: item.fechaTermino || item.fechaInicio || '2027-04-28',
+              horaTermino: item.horaTermino || '11:00',
+              estado: item.estado || (existing ? existing.estado : 'Planificada'),
+              calendarEventId: item.calendarEventId || (existing ? existing.calendarEventId : ''),
+              reprogramaciones: existing ? existing.reprogramaciones : [],
+              evidencias: existing ? existing.evidencias : []
+            };
+          });
+          state.lastGeneratedBatch = applyInstitutionalRulesToActions(mappedRaw);
+
+          const batchBox = document.getElementById('generatedPlanBatchBox');
+          const batchList = document.getElementById('batchPlanList');
+          document.getElementById('batchPlanTitle').textContent = `📋 Actividades Mineduc 2027 Adaptadas por el Agente (${state.lastGeneratedBatch.length} actividades):`;
+          batchList.innerHTML = state.lastGeneratedBatch.map((item, idx) => `
+            <div style="padding: 0.45rem 0; border-bottom: 1px solid #cbd5e1;">
+              <strong>${idx + 1}. [${escapeHTML(item.fechaInicio)} ${escapeHTML(item.horaInicio)}–${escapeHTML(item.horaTermino)}] ${escapeHTML(item.nombre)}</strong><br/>
+              <span style="color:#1e40af; font-weight:600;">${escapeHTML(item.letra16D)}</span> •
+              <span style="color:#0f172a;">📍 ${escapeHTML(item.lugar)}</span><br/>
+              <span style="color:#15803d;">📎 Evidencia: ${escapeHTML(item.indicador)}</span>
+            </div>
+          `).join('');
+          batchBox.classList.remove('hidden');
+        } else {
+          const draft = extractJSONBlock(reply);
+          if (draft) {
+            draft.lugar = parsedJson?.lugar || 'Salas de Clases / Salón Multiuso';
+            draft.letra16D = parsedJson?.letra16D || 'b) Información, difusión y formación';
+            state.lastGeneratedDraft = draft;
+            document.getElementById('generatedActionSummary').innerHTML = `
+              <strong>${escapeHTML(draft.nombre)}</strong> (${escapeHTML(draft.letra16D)})<br/>
+              <span><strong>Lugar:</strong> ${escapeHTML(draft.lugar)} | <strong>Horario:</strong> ${escapeHTML(draft.fechaInicio)} (${escapeHTML(draft.horaInicio)} - ${escapeHTML(draft.horaTermino)})</span><br/>
+              <span><strong>Objetivo:</strong> ${escapeHTML(draft.objetivo)}</span><br/>
+              <span><strong>Evidencias:</strong> ${escapeHTML(draft.indicador)}</span>
+            `;
+            cardBox.classList.remove('hidden');
+          }
         }
       } catch (err) {
         output.textContent = `❌ Error al conectar con el asistente IA: ${err.message}`;
@@ -3189,7 +3531,7 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
       const reportHtml = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Dossier Fiscalización PGCE 2026</title>
       <style>body{font-family:Arial,sans-serif;padding:24px;color:#0f172a}table{width:100%;border-collapse:collapse;margin-top:16px}th,td{border:1px solid #cbd5e1;padding:10px;vertical-align:top;font-size:13px}th{background:#f1f5f9}</style>
       </head><body>
-      <h1>Dossier de Fiscalización — Plan de Gestión de la Convivencia Escolar 2026</h1>
+      <h1>Dossier de Fiscalización — Plan de Gestión de la Convivencia Educativa 2027</h1>
       <p><strong>Establecimiento:</strong> ${escapeHTML(state.schoolName)} | <strong>Fecha Emisión:</strong> ${new Date().toLocaleString('es-CL')}</p>
       <table><thead><tr><th>Código</th><th>Acción y Normativa</th><th>Fecha y Horario</th><th>Estado</th><th>Medios de Verificación (SHA-256)</th></tr></thead>
       <tbody>${rowsHtml}</tbody></table></body></html>`;
@@ -3223,7 +3565,7 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
       const url = URL.createObjectURL(zipBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `Dossier_Fiscalizacion_PGCE_2026_${new Date().toISOString().slice(0, 10)}.zip`;
+      link.download = `Dossier_Fiscalizacion_PGCE_2027_${new Date().toISOString().slice(0, 10)}.zip`;
       link.click();
       URL.revokeObjectURL(url);
       showToast('✅ Dossier .ZIP descargado con informe y evidencias reales.');
@@ -3258,6 +3600,480 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
 
       document.getElementById('btnDeduplicate').addEventListener('click', deduplicateActions);
       document.getElementById('btnCloudSync').addEventListener('click', syncPushToCloud);
+      
+    /**
+     * =========================================================================
+     * MÓDULO 11: SECRETARIA VIRTUAL & AGENTE FISCALIZADOR AUTÓNOMO
+     * =========================================================================
+     */
+    function renderSecretariaRadar() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      let upcoming = 0;
+      let noEmail = 0;
+      let overdue = 0;
+      const itemsHtml = [];
+
+      state.actions.forEach(a => {
+        const hasEmail = a.responsableEmail && a.responsableEmail.trim() !== '';
+        if (!hasEmail) noEmail++;
+
+        const dStart = new Date((a.fechaInicio || '2027-03-15') + 'T00:00:00');
+        const dEnd = new Date((a.fechaTermino || a.fechaInicio || '2027-03-15') + 'T23:59:59');
+        const diffDaysStart = Math.ceil((dStart - today) / (1000 * 60 * 60 * 24));
+        const isDone = a.estado === 'Implementada';
+        const hasEv = a.evidencias && a.evidencias.length > 0;
+
+        let statusTag = '';
+        let borderCol = 'var(--border)';
+
+        if (isDone && !hasEv) {
+          overdue++;
+          statusTag = '<span class="pill pill-brecha">🚨 Fiscalización: Implementada SIN evidencia</span>';
+          borderCol = 'var(--danger)';
+        } else if (!isDone && dEnd < today) {
+          overdue++;
+          statusTag = '<span class="pill pill-brecha">⏰ Vencida sin cierre ni evidencia</span>';
+          borderCol = 'var(--danger)';
+        } else if (!isDone && diffDaysStart >= 0 && diffDaysStart <= 7) {
+          upcoming++;
+          statusTag = `<span class="pill pill-reprogramada">📅 Próxima (en ${diffDaysStart} día/s)</span>`;
+          borderCol = 'var(--warning)';
+        } else if (!hasEmail && !isDone) {
+          statusTag = '<span class="pill pill-planificada">⚠️ Falta correo del responsable</span>';
+        } else {
+          return; // Al día y fuera de ventana inmediata
+        }
+
+        const mailSubject = encodeURIComponent(`[Recordatorio PGCE 2027] ${a.codigo}: ${a.nombre}`);
+        const mailBody = encodeURIComponent(
+          `Estimado/a ${a.responsable}:\n\n` +
+          `Como apoyo de gestión del Plan de Convivencia Educativa 2027 (Ley N° 21.809), te recuerdo la siguiente actividad bajo tu responsabilidad:\n\n` +
+          `• Actividad: ${a.nombre} (${a.codigo})\n` +
+          `• Normativa Art. 16 D: ${a.letra16D || a.dimension}\n` +
+          `• Fecha y Horario: ${formatScheduleDisplay(a)}\n` +
+          `• Lugar: ${a.lugar || 'Establecimiento Educacional'}\n` +
+          `• Participantes: ${(a.destinatarios || []).join(', ')}\n` +
+          `• Propósito: ${a.objetivo}\n` +
+          `• Evidencias obligatorias a subir: ${a.indicador}\n\n` +
+          `Por favor recuerda recolectar y subir los medios de verificación apenas finalice la actividad.\n\nSaludos cordiales,\nCoordinación de Convivencia Escolar`
+        );
+
+        itemsHtml.push(`
+          <div class="evidence-item" style="border-left: 4px solid ${borderCol};">
+            <div style="flex: 1; min-width: 240px;">
+              <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap; margin-bottom:0.2rem;">
+                <span class="code-tag">${escapeHTML(a.codigo)}</span>
+                ${statusTag}
+              </div>
+              <strong>${escapeHTML(a.nombre)}</strong>
+              <div style="font-size:0.76rem; color:var(--text-muted); margin-top:0.15rem;">
+                📍 ${escapeHTML(a.lugar || 'Establecimiento')} • 🕒 ${escapeHTML(formatScheduleDisplay(a))}
+              </div>
+              <div style="font-size:0.76rem; color:var(--text-main); margin-top:0.15rem;">
+                👤 <strong>${escapeHTML(a.responsable)}</strong>
+                ${hasEmail ? `<span style="color:var(--success);">(${escapeHTML(a.responsableEmail)})</span>` : `<span style="color:var(--danger); font-weight:700;">(Sin correo registrado)</span>`}
+              </div>
+            </div>
+            <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+              <button type="button" class="btn-sm" data-open-id="${escapeHTML(a.id)}" data-open-tab="${(isDone && !hasEv) ? 'evidencias' : 'ficha'}">
+                ${(isDone && !hasEv) ? '📎 Subir Evidencia' : '✏️ Editar / Correo'}
+              </button>
+              <a href="mailto:${encodeURIComponent(a.responsableEmail || '')}?subject=${mailSubject}&body=${mailBody}" class="btn btn-sm btn-primary" style="text-decoration:none;">
+                ✉️ Avisar Manual
+              </a>
+            </div>
+          </div>
+        `);
+      });
+
+      document.getElementById('secUpcomingCount').textContent = upcoming;
+      document.getElementById('secNoEmailCount').textContent = noEmail;
+      document.getElementById('secOverdueCount').textContent = overdue;
+
+      const listEl = document.getElementById('secretariaFeedList');
+      listEl.innerHTML = itemsHtml.length > 0
+        ? itemsHtml.join('')
+        : '<div style="padding:1rem; background:var(--success-soft); color:var(--success); border-radius:6px; font-size:0.83rem;">✅ ¡Todo impecable! No hay actividades atrasadas, brechas de evidencia ni avisos urgentes pendientes.</div>';
+    }
+
+    async function callSecretariaBackend(actionName) {
+      if (!state.cloudConfig.url) {
+        document.getElementById('secretariaModal').close();
+        document.getElementById('settingsModal').showModal();
+        showToast('⚙️ Configura primero la URL de Google Apps Script (Code.gs) para activar la Secretaria 24/7.');
+        return;
+      }
+
+      const logEl = document.getElementById('secretariaLogOutput');
+      logEl.textContent = actionName === 'setupDailyTrigger'
+        ? '⏳ Instalando reloj automático diario (08:00 AM) en Google Apps Script...'
+        : '⏳ Sincronizando plan y ejecutando auditoría + envío de correos a responsables...';
+
+      try {
+        const res = await fetch(state.cloudConfig.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: actionName,
+            pin: state.cloudConfig.pin,
+            folderId: state.cloudConfig.folderId,
+            schoolName: state.schoolName,
+            plan: state.actions
+          })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'Error en servidor Google Apps Script');
+
+        if (Array.isArray(data.plan)) {
+          state.actions = data.plan;
+          persistPlan();
+          renderSecretariaRadar();
+        }
+
+        logEl.textContent = data.log || data.message || 'Operación completada con éxito.';
+        showToast(`🕵️ ${data.message || 'Secretaria Fiscalizadora ejecutada correctamente.'}`);
+      } catch (err) {
+        logEl.textContent = `❌ Error: ${err.message}`;
+        showToast(`❌ Error Secretaria: ${err.message}`);
+      }
+    }
+
+      document.getElementById('btnCalendarSync').addEventListener('click', syncToGoogleCalendar);
+      document.getElementById('btnSecretaria').addEventListener('click', () => {
+        renderSecretariaRadar();
+        document.getElementById('secretariaModal').showModal();
+      });
+      document.getElementById('btnInstallDailyTrigger').addEventListener('click', () => callSecretariaBackend('setupDailyTrigger'));
+      
+    /**
+     * =========================================================================
+     * MÓDULO 12: ALFRED — PREPARACIÓN ANTICIPADA PARA REVISIÓN EN DICIEMBRE
+     * =========================================================================
+     */
+
+    /**
+     * =========================================================================
+     * MÓDULO 13: MOTOR DE REGLAS INSTITUCIONALES Y READECUACIÓN AUTOMÁTICA
+     * =========================================================================
+     */
+    const STORAGE_KEY_RULES = 'pgce_agent_rules_v10';
+    const DEFAULT_INSTITUTIONAL_RULES = [
+      'Las capacitaciones o jornadas para docentes y asistentes solo pueden realizarse los viernes de 14:30 a 16:30 hrs.',
+      'Los talleres o escuelas para apoderados deben realizarse entre lunes y jueves de 18:00 a 19:30 hrs en el Salón Multiuso.',
+      'No programar actividades en fin de semana ni durante vacaciones de invierno (12 al 23 de julio de 2027).'
+    ].join('\n');
+
+    function getSavedAgentRules() {
+      return localStorage.getItem(STORAGE_KEY_RULES) || DEFAULT_INSTITUTIONAL_RULES;
+    }
+
+    function saveAgentRules(text) {
+      localStorage.setItem(STORAGE_KEY_RULES, text.trim());
+    }
+
+    // Convierte cualquier fecha YYYY-MM-DD al día de la semana deseado (0=Dom, 1=Lun, ..., 5=Vie, 6=Sab) en la misma semana hábil
+    function shiftDateToTargetWeekday(dateStr, targetWeekday) {
+      const parts = String(dateStr || '2027-04-01').split('-');
+      const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10), 12, 0, 0);
+      if (isNaN(d.getTime())) return dateStr;
+      const currentDay = d.getDay();
+      const diff = targetWeekday - currentDay;
+      d.setDate(d.getDate() + diff);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function ensureWeekdayNotWeekend(dateStr) {
+      const parts = String(dateStr || '2027-04-01').split('-');
+      const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10), 12, 0, 0);
+      if (isNaN(d.getTime())) return dateStr;
+      if (d.getDay() === 6) d.setDate(d.getDate() + 2); // Sábado -> Lunes
+      if (d.getDay() === 0) d.setDate(d.getDate() + 1); // Domingo -> Lunes
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    /**
+     * Aplica determinísticamente las reglas escritas por el usuario (ej. "capacitación docentes -> viernes 14:30 a 16:30")
+     * sobre cualquier lista de acciones (tanto offline como antes/después de la IA).
+     */
+    function applyInstitutionalRulesToActions(actionsList) {
+      const rulesText = getSavedAgentRules().toLowerCase();
+      const lines = rulesText.split('\n').map(l => l.trim()).filter(Boolean);
+
+      const dayMap = {
+        'lunes': 1, 'martes': 2, 'miercoles': 3, 'miércoles': 3,
+        'jueves': 4, 'viernes': 5
+      };
+
+      // Parsear reglas dinámicas de horario y día por público/palabra clave
+      const parsedRules = lines.map(line => {
+        let targetDay = null;
+        for (const [dName, dNum] of Object.entries(dayMap)) {
+          if (line.includes(dName)) { targetDay = dNum; break; }
+        }
+        const timeMatch = line.match(/(\d{1,2}:\d{2})\s*(?:a|hasta|-)\s*(\d{1,2}:\d{2})/);
+        const singleTimeMatch = !timeMatch ? line.match(/(?:a las|desde las)\s*(\d{1,2}:\d{2})/) : null;
+
+        let hIni = timeMatch ? timeMatch[1].padStart(5, '0') : (singleTimeMatch ? singleTimeMatch[1].padStart(5, '0') : null);
+        let hTer = timeMatch ? timeMatch[2].padStart(5, '0') : null;
+
+        let placeMatch = line.match(/(?:en el|en la|en)\s+(sal[oó]n multiuso|biblioteca|gimnasio|patio central|sala de profesores|auditorio)/i);
+        let targetPlace = placeMatch ? placeMatch[1].replace(/\b\w/g, c => c.toUpperCase()) : null;
+
+        const keywords = [];
+        if (line.includes('docente') || line.includes('profesor') || line.includes('capacitaci')) keywords.push('docente', 'capacitaci', 'asistente');
+        if (line.includes('apoderado') || line.includes('familia') || line.includes('padre')) keywords.push('apoderado', 'familia', 'padre');
+        if (line.includes('estudiante') || line.includes('alumno')) keywords.push('estudiante');
+
+        return { line, targetDay, hIni, hTer, targetPlace, keywords };
+      });
+
+      return actionsList.map(act => {
+        const copy = structuredClone(act);
+        copy.fechaInicio = ensureWeekdayNotWeekend(copy.fechaInicio);
+        copy.fechaTermino = ensureWeekdayNotWeekend(copy.fechaTermino || copy.fechaInicio);
+
+        const haystack = `${copy.nombre} ${copy.dimension} ${(copy.destinatarios || []).join(' ')}`.toLowerCase();
+
+        for (const r of parsedRules) {
+          if (r.keywords.length > 0 && r.keywords.some(kw => haystack.includes(kw))) {
+            if (r.targetDay !== null) {
+              copy.fechaInicio = shiftDateToTargetWeekday(copy.fechaInicio, r.targetDay);
+              if (copy.fechaTermino < copy.fechaInicio || (copy.destinatarios || []).includes('Docentes') || (copy.destinatarios || []).includes('Apoderados')) {
+                copy.fechaTermino = copy.fechaInicio;
+              }
+            }
+            if (r.hIni) copy.horaInicio = r.hIni;
+            if (r.hTer) copy.horaTermino = r.hTer;
+            if (r.targetPlace) copy.lugar = r.targetPlace;
+          }
+        }
+        return copy;
+      });
+    }
+
+    function buildFullLaw21809MasterProposal(level, focus) {
+      const base = buildAnnualNormativePlan(level, focus);
+      const extraLaw21809 = [
+        {
+          dimension: 'Gestión Institucional',
+          letra16D: 'a) Coordinación técnico-pedagógica y administrativa',
+          marcoNormativo: 'Ley N° 21.809 Art. 16 D letra a) / Articulación UTP - PME',
+          nombre: 'Mesa Técnica Convivencia–UTP: Integración del Aprendizaje Socioemocional en Planificaciones de Aula',
+          objetivo: 'Articular los objetivos del PGCE 2027 con el currículum escolar y las acciones del PME junto a la Unidad Técnico-Pedagógica.',
+          indicador: 'Acta de reunión técnica Convivencia-UTP firmada + Matriz de articulación curricular.',
+          lugar: 'Sala de Profesores / Oficina UTP',
+          destinatarios: ['Equipo Directivo', 'Docentes'],
+          responsable: 'Coordinador de Convivencia Escolar y Jefe/a UTP',
+          responsableEmail: '',
+          fechaInicio: '2027-03-18',
+          horaInicio: '15:30',
+          fechaTermino: '2027-03-18',
+          horaTermino: '17:00'
+        },
+        {
+          dimension: 'Prevención',
+          letra16D: 'c) Bienestar, aprendizaje socioemocional y salud mental',
+          marcoNormativo: 'Ley N° 21.809 Art. 16 D letra c) / Prevención de Conductas Suicidas y Salud Mental',
+          nombre: 'Jornada Preventiva de Salud Mental Escolar, Bienestar Socioemocional y Activación de Redes Locales',
+          objetivo: 'Fortalecer factores protectores en salud mental estudiantil, detección temprana de señales de alerta y derivación oportuna a redes de salud.',
+          indicador: 'Listas de asistencia firmadas + Flujograma de derivación actualizado + Registro fotográfico.',
+          lugar: 'Gimnasio / Salas de Clases (7° Básico a IV° Medio)',
+          destinatarios: ['Estudiantes', 'Docentes', 'Asistentes de la Educación'],
+          responsable: 'Dupla Psicosocial y Coordinador Convivencia',
+          responsableEmail: '',
+          fechaInicio: '2027-09-08',
+          horaInicio: '10:00',
+          fechaTermino: '2027-09-10',
+          horaTermino: '12:00'
+        },
+        {
+          dimension: 'Formación',
+          letra16D: 'd) Gestión colaborativa de conflictos y prevención de riesgos',
+          marcoNormativo: 'Ley N° 21.809 Art. 16 D letra d) / Mediación y Abordaje Formativo',
+          nombre: 'Taller de Gestión Colaborativa de Conflictos y Prácticas Restaurativas en Comunidad',
+          objetivo: 'Implementar mecanismos institucionales de mediación escolar y diálogo restaurativo previo a la aplicación de medidas disciplinarias.',
+          indicador: 'Protocolo de mediación actualizado + Registro de participantes + Pauta de evaluación.',
+          lugar: 'Biblioteca / Sala Multiuso',
+          destinatarios: ['Docentes', 'Asistentes de la Educación', 'Estudiantes'],
+          responsable: 'Equipo de Convivencia Escolar',
+          responsableEmail: '',
+          fechaInicio: '2027-06-22',
+          horaInicio: '15:30',
+          fechaTermino: '2027-06-22',
+          horaTermino: '17:00'
+        },
+        {
+          dimension: 'Gestión Institucional',
+          letra16D: 'e) Calendarización anual verificable',
+          marcoNormativo: 'Ley N° 21.809 Art. 16 H / Actualización Participativa Cuatrienal PGCE',
+          nombre: 'Consulta Participativa por Niveles y Ciclos para Evaluación y Actualización del PGCE',
+          objetivo: 'Recoger propuestas de estudiantes, apoderados, docentes y asistentes por ciclo educativo para retroalimentar el PGCE conforme al Art. 16 H.',
+          indicador: 'Instrumento de consulta aplicado por ciclo + Acta de sistematización presentada al Consejo Escolar.',
+          lugar: 'Salas de Clases y Reuniones de Apoderados',
+          destinatarios: ['Estudiantes', 'Apoderados', 'Docentes', 'Asistentes de la Educación'],
+          responsable: 'Coordinador de Convivencia Escolar',
+          responsableEmail: '',
+          fechaInicio: '2027-10-12',
+          horaInicio: '09:00',
+          fechaTermino: '2027-10-22',
+          horaTermino: '17:00'
+        }
+      ];
+
+      // Enriquecer base con letras Art. 16 D y lugar explícito
+      const letterMap = [
+        'a) Coordinación técnico-pedagógica y administrativa',
+        'b) Información, difusión y formación',
+        'd) Gestión colaborativa de conflictos y prevención de riesgos',
+        'b) Información, difusión y formación',
+        'g) Formación para madres, padres y apoderados',
+        'f) Participación protagónica de estudiantes',
+        'f) Participación protagónica de estudiantes',
+        'c) Bienestar, aprendizaje socioemocional y salud mental',
+        'f) Participación protagónica de estudiantes',
+        'e) Calendarización anual verificable'
+      ];
+
+      const enrichedBase = base.map((item, idx) => ({
+        ...item,
+        letra16D: item.letra16D || letterMap[idx % letterMap.length],
+        lugar: item.lugar || 'Salas de Clases / Salón Multiuso Establecimiento',
+        responsableEmail: item.responsableEmail || '',
+        calendarEventId: ''
+      }));
+
+      const combined = [...enrichedBase, ...extraLaw21809].sort((a, b) =>
+        (a.fechaInicio || '').localeCompare(b.fechaInicio || '')
+      );
+
+      const withRules = applyInstitutionalRulesToActions(combined);
+      return withRules.map((item, idx) => ({
+        ...item,
+        codigo: `PGCE-2027-${String(idx + 1).padStart(2, '0')}`
+      }));
+    }
+
+    async function orderAlfredPrepareDecemberDraft() {
+      const level = document.getElementById('autoLevel').value;
+      const focus = document.getElementById('autoFocus').value;
+      const proposal = buildFullLaw21809MasterProposal(level, focus);
+      state.lastGeneratedBatch = proposal;
+
+      // Mostrar inmediatamente en la vista previa del modal
+      const batchBox = document.getElementById('generatedPlanBatchBox');
+      const batchList = document.getElementById('batchPlanList');
+      document.getElementById('batchPlanTitle').textContent =
+        `🎩 Borrador Maestro 2027 preparado por Alfred (${proposal.length} acciones • Cubre las 7 letras Art. 16 D):`;
+
+      batchList.innerHTML = proposal.map((item, idx) => `
+        <div style="padding: 0.45rem 0; border-bottom: 1px solid #cbd5e1;">
+          <strong>${idx + 1}. [${escapeHTML(item.codigo)}] ${escapeHTML(item.nombre)}</strong><br/>
+          <span style="color:#1e40af; font-weight:600;">${escapeHTML(item.letra16D)}</span> •
+          <span style="color:#0f172a;">📍 ${escapeHTML(item.lugar)}</span> •
+          <span style="color:#475569;">🕒 ${escapeHTML(item.fechaInicio)} (${escapeHTML(item.horaInicio)})</span><br/>
+          <span style="color:#15803d;">📎 Evidencia: ${escapeHTML(item.indicador)}</span>
+        </div>
+      `).join('');
+      batchBox.classList.remove('hidden');
+
+      const outEl = document.getElementById('copilotOutput');
+      outEl.textContent =
+        `🎩 ALFRED — INFORME DE PREPARACIÓN PARA REVISIÓN EN DICIEMBRE:
+
+` +
+        `1. He estructurado una propuesta completa de ${proposal.length} actividades para todo el año 2027.
+` +
+        `2. Están cubiertas las 7 letras obligatorias del Art. 16 D de la Ley N° 21.809 (a, b, c, d, e, f, g), además de la difusión Art. 16 G y consulta participativa Art. 16 H.
+` +
+        `3. Cada actividad ya incluye fecha tentativa, bloque horario, lugar físico y medio de verificación.
+` +
+        (state.cloudConfig.url
+          ? `4. ⏳ Guardando este borrador en Google Drive (PGCE_2027_Borrador_Alfred.json) y programando aviso para tu semana de revisión en diciembre...`
+          : `4. 💡 Puedes cargarlo ahora mismo con "✅ Reemplazar Plan Actual por Este" o conectar Google Drive en ⚙️ para que Alfred te envíe el recordatorio de revisión en diciembre.`);
+
+      // Si Google Apps Script está conectado, guardarlo en Drive como borrador separado y programar alerta para el lunes 30 de nov / 1 de dic
+      if (state.cloudConfig.url) {
+        try {
+          const res = await fetch(state.cloudConfig.url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'saveAlfredDraft',
+              pin: state.cloudConfig.pin,
+              folderId: state.cloudConfig.folderId,
+              schoolName: state.schoolName,
+              draftPlan: proposal
+            })
+          });
+          const data = await res.json();
+          if (data.ok) {
+            outEl.textContent += `
+
+✅ ${data.message}`;
+            showToast('🎩 Alfred guardó el borrador 2027 en Drive y dejó listo el aviso para diciembre.');
+          }
+        } catch (err) {
+          outEl.textContent += `
+
+⚠️ Borrador generado localmente (no se pudo respaldar en Drive: ${err.message}).`;
+        }
+      } else {
+        showToast('🎩 Borrador 2027 preparado por Alfred (14 acciones Ley 21.809).');
+      }
+    }
+
+    async function loadAlfredDraftFromDrive() {
+      if (!state.cloudConfig.url) {
+        document.getElementById('copilotModal').close();
+        document.getElementById('settingsModal').showModal();
+        showToast('⚙️ Configura primero la URL de Google Apps Script en ⚙️.');
+        return;
+      }
+
+      showToast('🎩 Descargando borrador 2027 preparado por Alfred desde Google Drive...');
+      try {
+        const res = await fetch(state.cloudConfig.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'loadAlfredDraft',
+            pin: state.cloudConfig.pin,
+            folderId: state.cloudConfig.folderId
+          })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'No se encontró borrador de Alfred en Drive');
+
+        state.lastGeneratedBatch = data.draftPlan || [];
+        const batchBox = document.getElementById('generatedPlanBatchBox');
+        const batchList = document.getElementById('batchPlanList');
+        document.getElementById('batchPlanTitle').textContent =
+          `🎩 Borrador de Alfred recuperado de Drive (${state.lastGeneratedBatch.length} acciones):`;
+        batchList.innerHTML = state.lastGeneratedBatch.map((item, idx) => `
+          <div style="padding: 0.45rem 0; border-bottom: 1px solid #cbd5e1;">
+            <strong>${idx + 1}. [${escapeHTML(item.codigo)}] ${escapeHTML(item.nombre)}</strong><br/>
+            <span style="color:#1e40af; font-weight:600;">${escapeHTML(item.letra16D)}</span> •
+            <span style="color:#0f172a;">📍 ${escapeHTML(item.lugar)}</span>
+          </div>
+        `).join('');
+        batchBox.classList.remove('hidden');
+        showToast(`🎩 Borrador de Alfred cargado (${state.lastGeneratedBatch.length} acciones). Revísalo y apruébalo.`);
+      } catch (err) {
+        showToast(`❌ ${err.message}`);
+      }
+    }
+
+      document.getElementById('btnRunSecretariaNow').addEventListener('click', () => callSecretariaBackend('runSecretariaNow'));
+      document.getElementById('btnAlfredPrepareDecember').addEventListener('click', orderAlfredPrepareDecemberDraft);
+      document.getElementById('btnAlfredLoadDraft').addEventListener('click', loadAlfredDraftFromDrive);
 
       document.body.addEventListener('click', (e) => {
         const openTrigger = e.target.closest('[data-open-id]');
@@ -3300,6 +4116,7 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
         const payload = {
           codigo: document.getElementById('fCodigo').value.trim(),
           dimension: document.getElementById('fDimension').value,
+          letra16D: document.getElementById('fLetra16D').value,
           estado: document.getElementById('fEstado').value,
           nombre: nombreVal,
           marcoNormativo: document.getElementById('fNormativa').value.trim(),
@@ -3309,7 +4126,9 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
           horaInicio: document.getElementById('fHoraInicio').value || '09:00',
           fechaTermino: document.getElementById('fTermino').value,
           horaTermino: document.getElementById('fHoraTermino').value || '10:30',
+          lugar: document.getElementById('fLugar').value.trim(),
           responsable: document.getElementById('fResponsable').value.trim(),
+          responsableEmail: document.getElementById('fResponsableEmail').value.trim(),
           destinatarios
         };
 
@@ -3479,20 +4298,34 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
 
       document.getElementById('btnGenerateAnnualPlan').addEventListener('click', generateBatchPlanUI);
 
-      document.getElementById('btnReplaceWithBatchPlan').addEventListener('click', async () => {
-        if (!state.lastGeneratedBatch) return;
-        await vault.clearAll();
+      const applyGeneratedBatchToState = () => {
+        if (!state.lastGeneratedBatch) return false;
         state.actions = state.lastGeneratedBatch.map((item, i) => ({
-          id: 'act-' + crypto.randomUUID(),
-          codigo: `PGCE-2026-${String(i + 1).padStart(2, '0')}`,
-          ...item,
-          estado: 'Planificada',
-          reprogramaciones: [],
-          evidencias: []
+          id: item.id || ('act-' + crypto.randomUUID()),
+          codigo: item.codigo || `PGCE-2027-${String(i + 1).padStart(2, '0')}`,
+          lugar: item.lugar || 'Salas de Clases / Salón Multiuso',
+          letra16D: item.letra16D || 'b) Información, difusión y formación',
+          responsableEmail: item.responsableEmail || '',
+          calendarEventId: item.calendarEventId || '',
+          estado: item.estado || 'Planificada',
+          reprogramaciones: item.reprogramaciones || [],
+          evidencias: item.evidencias || [],
+          ...item
         }));
         persistPlan();
+        return true;
+      };
+
+      document.getElementById('btnReplaceWithBatchPlan').addEventListener('click', () => {
+        if (!applyGeneratedBatchToState()) return;
         document.getElementById('copilotModal').close();
-        showToast('✅ Plan Anual Normativo (10 acciones con horarios) cargado.');
+        showToast('✅ Planificación actualizada con las reglas e instrucciones aplicadas.');
+      });
+
+      document.getElementById('btnApplyAndSyncCalendar').addEventListener('click', async () => {
+        if (!applyGeneratedBatchToState()) return;
+        document.getElementById('copilotModal').close();
+        await syncToGoogleCalendar();
       });
 
       document.getElementById('btnAppendBatchPlan').addEventListener('click', () => {
@@ -3503,7 +4336,11 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
         const startIdx = state.actions.length;
         const added = nonDuplicates.map((item, i) => ({
           id: 'act-' + crypto.randomUUID(),
-          codigo: `PGCE-2026-${String(startIdx + i + 1).padStart(2, '0')}`,
+          codigo: `PGCE-2027-${String(startIdx + i + 1).padStart(2, '0')}`,
+          lugar: item.lugar || 'Salas de Clases / Salón Multiuso',
+          letra16D: item.letra16D || 'b) Información, difusión y formación',
+          responsableEmail: item.responsableEmail || '',
+          calendarEventId: '',
           ...item,
           estado: 'Planificada',
           reprogramaciones: [],
@@ -3528,7 +4365,7 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
         if (!state.lastGeneratedDraft) return;
         state.actions.push({
           id: 'act-' + crypto.randomUUID(),
-          codigo: `PGCE-2026-${String(state.actions.length + 1).padStart(2, '0')}`,
+          codigo: `PGCE-2027-${String(state.actions.length + 1).padStart(2, '0')}`,
           ...state.lastGeneratedDraft,
           estado: 'Planificada',
           reprogramaciones: [],
@@ -3582,7 +4419,7 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Respaldo_PGCE_2026_${new Date().toISOString().slice(0, 10)}.json`;
+        a.download = `Respaldo_PGCE_2027_${new Date().toISOString().slice(0, 10)}.json`;
         a.click();
         URL.revokeObjectURL(url);
         showToast('⬇️ Respaldo JSON descargado.');
@@ -3618,6 +4455,38 @@ Primero entrega una breve explicación pedagógica y normativa (máximo 8 línea
       });
 
       document.getElementById('btnExportZip').addEventListener('click', exportFiscalizacionZip);
+
+      document.getElementById('btnRulesCenter').addEventListener('click', () => {
+        document.getElementById('agentRulesTextarea').value = getSavedAgentRules();
+        document.getElementById('rulesModal').showModal();
+      });
+
+      document.querySelectorAll('[data-add-rule]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const ta = document.getElementById('agentRulesTextarea');
+          const rule = btn.dataset.addRule;
+          ta.value = (ta.value.trim() ? ta.value.trim() + '\n- ' : '- ') + rule;
+        });
+      });
+
+      document.getElementById('btnSaveAgentRules').addEventListener('click', () => {
+        saveAgentRules(document.getElementById('agentRulesTextarea').value);
+        document.getElementById('rulesModal').close();
+        showToast('📜 Reglas operativas guardadas. Alfred y Helena las aplicarán automáticamente.');
+      });
+
+      document.getElementById('btnApplyRulesOfflineNow').addEventListener('click', () => {
+        saveAgentRules(document.getElementById('agentRulesTextarea').value);
+        if (state.actions.length === 0) {
+          showToast('⚠️ No hay acciones cargadas aún para reajustar.');
+          return;
+        }
+        state.actions = applyInstitutionalRulesToActions(state.actions);
+        persistPlan();
+        document.getElementById('rulesModal').close();
+        showToast('⚡ Planificación reajustada automáticamente según tus reglas (días, horarios y lugares).');
+      });
+
     });
   </script>
 </body>
