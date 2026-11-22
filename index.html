@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PGCE Audit Pro 2027 (v10.0) — Reglas Institucionales, Reajuste Automático Alfred & Helena</title>
+  <title>PGCE Audit Pro 2027 (v11.0) — Directorio Institucional Google, Resumen Semanal Helena & Alfred</title>
   <style>
     :root {
       --bg-app: #f1f5f9;
@@ -760,7 +760,7 @@
       <div class="brand-text">
         <h1>
           PGCE Audit Pro 2027
-          <span class="badge-normativa">v10.0 • Reglas & Auto-Reajuste</span>
+          <span class="badge-normativa">v11.0 • Directorio Google & Resumen Semanal</span>
           <span id="cloudStatusBadge" class="badge-cloud" title="Estado de sincronización multi-dispositivo con Google Drive">💾 Local</span>
         </h1>
         <p id="schoolSubtitle">Colegio Nuestra Señora de las Mercedes • Plan de Gestión Convivencia Educativa 2027 (Ley 21.809)</p>
@@ -1025,8 +1025,12 @@
         </div>
 
         <div class="form-group full">
-          <label for="fResponsableEmail">Correo Institucional del Responsable (Para invitación Google Calendar)</label>
-          <input type="text" id="fResponsableEmail" placeholder="Ej: convivencia@colegio.cl, psicologia@colegio.cl" />
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.4rem;">
+            <label for="fResponsableEmail">Correo Institucional del Responsable (Autocompletado Google • Puedes agregar varios separados por coma)</label>
+            <button type="button" id="btnSyncContactsInline" class="btn-sm" style="padding:0.18rem 0.5rem; font-size:0.73rem;" title="Traer correos institucionales desde tu cuenta Google">🔄 Sincronizar Correos Google</button>
+          </div>
+          <input type="text" id="fResponsableEmail" list="institutionalEmailsDatalist" autocomplete="off" placeholder="Escribe un nombre o correo institucional (ej: Valentina, Josefina, @nsmquilpue.cl)..." />
+          <div id="quickContactChips" style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.35rem;"></div>
         </div>
 
         <div class="form-group full">
@@ -1204,8 +1208,9 @@
           </div>
 
           <div class="form-group full">
-            <label for="shareRecipients">Correos Destinatarios (Opcional, separados por coma)</label>
-            <input type="text" id="shareRecipients" placeholder="Ej: docentes@colegio.cl, centrodepadres@colegio.cl" />
+            <label for="shareRecipients">Correos Destinatarios (Autocompletado Google • Separados por coma)</label>
+            <input type="text" id="shareRecipients" list="institutionalEmailsDatalist" autocomplete="off" placeholder="Escribe nombre o correo institucional..." />
+            <div id="shareContactChips" style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.35rem;"></div>
           </div>
         </div>
 
@@ -1462,6 +1467,24 @@
 
       <hr style="border: none; border-top: 1px solid var(--border);" />
 
+      <div style="background: var(--success-soft); border: 1px solid rgba(21, 128, 61, 0.3); padding: 1rem; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 0.6rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+          <strong style="color: var(--success);">📇 Directorio de Correos Institucionales (Autocompletado tipo Gmail)</strong>
+          <button type="button" id="btnSyncGoogleContacts" class="btn-success btn-sm">🔄 Importar desde mi Cuenta Google</button>
+        </div>
+        <p style="font-size: 0.79rem; color: var(--text-muted);">
+          Sincroniza automáticamente los correos de tu cuenta institucional Google (<code>@nsmquilpue.cl</code> y contactos frecuentes) o agrégalos manualmente para seleccionarlos con un clic al asignar responsables.
+        </p>
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr auto;">
+          <input type="text" id="newContactName" placeholder="Nombre y Cargo (ej: Valentina Vidal - Psicóloga)" />
+          <input type="text" id="newContactEmail" placeholder="Correo (ej: vvidal@nsmquilpue.cl)" />
+          <button type="button" id="btnAddDirectoryContact" class="btn-primary btn-sm">+ Agregar</button>
+        </div>
+        <div id="directoryListContainer" class="evidence-list" style="max-height: 150px; overflow-y: auto;"></div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border);" />
+
       <div style="display: flex; flex-direction: column; gap: 0.5rem;">
         <strong>Portabilidad Manual (Archivo .JSON)</strong>
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -1505,8 +1528,9 @@
           <strong>2)</strong> Fiscaliza 48 horas después de cada actividad si fue cerrada y si subieron sus respaldos (actas, asistencia, fotos), enviándote un reporte consolidado.
         </p>
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-          <button type="button" id="btnInstallDailyTrigger" class="btn-primary btn-sm">⏰ Activar Vigilancia Automática (08:00 AM)</button>
+          <button type="button" id="btnInstallDailyTrigger" class="btn-primary btn-sm">⏰ Activar Vigilancia Diaria + Resumen Lunes (08:00 AM)</button>
           <button type="button" id="btnRunSecretariaNow" class="btn-success btn-sm">📨 Ejecutar Revisión y Notificar Ahora</button>
+          <button type="button" id="btnSendWeeklySummaryNow" class="btn-accent btn-sm">📅 Enviar Resumen Semanal Ahora</button>
         </div>
       </div>
 
@@ -1591,6 +1615,7 @@
     </div>
   </dialog>
 
+  <datalist id="institutionalEmailsDatalist"></datalist>
   <div id="toastContainer" class="toast-container"></div>
 
   <script type="module">
@@ -4455,6 +4480,170 @@ Primero entrega una breve explicación normativa (máximo 6 líneas) respetando 
       });
 
       document.getElementById('btnExportZip').addEventListener('click', exportFiscalizacionZip);
+
+    /**
+     * =========================================================================
+     * MÓDULO 14: DIRECTORIO DE CORREOS INSTITUCIONALES (AUTOCOMPLETADO TIPO GMAIL)
+     * =========================================================================
+     */
+    const STORAGE_KEY_DIRECTORY = 'pgce_institutional_directory_v11';
+    const DEFAULT_TEAM_CONTACTS = [
+      { name: 'Coordinación Convivencia Escolar', email: '' },
+      { name: 'Valentina Vidal Cruz (Psicóloga)', email: '' },
+      { name: 'Josefina Sarzosa (Psicóloga)', email: '' },
+      { name: 'Valeria Martínez (Inspectoría)', email: '' },
+      { name: 'Francisca Hurtado (Docente)', email: '' },
+      { name: 'Profesor Bustos (Docente)', email: '' }
+    ];
+
+    function getInstitutionalDirectory() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_DIRECTORY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return structuredClone(DEFAULT_TEAM_CONTACTS);
+    }
+
+    function saveInstitutionalDirectory(list) {
+      // Deduplicar por email o nombre
+      const map = new Map();
+      for (const item of list) {
+        const key = (item.email && item.email.trim()) ? item.email.trim().toLowerCase() : item.name.trim().toLowerCase();
+        if (!key) continue;
+        if (!map.has(key) || (item.email && !map.get(key).email)) {
+          map.set(key, { name: item.name.trim(), email: (item.email || '').trim() });
+        }
+      }
+      const cleanList = Array.from(map.values());
+      localStorage.setItem(STORAGE_KEY_DIRECTORY, JSON.stringify(cleanList));
+      refreshInstitutionalDirectoryUI();
+      return cleanList;
+    }
+
+    function appendEmailToInput(inputEl, emailToAdd) {
+      if (!emailToAdd) return;
+      const current = inputEl.value.split(',').map(s => s.trim()).filter(Boolean);
+      if (!current.includes(emailToAdd)) {
+        current.push(emailToAdd);
+        inputEl.value = current.join(', ');
+      }
+    }
+
+    function refreshInstitutionalDirectoryUI() {
+      const dir = getInstitutionalDirectory();
+      const datalist = document.getElementById('institutionalEmailsDatalist');
+      if (datalist) {
+        datalist.innerHTML = dir
+          .filter(c => c.email)
+          .map(c => `<option value="${escapeHTML(c.email)}">${escapeHTML(c.name)}</option>`)
+          .join('');
+      }
+
+      // Chips rápidos en formulario de acción
+      const formChips = document.getElementById('quickContactChips');
+      if (formChips) {
+        const withEmail = dir.filter(c => c.email);
+        formChips.innerHTML = withEmail.length > 0
+          ? withEmail.slice(0, 12).map(c =>
+              `<button type="button" class="btn-sm" style="padding:0.15rem 0.45rem; font-size:0.72rem; border-radius:999px;" data-pick-email="${escapeHTML(c.email)}" data-target-input="fResponsableEmail" title="${escapeHTML(c.email)}">+ ${escapeHTML(c.name)}</button>`
+            ).join('')
+          : `<span style="font-size:0.74rem; color:var(--text-light);">💡 Presiona "Sincronizar Correos Google" para cargar automáticamente los correos de tu colegio.</span>`;
+      }
+
+      // Chips rápidos en difusión por correo
+      const shareChips = document.getElementById('shareContactChips');
+      if (shareChips) {
+        const withEmail = dir.filter(c => c.email);
+        shareChips.innerHTML = withEmail.slice(0, 10).map(c =>
+          `<button type="button" class="btn-sm" style="padding:0.15rem 0.45rem; font-size:0.72rem; border-radius:999px;" data-pick-email="${escapeHTML(c.email)}" data-target-input="shareRecipients" title="${escapeHTML(c.email)}">+ ${escapeHTML(c.name)}</button>`
+        ).join('');
+      }
+
+      // Lista en modal Configuración
+      const dirContainer = document.getElementById('directoryListContainer');
+      if (dirContainer) {
+        dirContainer.innerHTML = dir.map((c, idx) => `
+          <div class="evidence-item" style="padding:0.4rem 0.65rem;">
+            <div style="font-size:0.78rem;">
+              <strong>${escapeHTML(c.name)}</strong>
+              ${c.email ? `<span style="color:var(--primary); margin-left:0.4rem;">&lt;${escapeHTML(c.email)}&gt;</span>` : `<span style="color:var(--warning); margin-left:0.4rem;">(Sin correo asignado aún)</span>`}
+            </div>
+            <button type="button" class="btn-danger btn-sm" style="padding:0.15rem 0.4rem;" data-del-contact="${idx}">✕</button>
+          </div>
+        `).join('');
+      }
+    }
+
+    async function syncGoogleInstitutionalContacts() {
+      if (!state.cloudConfig.url) {
+        document.getElementById('settingsModal').showModal();
+        showToast('⚙️ Configura primero la URL de Google Apps Script en ⚙️ para leer tus correos institucionales.');
+        return;
+      }
+
+      showToast('🔄 Consultando correos institucionales en tu cuenta Google...');
+      try {
+        const res = await fetch(state.cloudConfig.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'getInstitutionalContacts',
+            pin: state.cloudConfig.pin,
+            folderId: state.cloudConfig.folderId
+          })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'No se pudieron obtener los contactos');
+
+        const current = getInstitutionalDirectory();
+        const incoming = Array.isArray(data.contacts) ? data.contacts : [];
+        const merged = saveInstitutionalDirectory([...current, ...incoming]);
+        showToast(`✅ Directorio actualizado: ${merged.filter(c => c.email).length} correos institucionales disponibles.`);
+      } catch (err) {
+        showToast(`❌ Error sincronizando correos Google: ${err.message}`);
+      }
+    }
+
+
+      refreshInstitutionalDirectoryUI();
+
+      document.getElementById('btnSendWeeklySummaryNow').addEventListener('click', () => callSecretariaBackend('sendWeeklySummaryNow'));
+      document.getElementById('btnSyncGoogleContacts').addEventListener('click', syncGoogleInstitutionalContacts);
+      document.getElementById('btnSyncContactsInline').addEventListener('click', syncGoogleInstitutionalContacts);
+
+      document.getElementById('btnAddDirectoryContact').addEventListener('click', () => {
+        const name = document.getElementById('newContactName').value.trim();
+        const email = document.getElementById('newContactEmail').value.trim();
+        if (!name || !email) {
+          showToast('⚠️ Ingresa nombre y correo institucional.');
+          return;
+        }
+        const current = getInstitutionalDirectory();
+        saveInstitutionalDirectory([...current, { name, email }]);
+        document.getElementById('newContactName').value = '';
+        document.getElementById('newContactEmail').value = '';
+        showToast('✅ Contacto agregado al directorio institucional.');
+      });
+
+      document.getElementById('directoryListContainer').addEventListener('click', (e) => {
+        const delBtn = e.target.closest('[data-del-contact]');
+        if (!delBtn) return;
+        const idx = parseInt(delBtn.dataset.delContact, 10);
+        const current = getInstitutionalDirectory();
+        current.splice(idx, 1);
+        saveInstitutionalDirectory(current);
+      });
+
+      document.body.addEventListener('click', (e) => {
+        const pickBtn = e.target.closest('[data-pick-email]');
+        if (!pickBtn) return;
+        const targetInput = document.getElementById(pickBtn.dataset.targetInput);
+        if (targetInput) {
+          appendEmailToInput(targetInput, pickBtn.dataset.pickEmail);
+          showToast(`➕ Agregado: ${pickBtn.dataset.pickEmail}`);
+        }
+      });
+
 
       document.getElementById('btnRulesCenter').addEventListener('click', () => {
         document.getElementById('agentRulesTextarea').value = getSavedAgentRules();
