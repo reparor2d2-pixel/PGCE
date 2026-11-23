@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PGCE Audit Pro 2027 (v11.0) — Directorio Institucional Google, Resumen Semanal Helena & Alfred</title>
+  <title>PGCE Audit Pro 2027 (v11.1) — Selector Modelos Gemini, Anti-Bloqueo & Equipo Real NSM</title>
   <style>
     :root {
       --bg-app: #f1f5f9;
@@ -760,7 +760,7 @@
       <div class="brand-text">
         <h1>
           PGCE Audit Pro 2027
-          <span class="badge-normativa">v11.0 • Directorio Google & Resumen Semanal</span>
+          <span class="badge-normativa">v11.1 • Selector Gemini & Equipo Real</span>
           <span id="cloudStatusBadge" class="badge-cloud" title="Estado de sincronización multi-dispositivo con Google Drive">💾 Local</span>
         </h1>
         <p id="schoolSubtitle">Colegio Nuestra Señora de las Mercedes • Plan de Gestión Convivencia Educativa 2027 (Ley 21.809)</p>
@@ -1367,14 +1367,23 @@
             </select>
           </div>
 
+          <div class="form-group" id="geminiModelGroup">
+            <label for="geminiModelSelect">Modelo Gemini (De más sencillo a mediano)</label>
+            <select id="geminiModelSelect">
+              <option value="gemini-2.5-flash-lite">⚡ Gemini 2.5 Flash-Lite (Más sencillo / Ultra rápido)</option>
+              <option value="gemini-2.5-flash" selected>✨ Gemini 2.5 Flash (Equilibrado / Recomendado)</option>
+              <option value="gemini-2.5-pro">🧠 Gemini 2.5 Pro (Mediano / Análisis profundo)</option>
+            </select>
+          </div>
+
           <div class="form-group" id="geminiKeyGroup">
             <label for="geminiApiKey">Tu Gemini API Key (se guarda solo en tu navegador)</label>
             <input type="password" id="geminiApiKey" placeholder="AIzaSy..." />
           </div>
 
           <div class="form-group hidden" id="ollamaModelGroup">
-            <label for="ollamaModel">Modelo Local Ollama (ej: llama3.1, qwen2.5)</label>
-            <input type="text" id="ollamaModel" value="llama3.1" placeholder="llama3.1" />
+            <label for="ollamaModel">Modelo Local Ollama (ej: gemma2:2b, llama3.1)</label>
+            <input type="text" id="ollamaModel" value="gemma2:2b" placeholder="gemma2:2b" />
           </div>
 
           <div class="form-group">
@@ -2989,7 +2998,7 @@
                 objetivo: 'Fortalecer el rol formativo de madres, padres y apoderados en la prevención de conflictos y apoyo socioemocional.',
                 indicador: '75% de asistencia de apoderados por curso + Lista de asistencia firmada + Encuesta.',
                 destinatarios: ['Apoderados'],
-                responsable: 'Trabajador Social y Coordinador Convivencia'
+                responsable: 'Coordinador de Convivencia Escolar y Psicólogas (Valentina Vidal Cruz / Josefina Sarzosa)'
               }
             : {
                 dimension: 'Prevención',
@@ -3055,7 +3064,7 @@
           objetivo: 'Promover estrategias conjuntas entre familia y colegio para el acompañamiento socioemocional y prevención del ausentismo.',
           indicador: '70% de participación de familias + Listas de asistencia por curso + Encuesta de evaluación.',
           destinatarios: ['Apoderados'],
-          responsable: 'Coordinador Convivencia y Trabajador Social',
+          responsable: 'Coordinador de Convivencia Escolar y Psicólogas (Valentina Vidal Cruz / Josefina Sarzosa)',
           fechaInicio: '2027-06-08',
           horaInicio: '18:00',
           fechaTermino: '2027-06-19',
@@ -3228,9 +3237,11 @@
     }
 
     async function askAICopilot() {
+      const btnAsk = document.getElementById('btnAskAI');
       const provider = document.getElementById('aiProvider').value;
+      const geminiModel = document.getElementById('geminiModelSelect')?.value || 'gemini-2.5-flash';
       const apiKey = document.getElementById('geminiApiKey').value.trim();
-      const ollamaModel = document.getElementById('ollamaModel').value.trim() || 'llama3.1';
+      const ollamaModel = document.getElementById('ollamaModel').value.trim() || 'gemma2:2b';
       const task = document.getElementById('copilotTask').value;
       const userPrompt = document.getElementById('copilotPrompt').value.trim();
       const output = document.getElementById('copilotOutput');
@@ -3246,9 +3257,16 @@
       }
       if (apiKey) localStorage.setItem(STORAGE_KEY_GEMINI, apiKey);
 
+      btnAsk.disabled = true;
+      const origBtnText = btnAsk.textContent;
+      btnAsk.textContent = '⏳ Generando propuesta...';
+
       output.textContent = provider === 'gemini'
-        ? '⏳ Consultando asesor experto en Gemini...'
-        : `⏳ Consultando modelo local Ollama (${ollamaModel}) en localhost:11434...`;
+        ? `⏳ Consultando modelo ${geminiModel} (máx. 35 seg)...`
+        : `⏳ Consultando modelo local Ollama (${ollamaModel}) en localhost:11434 (máx. 35 seg)...`;
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 35000);
 
       const planSummary = state.actions.map(a =>
         `- ${a.codigo} [${a.dimension}] ${a.nombre} | Normativa: ${a.marcoNormativo} | Estado: ${a.estado} | Evidencias: ${a.evidencias.length}`
@@ -3362,20 +3380,27 @@ Primero entrega una breve explicación normativa (máximo 6 líneas) respetando 
       try {
         let reply = '';
         if (provider === 'gemini') {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent?key=${encodeURIComponent(apiKey)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal,
             body: JSON.stringify({
               contents: [{ parts: [{ text: promptText }] }]
             })
           });
           const data = await res.json();
-          if (data.error) throw new Error(data.error.message);
+          if (data.error) {
+            if (geminiModel === 'gemini-2.5-pro' && String(data.error.message).toLowerCase().includes('quota')) {
+              throw new Error('Tu API Key gratuita no tiene cuota habilitada para Gemini 2.5 Pro. Cambia el selector a "Gemini 2.5 Flash" o "Gemini 2.5 Flash-Lite".');
+            }
+            throw new Error(data.error.message);
+          }
           reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sin respuesta generada.';
         } else {
           const res = await fetch('http://localhost:11434/api/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal,
             body: JSON.stringify({
               model: ollamaModel,
               prompt: promptText,
@@ -3452,7 +3477,15 @@ Primero entrega una breve explicación normativa (máximo 6 líneas) respetando 
           }
         }
       } catch (err) {
-        output.textContent = `❌ Error al conectar con el asistente IA: ${err.message}`;
+        if (err.name === 'AbortError') {
+          output.textContent = '⏱️ Tiempo de espera agotado (35 segundos). Verifica tu conexión a internet, la validez de tu API Key o cambia al modelo más rápido "Gemini 2.5 Flash-Lite".';
+        } else {
+          output.textContent = `❌ Error al conectar con el asistente IA: ${err.message}`;
+        }
+      } finally {
+        clearTimeout(timeoutId);
+        btnAsk.disabled = false;
+        btnAsk.textContent = origBtnText;
       }
     }
 
@@ -3787,7 +3820,8 @@ Primero entrega una breve explicación normativa (máximo 6 líneas) respetando 
     const DEFAULT_INSTITUTIONAL_RULES = [
       'Las capacitaciones o jornadas para docentes y asistentes solo pueden realizarse los viernes de 14:30 a 16:30 hrs.',
       'Los talleres o escuelas para apoderados deben realizarse entre lunes y jueves de 18:00 a 19:30 hrs en el Salón Multiuso.',
-      'No programar actividades en fin de semana ni durante vacaciones de invierno (12 al 23 de julio de 2027).'
+      'No programar actividades en fin de semana ni durante vacaciones de invierno (12 al 23 de julio de 2027).',
+      'El establecimiento NO cuenta con Trabajador/a Social ni Asistente Social. Todas las intervenciones psicosociales y talleres con apoderados se asignan al Coordinador de Convivencia Escolar y a las psicólogas Valentina Vidal Cruz o Josefina Sarzosa.'
     ].join('\n');
 
     function getSavedAgentRules() {
@@ -4380,6 +4414,7 @@ Primero entrega una breve explicación normativa (máximo 6 líneas) respetando 
       document.getElementById('aiProvider').addEventListener('change', (e) => {
         const isOllama = e.target.value === 'ollama';
         document.getElementById('geminiKeyGroup').classList.toggle('hidden', isOllama);
+        document.getElementById('geminiModelGroup').classList.toggle('hidden', isOllama);
         document.getElementById('ollamaModelGroup').classList.toggle('hidden', !isOllama);
       });
 
