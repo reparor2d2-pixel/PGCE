@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PGCE Audit Pro 2027 (v11.2) — Indicador Conexión IA en Vivo, Proxy Google & Multi-Acción</title>
+  <title>PGCE Audit Pro 2027 (v11.3) — Cancelación Instantánea, Respuesta Ultra-Rápida & Multi-Acción</title>
   <style>
     :root {
       --bg-app: #f1f5f9;
@@ -760,7 +760,7 @@
       <div class="brand-text">
         <h1>
           PGCE Audit Pro 2027
-          <span class="badge-normativa">v11.2 • Indicador IA en Vivo</span>
+          <span class="badge-normativa">v11.3 • Respuesta Rápida & Control Total</span>
           <span id="cloudStatusBadge" class="badge-cloud" title="Estado de sincronización multi-dispositivo con Google Drive">💾 Local</span>
         </h1>
         <p id="schoolSubtitle">Colegio Nuestra Señora de las Mercedes • Plan de Gestión Convivencia Educativa 2027 (Ley 21.809)</p>
@@ -3245,6 +3245,7 @@
     }
 
     let currentAIController = null;
+    let currentAICancelReject = null;
     let currentAITimerInterval = null;
 
     function setAIConnectionStatus(status, label) {
@@ -3269,25 +3270,34 @@
 
     async function callAIProviderUnified(promptText, signal) {
       const provider = document.getElementById('aiProvider').value;
-      const geminiModel = document.getElementById('geminiModelSelect')?.value || 'gemini-2.5-flash';
+      const geminiModel = document.getElementById('geminiModelSelect')?.value || 'gemini-2.5-flash-lite';
       const apiKey = document.getElementById('geminiApiKey').value.trim();
       const ollamaModel = document.getElementById('ollamaModel').value.trim() || 'gemma2:2b';
 
       if (provider === 'gemini') {
-        // 1. Intento directo desde el navegador
+        const generationConfig = {
+          temperature: 0.3,
+          maxOutputTokens: 4096
+        };
+        // Desactivar thinkingBudget largo en modelos 2.5 flash para respuesta en 2-4 segundos
+        if (geminiModel.includes('2.5-flash')) {
+          generationConfig.thinkingConfig = { thinkingBudget: 0 };
+        }
+
         try {
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent?key=${encodeURIComponent(apiKey)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             signal,
             body: JSON.stringify({
-              contents: [{ parts: [{ text: promptText }] }]
+              contents: [{ parts: [{ text: promptText }] }],
+              generationConfig
             })
           });
           const data = await res.json();
           if (data.error) {
             if (geminiModel === 'gemini-2.5-pro' && String(data.error.message).toLowerCase().includes('quota')) {
-              throw new Error('Tu API Key gratuita no tiene cuota habilitada para Gemini 2.5 Pro. Cambia el selector a "Gemini 2.5 Flash" o "Gemini 2.5 Flash-Lite".');
+              throw new Error('Tu API Key gratuita no tiene cuota habilitada para Gemini 2.5 Pro. Cambia el selector a "Gemini 2.5 Flash-Lite" o "Gemini 2.5 Flash".');
             }
             throw new Error(data.error.message);
           }
@@ -3295,7 +3305,6 @@
           return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sin respuesta generada.';
         } catch (directErr) {
           if (directErr.name === 'AbortError') throw directErr;
-          // 2. Si Safari/bloqueador impide la conexión directa, intentar vía puente Google Apps Script si está configurado
           if (state.cloudConfig && state.cloudConfig.url) {
             const proxyRes = await fetch(state.cloudConfig.url, {
               method: 'POST',
@@ -3354,16 +3363,20 @@
       btnTest.disabled = true;
       setAIConnectionStatus('testing', '🟡 Verificando...');
       const ctrl = new AbortController();
-      const tid = setTimeout(() => ctrl.abort(), 15000);
 
       try {
-        const reply = await callAIProviderUnified('Responde únicamente con la palabra: CONECTADO', ctrl.signal);
+        const reply = await Promise.race([
+          callAIProviderUnified('Responde únicamente con la palabra: CONECTADO', ctrl.signal),
+          new Promise((_, reject) => setTimeout(() => {
+            ctrl.abort();
+            reject(new Error('Tiempo agotado (12s)'));
+          }, 12000))
+        ]);
         showToast(`✅ Conexión IA verificada: ${reply.trim().slice(0, 30)}`);
       } catch (err) {
         setAIConnectionStatus('error', '🔴 Sin conexión');
-        showToast(`❌ Fallo prueba de conexión IA: ${err.name === 'AbortError' ? 'Tiempo agotado (15s)' : err.message}`);
+        showToast(`❌ Fallo prueba de conexión IA: ${err.message}`);
       } finally {
-        clearTimeout(tid);
         btnTest.disabled = false;
       }
     }
@@ -3373,7 +3386,7 @@
       const btnCancel = document.getElementById('btnCancelAI');
       const timerEl = document.getElementById('aiLiveTimer');
       const provider = document.getElementById('aiProvider').value;
-      const geminiModel = document.getElementById('geminiModelSelect')?.value || 'gemini-2.5-flash';
+      const geminiModel = document.getElementById('geminiModelSelect')?.value || 'gemini-2.5-flash-lite';
       const apiKey = document.getElementById('geminiApiKey').value.trim();
       const ollamaModel = document.getElementById('ollamaModel').value.trim() || 'gemma2:2b';
       const task = document.getElementById('copilotTask').value;
@@ -3392,24 +3405,24 @@
       }
       if (apiKey) localStorage.setItem(STORAGE_KEY_GEMINI, apiKey);
 
-      if (currentAIController) currentAIController.abort();
+      if (currentAIController) {
+        try { currentAIController.abort(); } catch (e) {}
+      }
       if (currentAITimerInterval) clearInterval(currentAITimerInterval);
 
       currentAIController = new AbortController();
-      const timeoutId = setTimeout(() => {
-        if (currentAIController) currentAIController.abort();
-      }, 25000);
-
+      const MAX_SECONDS = 30;
       let elapsed = 0;
+
       btnAsk.disabled = true;
       btnAsk.textContent = '⏳ Procesando...';
       btnCancel.classList.remove('hidden');
-      setAIConnectionStatus('testing', '🟡 Conectando con IA...');
-      timerEl.textContent = '0s / 25s';
+      setAIConnectionStatus('testing', `🟡 Consultando ${provider === 'gemini' ? geminiModel : ollamaModel}...`);
+      timerEl.textContent = `0s / ${MAX_SECONDS}s`;
 
       currentAITimerInterval = setInterval(() => {
         elapsed++;
-        timerEl.textContent = `${elapsed}s / 25s`;
+        timerEl.textContent = `${elapsed}s / ${MAX_SECONDS}s`;
       }, 1000);
 
       output.textContent = provider === 'gemini'
@@ -3417,16 +3430,15 @@
         : `⏳ Enviando solicitud a Ollama (${ollamaModel})...`;
 
       const planSummary = state.actions.map(a =>
-        `- ${a.codigo} [${a.dimension}] ${a.nombre} | Normativa: ${a.marcoNormativo} | Estado: ${a.estado} | Evidencias: ${a.evidencias.length}`
+        `- ${a.codigo} [${a.dimension}] ${a.nombre} (${a.fechaInicio}) | Resp: ${a.responsable}`
       ).join('\n');
 
       const institutionalRules = getSavedAgentRules();
-      const rulesContextBlock = `\nREGLAS OPERATIVAS OBLIGATORIAS DEL COLEGIO (DEBES RESPETARLAS ESTRICTAMENTE):\n${institutionalRules}\n`;
+      const rulesContextBlock = `\nREGLAS OPERATIVAS OBLIGATORIAS DEL COLEGIO:\n${institutionalRules}\n`;
 
       let promptText = '';
       if (task === 'reajustar_plan') {
         if (state.actions.length === 0) {
-          clearTimeout(timeoutId);
           clearInterval(currentAITimerInterval);
           btnAsk.disabled = false;
           btnAsk.textContent = '✨ Consultar Asistente IA';
@@ -3435,43 +3447,38 @@
           showToast('⚠️ No hay acciones cargadas en el plan actual para readecuar.');
           return;
         }
-        const currentJson = JSON.stringify(state.actions.map(a => ({
+        // Payload compacto para que Gemini responda en 3-5 segundos sin saturar tokens
+        const compactPlan = state.actions.map(a => ({
           id: a.id,
           codigo: a.codigo,
           dimension: a.dimension,
           letra16D: a.letra16D,
           nombre: a.nombre,
-          marcoNormativo: a.marcoNormativo,
           objetivo: a.objetivo,
           indicador: a.indicador,
           lugar: a.lugar,
           destinatarios: a.destinatarios,
           responsable: a.responsable,
-          responsableEmail: a.responsableEmail,
           fechaInicio: a.fechaInicio,
           horaInicio: a.horaInicio,
           fechaTermino: a.fechaTermino,
-          horaTermino: a.horaTermino,
-          estado: a.estado,
-          calendarEventId: a.calendarEventId
-        })), null, 2);
+          horaTermino: a.horaTermino
+        }));
 
         promptText = `Eres Alfred, Agente Planificador de Convivencia Educativa (Ley N° 21.809).
-Tu tarea es READECUAR Y ACTUALIZAR el plan de gestión existente según las reglas del colegio y la nueva instrucción del coordinador.
+Tu tarea es READECUAR el plan actual (y/o agregar nuevas acciones si el coordinador lo pide) respetando las reglas del colegio.
 ${rulesContextBlock}
-INSTRUCCIÓN ESPECÍFICA DEL COORDINADOR:
-"${userPrompt || 'Aplica todas las reglas operativas institucionales (días, horarios, lugares y bloqueos de fechas) sobre el plan actual.'}"
+INSTRUCCIÓN DEL COORDINADOR:
+"${userPrompt || 'Aplica todas las reglas operativas institucionales sobre el plan actual.'}"
 
-PLAN ACTUAL EN JSON:
-${currentJson}
+PLAN ACTUAL (JSON COMPACTO):
+${JSON.stringify(compactPlan)}
 
-REGLAS DE SALIDA:
-1. Conserva los campos "id", "codigo", "estado" y "calendarEventId" de cada actividad.
-2. Modifica fechas, horarios, lugares o responsables según las reglas e instrucción. Ninguna fecha debe caer sábado o domingo.
-3. Entrega primero un resumen breve (máximo 5 líneas) y luego OBLIGATORIAMENTE el bloque \`\`\`json con el arreglo completo actualizado.`;
+SALIDA OBLIGATORIA:
+1. Resumen breve de cambios (máximo 4 líneas).
+2. Un bloque \`\`\`json con el arreglo completo actualizado (conserva "id" y "codigo" en las existentes; para actividades nuevas deja "id": "" y "codigo": ""). Ninguna fecha debe caer sábado o domingo.`;
       } else if (task === 'ingestar_mineduc') {
         if (!userPrompt) {
-          clearTimeout(timeoutId);
           clearInterval(currentAITimerInterval);
           btnAsk.disabled = false;
           btnAsk.textContent = '✨ Consultar Asistente IA';
@@ -3486,7 +3493,7 @@ Analiza estas efemérides/indicaciones del Mineduc 2027:
 ${userPrompt}
 """
 ${rulesContextBlock}
-Entrega una breve síntesis (máximo 5 líneas) y luego OBLIGATORIAMENTE un bloque \`\`\`json con un ARREGLO (array) de objetos con los campos: dimension, letra16D, nombre, marcoNormativo, objetivo, indicador, lugar, destinatarios, responsable, fechaInicio, horaInicio, fechaTermino, horaTermino.`;
+Entrega una breve síntesis (máximo 4 líneas) y luego OBLIGATORIAMENTE un bloque \`\`\`json con un ARREGLO (array) de objetos con los campos: dimension, letra16D, nombre, marcoNormativo, objetivo, indicador, lugar, destinatarios, responsable, fechaInicio, horaInicio, fechaTermino, horaTermino.`;
       } else if (task === 'auditar_ia') {
         promptText = `Actúa como fiscalizador senior de la Superintendencia de Educación de Chile bajo la nueva Ley N° 21.809 (Art. 16 D, 16 G y 16 H). Revisa este Plan de Gestión de la Convivencia Educativa 2027 y señala qué letras del Art. 16 D faltan por cubrir, brechas de evidencia o de lugar, y recomendaciones concretas:\n\n${planSummary}`;
       } else {
@@ -3497,11 +3504,34 @@ Entrega una breve síntesis (máximo 5 líneas) y luego OBLIGATORIAMENTE un bloq
         promptText = `Actúa como asesor experto en Convivencia Educativa en Chile (Ley N° 21.809). Diseña las acciones fiscalizables para el PGCE 2027 solicitadas en: "${focus}".
 ${rulesContextBlock}
 Si el usuario pide varias fechas o varios estamentos por separado (por ejemplo, apoderados, estudiantes y docentes en fechas distintas o 2 veces al año), devuelve un ARREGLO JSON \`\`\`json [ {...}, {...} ] \`\`\` con cada actividad separada y fechas hábiles reales de 2027. Si es una sola acción, devuelve un objeto JSON \`\`\`json { ... } \`\`\`.
-Primero entrega una breve explicación normativa (máximo 5 líneas) y luego el bloque \`\`\`json con campos: dimension, letra16D, nombre, marcoNormativo, objetivo, indicador, lugar, destinatarios (array), responsable, fechaInicio (YYYY-MM-DD), horaInicio (HH:MM), fechaTermino (YYYY-MM-DD), horaTermino (HH:MM).`;
+Primero entrega una breve explicación normativa (máximo 4 líneas) y luego el bloque \`\`\`json con campos: dimension, letra16D, nombre, marcoNormativo, objetivo, indicador, lugar, destinatarios (array), responsable, fechaInicio (YYYY-MM-DD), horaInicio (HH:MM), fechaTermino (YYYY-MM-DD), horaTermino (HH:MM).`;
       }
 
+      // Carrera garantizada: lo que ocurra primero entre Respuesta IA, Timeout 30s o Clic en Cancelar
+      const manualCancelPromise = new Promise((_, reject) => {
+        currentAICancelReject = () => {
+          try { currentAIController.abort(); } catch (e) {}
+          const cancelErr = new Error('Consulta cancelada por el usuario.');
+          cancelErr.name = 'UserCancelledError';
+          reject(cancelErr);
+        };
+      });
+
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          try { currentAIController.abort(); } catch (e) {}
+          const toErr = new Error(`Tiempo de espera agotado (${MAX_SECONDS}s).`);
+          toErr.name = 'TimeoutError';
+          reject(toErr);
+        }, MAX_SECONDS * 1000);
+      });
+
       try {
-        const reply = await callAIProviderUnified(promptText, currentAIController.signal);
+        const reply = await Promise.race([
+          callAIProviderUnified(promptText, currentAIController.signal),
+          manualCancelPromise,
+          timeoutPromise
+        ]);
 
         const jsonMatch = reply.match(/```json\s*([\s\S]*?)```/i) || reply.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
         let parsedJson = null;
@@ -3518,20 +3548,20 @@ Primero entrega una breve explicación normativa (máximo 5 líneas) y luego el 
             return {
               id: existing ? existing.id : ('act-' + crypto.randomUUID()),
               codigo: item.codigo || (existing ? existing.codigo : ''),
-              dimension: item.dimension || 'Prevención',
-              letra16D: item.letra16D || 'b) Información, difusión y formación',
-              nombre: String(item.nombre || 'Actividad PGCE 2027'),
-              marcoNormativo: String(item.marcoNormativo || 'Ley N° 21.809 Art. 16 D / Art. 16 G'),
-              objetivo: String(item.objetivo || ''),
-              indicador: String(item.indicador || 'Acta + Lista de asistencia firmada + Registro fotográfico'),
-              lugar: String(item.lugar || 'Salas de Clases / Salón Multiuso'),
-              destinatarios: Array.isArray(item.destinatarios) && item.destinatarios.length ? item.destinatarios : ['Estudiantes'],
-              responsable: String(item.responsable || 'Coordinador de Convivencia Escolar y Psicólogas (Valentina Vidal Cruz / Josefina Sarzosa)'),
+              dimension: item.dimension || (existing ? existing.dimension : 'Prevención'),
+              letra16D: item.letra16D || (existing ? existing.letra16D : 'b) Información, difusión y formación'),
+              nombre: String(item.nombre || (existing ? existing.nombre : 'Actividad PGCE 2027')),
+              marcoNormativo: String(item.marcoNormativo || (existing ? existing.marcoNormativo : 'Ley N° 21.809 Art. 16 D / Art. 16 G')),
+              objetivo: String(item.objetivo || (existing ? existing.objetivo : '')),
+              indicador: String(item.indicador || (existing ? existing.indicador : 'Acta + Lista de asistencia firmada + Registro fotográfico')),
+              lugar: String(item.lugar || (existing ? existing.lugar : 'Salas de Clases / Salón Multiuso')),
+              destinatarios: Array.isArray(item.destinatarios) && item.destinatarios.length ? item.destinatarios : (existing ? existing.destinatarios : ['Estudiantes']),
+              responsable: String(item.responsable || (existing ? existing.responsable : 'Coordinador de Convivencia Escolar y Psicólogas (Valentina Vidal Cruz / Josefina Sarzosa)')),
               responsableEmail: String(item.responsableEmail || (existing ? existing.responsableEmail : '')),
-              fechaInicio: item.fechaInicio || '2027-04-28',
-              horaInicio: item.horaInicio || '09:30',
-              fechaTermino: item.fechaTermino || item.fechaInicio || '2027-04-28',
-              horaTermino: item.horaTermino || '11:00',
+              fechaInicio: item.fechaInicio || (existing ? existing.fechaInicio : '2027-04-28'),
+              horaInicio: item.horaInicio || (existing ? existing.horaInicio : '09:30'),
+              fechaTermino: item.fechaTermino || item.fechaInicio || (existing ? existing.fechaTermino : '2027-04-28'),
+              horaTermino: item.horaTermino || (existing ? existing.horaTermino : '11:00'),
               estado: item.estado || (existing ? existing.estado : 'Planificada'),
               calendarEventId: item.calendarEventId || (existing ? existing.calendarEventId : ''),
               reprogramaciones: existing ? existing.reprogramaciones : [],
@@ -3569,17 +3599,21 @@ Primero entrega una breve explicación normativa (máximo 5 líneas) y luego el 
           }
         }
       } catch (err) {
-        if (err.name === 'AbortError') {
-          setAIConnectionStatus('error', '🔴 Cancelado / Tiempo agotado');
-          output.textContent = '⏱️ Consulta detenida o tiempo agotado (25s). Si Safari bloquea la conexión directa, verifica que tengas configurada la URL de Google Apps Script en ⚙️ para que actúe como puente automático, o prueba con el botón "🔌 Probar Conexión IA".';
+        if (err.name === 'UserCancelledError') {
+          setAIConnectionStatus('ok', `🟢 Listo (${geminiModel})`);
+          output.textContent = '⏹️ Consulta cancelada. Puedes elegir otra tarea o volver a consultar cuando quieras.';
+          showToast('⏹️ Consulta cancelada.');
+        } else if (err.name === 'TimeoutError' || err.name === 'AbortError') {
+          setAIConnectionStatus('error', '🔴 Tiempo agotado (30s)');
+          output.textContent = '⏱️ La solicitud tardó más de 30 segundos y se detuvo automáticamente.\n💡 Consejo: Para agregar nuevas actividades, selecciona "Diseñar 1 acción específica e insertarla en el Plan" o "Crear acción de difusión obligatoria Art. 16 G" con el modelo "⚡ Gemini 2.5 Flash-Lite", ya que responde en 2 segundos.';
         } else {
           setAIConnectionStatus('error', '🔴 Error de conexión IA');
           output.textContent = `❌ Error al conectar con el asistente IA: ${err.message}`;
         }
       } finally {
-        clearTimeout(timeoutId);
         clearInterval(currentAITimerInterval);
         currentAIController = null;
+        currentAICancelReject = null;
         btnAsk.disabled = false;
         btnAsk.textContent = '✨ Consultar Asistente IA';
         btnCancel.classList.add('hidden');
@@ -4519,7 +4553,7 @@ Primero entrega una breve explicación normativa (máximo 5 líneas) y luego el 
       document.getElementById('btnRunOfflineAudit').addEventListener('click', runOfflineAudit);
       document.getElementById('btnTestAIConnection').addEventListener('click', testAIConnection);
       document.getElementById('btnCancelAI').addEventListener('click', () => {
-        if (currentAIController) currentAIController.abort();
+        if (currentAICancelReject) currentAICancelReject();
       });
       document.getElementById('btnAskAI').addEventListener('click', askAICopilot);
 
